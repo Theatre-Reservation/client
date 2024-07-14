@@ -1,36 +1,23 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ShowPage from "./pages/ShowPage";
 import BookingPage from "./pages/BookingPage";
-import AdminPage from "./pages/AdminPage";
-import Header from "./components/common/Header";
-// import Footer from "./components/common/Footer";
-// import ProtectedRoute from "./components/common/ProtectedRoute";
-// import { AuthProvider } from "./context/AuthContext";
-import { ShowProvider } from "./context/ShowContext";
+import Headers from "./components/common/Header";
 
 function App() {
   return (
-    // <AuthProvider>
-    //   <ShowProvider>
-    //     <Router>
-    //       <Header />
-    //       <Switch>
-    //         <Route path="/" exact component={HomePage} />
-    //         <Route path="/shows/:id" component={ShowPage} />
-    //         <Route path="/booking/:id" component={BookingPage} />
-    //         <ProtectedRoute path="/admin" component={AdminPage} />
-    //       </Switch>
-    //       <Footer />
-    //     </Router>
-    //   </ShowProvider>
-    // </AuthProvider>
-    <div>
+    <Router>
       <div>
-        <HomePage />
+        <Headers />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shows" element={<ShowPage />} />
+          <Route path="/booking" element={<BookingPage />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 
