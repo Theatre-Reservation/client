@@ -1,6 +1,6 @@
 # Frontend
 
-Our Folder structure (Leshmith)
+Our Folder structure 
 
 src/
   components/
