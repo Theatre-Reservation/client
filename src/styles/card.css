@@ -35,7 +35,23 @@
   }
   
   .card-rating {
-    font-size: 1.1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
     color: #ffa500;
+  }
+  
+  .stars {
+    display: flex;
+  }
+  
+  .rating-number {
+    margin-left: auto;
+  }
+  
+  .star {
+    font-size: 1.2em;
+    margin-right: 2px;
   }
   

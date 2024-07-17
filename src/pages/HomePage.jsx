@@ -16,7 +16,7 @@ const HomePage = () => {
       genre: 'Tamil',
       description: 'Sample description',
       image: 'https://example.com/indian-2.jpg',
-      rating: '4.7'
+      rating: '3.7'
     },
     {
       title: 'Kalki 2898 AD',
