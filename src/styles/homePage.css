@@ -1,0 +1,26 @@
+.home-page {
+    padding: 0 100px;
+  }
+  
+  section {
+    margin-bottom: 40px;
+  }
+  
+  .card-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .card-container .card {
+    flex: 1 1 18%; /* Adjust this value to fit five cards in a row */
+    max-width: 18%;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
