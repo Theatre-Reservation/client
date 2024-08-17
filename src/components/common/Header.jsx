@@ -38,6 +38,16 @@ const Header = () => {
               Booking
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink
+              to="/signIn"
+              className={({ isActive }) =>
+                isActive ? "nav-link active-link" : "nav-link"
+              }
+            >
+              Sign In
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>
