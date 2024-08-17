@@ -28,6 +28,7 @@ const Header = () => {
               Shows
             </NavLink>
           </li>
+          
           <li className="nav-item">
             <NavLink
               to="/booking"
@@ -37,6 +38,14 @@ const Header = () => {
             >
               Booking
             </NavLink>
+          </li>
+
+          <li className="nav-item search-item">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search..."
+            />
           </li>
           <li className="nav-item">
             <NavLink
