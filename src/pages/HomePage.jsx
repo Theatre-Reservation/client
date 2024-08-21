@@ -1,46 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/common/Card";
 import '../styles/homePage.css';
-import react, { useState, useEffect } from "react";
-const HomePage = () => {
 
-  const [movies, setMovie] = useState([]);
-  
+const HomePage = () => {
+  const [movies, setMovies] = useState([]);
+  const [events, setEvents] = useState([]);
+
+  // Dummy data for recommended movies
   const recommended = [
     {
       title: 'Inception',
       genre: 'Sci-fi',
-      description: 'Sample description',
+      description: 'A mind-bending thriller by Christopher Nolan.',
       image: 'https://placehold.co/100',
     },
     {
       title: 'Indian 2',
       genre: 'Tamil',
-      description: 'Sample description',
+      description: 'A gripping Tamil action film.',
       image: 'https://placehold.co/100',
     },
   ];
- 
+
   useEffect(() => {
+    // Fetching movies
     fetch("http://localhost:3000/movies/limited/5-different-genres")
       .then((res) => res.json())
-      .then((data) => setMovie(data));
-  }, []);
+      .then((data) => setMovies(data));
 
-  const events = [
-    {
-      title: 'Event 1',
-      genre: 'Music Show',
-      description: 'Sample description',
-      image: 'https://placehold.co/100',
-    },
-    {
-      title: 'Event 2',
-      genre: 'Music Show',
-      description: 'Sample description',
-      image: 'https://placehold.co/100',
-    },
-  ];
+    // Fetching events
+    fetch("http://localhost:3000/events/limited/5")
+      .then((res) => res.json())
+      .then((data) => setEvents(data));
+  }, []);
 
   return (
     <div className="home-page">
@@ -68,7 +60,7 @@ const HomePage = () => {
               title={item.title}
               genre={item.main_genre}
               image={item.poster_path}
-            />  
+            />
           ))}
         </div>
       </section>
@@ -80,9 +72,9 @@ const HomePage = () => {
             <Card
               key={index}
               title={item.title}
-              genre={item.genre}
-              description={item.description}
-              image={item.image}
+              genre={item.venue}  // Didn't change the Card component. Just match with the data that want to display.
+              description={item.date} // Didn't change the Card component. Just match with the data that want to display.
+              image={item.poster_path}
             />
           ))}
         </div>
