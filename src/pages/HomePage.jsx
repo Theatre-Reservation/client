@@ -1,8 +1,11 @@
 import React from "react";
 import Card from "../components/common/Card";
 import '../styles/homePage.css';
-
+import react, { useState, useEffect } from "react";
 const HomePage = () => {
+
+  const [movies, setMovie] = useState([]);
+  
   const recommended = [
     {
       title: 'Inception',
@@ -35,8 +38,13 @@ const HomePage = () => {
       image: 'https://example.com/movie5.jpg',
     }
   ];
-
-  const movies = [
+ 
+  useEffect(() => {
+    fetch("http://localhost:3000/movies")
+      .then((res) => res.json())
+      .then((data) => setMovie(data));
+  }, []);
+  const movies1 = [
     {
       title: 'Movie 1',
       genre: 'Genre 1',
@@ -126,10 +134,9 @@ const HomePage = () => {
             <Card
               key={index}
               title={item.title}
-              genre={item.genre}
-              description={item.description}
-              image={item.image}
-            />
+              genre={item.main_genre}
+              image={item.poster_path}
+            />  
           ))}
         </div>
       </section>
