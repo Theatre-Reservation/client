@@ -11,36 +11,18 @@ const HomePage = () => {
       title: 'Inception',
       genre: 'Sci-fi',
       description: 'Sample description',
-      image: 'https://example.com/visal-adare.jpg',
+      image: 'https://placehold.co/100',
     },
     {
       title: 'Indian 2',
       genre: 'Tamil',
       description: 'Sample description',
-      image: 'https://example.com/indian-2.jpg',
+      image: 'https://placehold.co/100',
     },
-    {
-      title: 'Kalki 2898 AD',
-      genre: 'Tamil',
-      description: 'Sample description',
-      image: 'https://example.com/kalki-2898-ad.jpg',
-    },
-    {
-      title: 'Sample Movie 4',
-      genre: 'Genre 4',
-      description: 'Sample description',
-      image: 'https://example.com/movie4.jpg',
-    },
-    {
-      title: 'Sample Movie 5',
-      genre: 'Genre 5',
-      description: 'Sample description',
-      image: 'https://example.com/movie5.jpg',
-    }
   ];
  
   useEffect(() => {
-    fetch("http://localhost:3000/movies")
+    fetch("http://localhost:3000/movies/limited/5-different-genres")
       .then((res) => res.json())
       .then((data) => setMovie(data));
   }, []);
@@ -50,19 +32,13 @@ const HomePage = () => {
       title: 'Event 1',
       genre: 'Music Show',
       description: 'Sample description',
-      image: 'https://example.com/event1.jpg',
+      image: 'https://placehold.co/100',
     },
     {
       title: 'Event 2',
       genre: 'Music Show',
       description: 'Sample description',
-      image: 'https://example.com/event2.jpg',
-    },
-    {
-      title: 'Event 3',
-      genre: 'Music Show',
-      description: 'Sample description',
-      image: 'https://example.com/event3.jpg',
+      image: 'https://placehold.co/100',
     },
   ];
 
