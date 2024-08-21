@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
 import BookingPage from "./pages/BookingPage";
+import SingleMoviePage from "./pages/SingleMoviePage";
 import Headers from "./components/common/Header";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/movie" element={<MoviePage />} />
           <Route path="/booking" element={<BookingPage />} />
+          <Route path="/movie/:id" element={<SingleMoviePage />} />
         </Routes>
       </div>
     </Router>
