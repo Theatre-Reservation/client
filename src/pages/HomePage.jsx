@@ -44,38 +44,6 @@ const HomePage = () => {
       .then((res) => res.json())
       .then((data) => setMovie(data));
   }, []);
-  const movies1 = [
-    {
-      title: 'Movie 1',
-      genre: 'Genre 1',
-      description: 'Sample description',
-      image: 'https://example.com/movie1.jpg',
-    },
-    {
-      title: 'Movie 2',
-      genre: 'Genre 2',
-      description: 'Sample description',
-      image: 'https://example.com/movie2.jpg',
-    },
-    {
-      title: 'Movie 3',
-      genre: 'Genre 3',
-      description: 'Sample description',
-      image: 'https://example.com/movie3.jpg',
-    },
-    {
-      title: 'Movie 4',
-      genre: 'Genre 4',
-      description: 'Sample description',
-      image: 'https://example.com/movie4.jpg',
-    },
-    {
-      title: 'Movie 5',
-      genre: 'Genre 5',
-      description: 'Sample description',
-      image: 'https://example.com/movie5.jpg',
-    }
-  ];
 
   const events = [
     {
@@ -96,18 +64,6 @@ const HomePage = () => {
       description: 'Sample description',
       image: 'https://example.com/event3.jpg',
     },
-    {
-      title: 'Event 4',
-      genre: 'Music Show',
-      description: 'Sample description',
-      image: 'https://example.com/event4.jpg',
-    },
-    {
-      title: 'Event 5',
-      genre: 'Music Show',
-      description: 'Sample description',
-      image: 'https://example.com/event5.jpg',
-    }
   ];
 
   return (

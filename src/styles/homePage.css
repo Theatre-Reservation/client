@@ -1,26 +1,48 @@
 .home-page {
-    padding: 0 100px;
-  }
-  
-  section {
-    margin-bottom: 40px;
-  }
-  
-  .card-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  
+  padding: 0 100px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.card-container .card {
+  flex: 1 1 calc(20% - 16px); /* Adjust to fit five cards in a row, accounting for the gap */
+  max-width: calc(20% - 16px); /* Ensure max-width matches flex-basis */
+   /* Include padding and border in the element's total width and height */
+}
+
+@media (max-width: 1200px) {
   .card-container .card {
-    flex: 1 1 18%; /* Adjust this value to fit five cards in a row */
-    max-width: 18%;
+    flex: 1 1 calc(25% - 16px); /* Adjust to fit four cards in a row */
+    max-width: calc(25% - 16px);
   }
-  
-  h2 {
-    margin-bottom: 20px;
-    font-size: 1.5em;
-    color: #333;
+}
+
+@media (max-width: 992px) {
+  .card-container .card {
+    flex: 1 1 calc(33.33% - 16px); /* Adjust to fit three cards in a row */
+    max-width: calc(33.33% - 16px);
   }
-  
+}
+
+@media (max-width: 768px) {
+  .card-container .card {
+    flex: 1 1 calc(50% - 16px); /* Adjust to fit two cards in a row */
+    max-width: calc(50% - 16px);
+  }
+}
+
+@media (max-width: 576px) {
+  .card-container .card {
+    flex: 1 1 100%; /* Adjust to fit one card in a row */
+    max-width: 100%;
+  }
+}
