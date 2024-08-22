@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '/src/styles/SignUpPage.css';
+import axios from '../../../axios';
 
 export default function SignUpPage() {
   const [name, setName] = useState('');
@@ -9,16 +10,27 @@ export default function SignUpPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Form validation
     if (!name || !email || !password) {
       setError('Please fill in all fields');
       return;
     }
-    // Handle sign-up logic here, such as sending a request to the server
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Reset error message
+
+    // Reset error if form is valid
     setError('');
+
+    // Call API
+    axios.post('/user-auth/signup', { Name: name, Email: email, Password: password })
+      .then((res) => {
+        console.log('Sign Up Success:', res.data);
+        // You can redirect the user or handle success here
+      })
+      .catch((err) => {
+        console.error('Sign Up Error:', err);
+        setError("Sign Up Error");
+        //setError('An error occurred during sign up. Please try again.');
+      });
   };
 
   return (
