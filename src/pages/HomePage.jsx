@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/common/Card";
 import '../styles/homePage.css';
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [events, setEvents] = useState([]);
 
+  const navigate=useNavigate();
+  const onClickMovie=(id)=>{
+    console.log(id)
+    navigate('/movie/'+id)
+  }
   // Dummy data for recommended movies
   const recommended = [
     {
@@ -22,6 +28,9 @@ const HomePage = () => {
     },
   ];
 
+  const cardClicked =(id) =>{
+    console.log(id)
+  }
   useEffect(() => {
     // Fetching movies
     fetch("http://localhost:3000/movies/limited/5-different-genres")
@@ -53,14 +62,16 @@ const HomePage = () => {
 
       <section>
         <h2>Movies</h2>
-        <div className="card-container">
+        <div className="card-container" >
           {movies.map((item, index) => (
             <Card
               key={index}
               title={item.title}
               genre={item.main_genre}
               image={item.poster_path}
-            />
+              _id={item._id}
+              navigate={onClickMovie}
+             />
           ))}
         </div>
       </section>
