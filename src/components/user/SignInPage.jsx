@@ -1,13 +1,5 @@
-// import React from 'react'
-
-// export default function SignInPage() {
-//   return (
-//     <div>
-//         <h1>SignInPage</h1></div>
-//   )
-// }
-
 import React, { useState } from 'react';
+import axios from '../../../axios'; // Import the Axios instance
 import '/src/styles/SignInPage.css';
 
 export default function SignInPage() {
@@ -15,17 +7,30 @@ export default function SignInPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError('Please fill in all fields');
       return;
     }
-    // Handle sign-in logic here, such as sending a request to the server
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Reset error message
-    setError('');
+
+    try {
+      const response = await axios.post('/user-auth/login', {
+        Email: email,
+        Password: password,
+      });
+      
+      console.log('Login Successful', response.data);
+
+      // Store JWT in localStorage or cookies
+      localStorage.setItem('token', response.data.token); // Use localStorage or any other method
+
+      // Redirect user or update UI based on successful login
+      // e.g., window.location.href = '/dashboard';
+    } catch (err) {
+      console.error('Login Error', err);
+      setError('Login Error. Please check your credentials.');
+    }
   };
 
   return (
