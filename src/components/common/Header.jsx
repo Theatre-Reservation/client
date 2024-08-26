@@ -1,9 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
-// Import Material Icons
-//import NotificationsIcon from '@mui/icons-material/Notifications';
-//import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Person2Icon from '@mui/icons-material/Person2';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
