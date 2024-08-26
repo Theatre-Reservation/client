@@ -1,7 +1,11 @@
 import React from "react";
-
 import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
+// Import Material Icons
+//import NotificationsIcon from '@mui/icons-material/Notifications';
+//import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Person2Icon from '@mui/icons-material/Person2';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 const Header = () => {
   return (
@@ -28,7 +32,6 @@ const Header = () => {
               Shows
             </NavLink>
           </li>
-          
           <li className="nav-item">
             <NavLink
               to="/booking"
@@ -47,6 +50,31 @@ const Header = () => {
               placeholder="Search..."
             />
           </li>
+
+          {/* Notification Icon */}
+          <li className="nav-item">
+            <NavLink
+              to="/notifications"
+              className={({ isActive }) =>
+                isActive ? "nav-link active-link" : "nav-link"
+              }
+            >
+              <NotificationsActiveIcon className="icon" />
+            </NavLink>
+          </li>
+
+          {/* Profile Icon */}
+          <li className="nav-item">
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                isActive ? "nav-link active-link" : "nav-link"
+              }
+            >
+              <Person2Icon className="icon" />
+            </NavLink>
+          </li>
+
           <li className="nav-item">
             <NavLink
               to="/signIn"
