@@ -6,6 +6,7 @@ import MoviePage from "./pages/MoviePage";
 import BookingPage from "./pages/BookingPage";
 import SingleMoviePage from "./pages/SingleMoviePage";
 import SingleEventPage from "./pages/SingleEventPage";
+import SeatSelectingPage from "./pages/SeatSelectingPage";
 import Headers from "./components/common/Header";
 import SignInPage from "./components/user/SignInPage";
 import SignUpPage from "./components/user/SignUpPage";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/movie/:id" element={<SingleMoviePage />} />
           <Route path="/event/:id" element={<SingleEventPage />} />
+          <Route path="/SelectSeats" element={<SeatSelectingPage />} />
         </Routes>
       </div>
     </Router>
