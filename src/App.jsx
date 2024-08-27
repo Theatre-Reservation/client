@@ -8,6 +8,7 @@ import Headers from "./components/common/Header";
 import SignInPage from "./components/user/SignInPage";
 import SignUpPage from "./components/user/SignUpPage";
 import UserProfile from "./components/user/UserProfile";
+import NotificationsPage from "./pages/NotificationsPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/signIn" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
         </Routes>
       </div>
     </Router>
