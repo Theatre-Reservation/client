@@ -7,10 +7,15 @@ const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [events, setEvents] = useState([]);
 
-  const navigate=useNavigate();
+  const navigate=useNavigate(); // my one , previous was navigate
   const onClickMovie=(id)=>{
     console.log(id)
     navigate('/movie/'+id)
+  }
+
+  const onClickEvent=(id)=>{
+    console.log(id)
+    navigate('/event/'+id)
   }
   // Dummy data for recommended movies
   const recommended = [
@@ -53,7 +58,6 @@ const HomePage = () => {
               key={index}
               title={item.title}
               genre={item.genre}
-              description={item.description}
               image={item.image}
             />
           ))}
@@ -86,6 +90,8 @@ const HomePage = () => {
               genre={item.venue}  // Didn't change the Card component. Just match with the data that want to display.
               description={item.date} // Didn't change the Card component. Just match with the data that want to display.
               image={item.poster_path}
+              _id={item._id}
+              navigate={onClickEvent}
             />
           ))}
         </div>
