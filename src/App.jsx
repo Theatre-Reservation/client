@@ -11,6 +11,8 @@ import Headers from "./components/common/Header";
 import SignInPage from "./components/user/SignInPage";
 import SignUpPage from "./components/user/SignUpPage";
 import UserProfile from "./components/user/UserProfile";
+import AllMoviesPage from './pages/AllMoviesPage';
+import AllEventsPage from './pages/AllEventsPage';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="/movie/:id" element={<SingleMoviePage />} />
           <Route path="/event/:id" element={<SingleEventPage />} />
           <Route path="/SelectSeats" element={<SeatSelectingPage />} />
+          <Route path="/movies" element={<AllMoviesPage />} />
+          <Route path="/events" element={<AllEventsPage />} />
         </Routes>
       </div>
     </Router>
