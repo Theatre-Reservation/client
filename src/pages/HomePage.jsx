@@ -7,7 +7,7 @@ const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [events, setEvents] = useState([]);
 
-  const navigate=useNavigate(); // my one , previous was navigate
+  const navigate=useNavigate(); 
   const onClickMovie=(id)=>{
     console.log(id)
     navigate('/movie/'+id)
