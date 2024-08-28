@@ -35,13 +35,27 @@ const SelectShowPage = () => {
         return `${dayOfWeek} | ${monthAndDay}`;
     };
 
-    // Group shows by date
+    // Group shows by date and theater
     const groupedShows = shows.reduce((acc, show) => {
         const date = show.date;
+        const theater = show.theater;
+
         if (!acc[date]) {
-            acc[date] = [];
+            acc[date] = {};
         }
-        acc[date].push(show);
+        if (!acc[date][theater]) {
+            acc[date][theater] = [];
+        }
+        acc[date][theater].push(show);
+        return acc;
+    }, {});
+
+    // Sort showtimes within each theater
+    const sortedGroupedShows = Object.keys(groupedShows).reduce((acc, date) => {
+        acc[date] = Object.keys(groupedShows[date]).reduce((theaterAcc, theater) => {
+            theaterAcc[theater] = groupedShows[date][theater].sort((a, b) => new Date(`1970-01-01T${a.time}`) - new Date(`1970-01-01T${b.time}`));
+            return theaterAcc;
+        }, {});
         return acc;
     }, {});
 
@@ -68,14 +82,22 @@ const SelectShowPage = () => {
                 {shows.length === 0 ? (
                     <div className="no-shows-message">No shows available</div>
                 ) : (
-                    Object.keys(groupedShows).map(date => (
+                    Object.keys(sortedGroupedShows).map(date => (
                         <div key={date}>
                             <h2 className="date-header">{formatDate(date)}</h2>
-                            {groupedShows[date].map(show => (
-                                <div key={show._id} className="theatre-item">
-                                    <h3>{show.theater}</h3>
+                            {Object.keys(sortedGroupedShows[date]).map(theater => (
+                                <div key={theater} className="theatre-item">
+                                    <h3>{theater}</h3>
                                     <div className="show-times">
-                                        <button className="time-button">{show.time}</button>
+                                        {sortedGroupedShows[date][theater].map(show => (
+                                            <div key={show._id} className="time-button-wrapper">
+                                                <button className="time-button">{show.time}</button>
+                                                <div className="price-popup">
+                                                    LKR {show.price.toFixed(2)}<br />
+                                                    Remaining seats: {show.available_seats}
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             ))}

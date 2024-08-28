@@ -27,7 +27,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/movie/:id" element={<SingleMoviePage />} />
           <Route path="/event/:id" element={<SingleEventPage />} />
-          <Route path="/selectseats" element={<SeatSelectingPage />} />
+          <Route path="/selectseats/:showId" element={<SeatSelectingPage />} />
           <Route path="/movies" element={<AllMoviesPage />} />
           <Route path="/events" element={<AllEventsPage />} />
           <Route path="/selectshow/:movieTitle" element={<SelectShowPage />} />
