@@ -65,19 +65,23 @@ const SelectShowPage = () => {
             </div>
 
             <div className="theatre-list">
-                {Object.keys(groupedShows).map(date => (
-                    <div key={date}>
-                        <h2 className="date-header">{formatDate(date)}</h2>
-                        {groupedShows[date].map(show => (
-                            <div key={show._id} className="theatre-item">
-                                <h3>{show.theater}</h3>
-                                <div className="show-times">
-                                    <button className="time-button">{show.time}</button>
+                {shows.length === 0 ? (
+                    <div className="no-shows-message">No shows available</div>
+                ) : (
+                    Object.keys(groupedShows).map(date => (
+                        <div key={date}>
+                            <h2 className="date-header">{formatDate(date)}</h2>
+                            {groupedShows[date].map(show => (
+                                <div key={show._id} className="theatre-item">
+                                    <h3>{show.theater}</h3>
+                                    <div className="show-times">
+                                        <button className="time-button">{show.time}</button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+                            ))}
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
