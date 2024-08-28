@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/selectShowPage.css";
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const SelectShowPage = () => {
     const { movieTitle } = useParams();
+    const navigate = useNavigate();
     const [shows, setShows] = useState([]);
     const [movieDetails, setMovieDetails] = useState(null);
     
@@ -59,6 +60,11 @@ const SelectShowPage = () => {
         return acc;
     }, {});
 
+    // Function to handle navigation to the SeatSelectingPage
+    const handleTimeButtonClick = (showId) => {
+        navigate(`/selectseats/${showId}`);
+    };
+
     return (
         <div className="select-show-page">
             <div className="movie-cover" style={{ backgroundImage: `url(${movieDetails.cover_path})` }}>
@@ -91,7 +97,12 @@ const SelectShowPage = () => {
                                     <div className="show-times">
                                         {sortedGroupedShows[date][theater].map(show => (
                                             <div key={show._id} className="time-button-wrapper">
-                                                <button className="time-button">{show.time}</button>
+                                                <button
+                                                    className="time-button"
+                                                    onClick={() => handleTimeButtonClick(show._id)}
+                                                >
+                                                    {show.time}
+                                                </button>
                                                 <div className="price-popup">
                                                     LKR {show.price.toFixed(2)}<br />
                                                     Remaining seats: {show.available_seats}
