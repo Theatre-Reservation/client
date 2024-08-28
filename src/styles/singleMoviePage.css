@@ -57,6 +57,11 @@
   margin-bottom: 8px;
 }
 
+.movie-meta span {
+  display: block;
+  margin-bottom: 5px;
+}
+
 .book-tickets-btn {
   margin-top: 20px;
   padding: 10px 20px;
