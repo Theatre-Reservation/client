@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+import {Dialog} from "@mui/material";
 import '/src/styles/SignUpPage.css';
 
 export default function SignUpPage() {
+  const [open, setOpen] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const handleClose = () => {
+    setOpen(false); // Close the dialog
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,6 +28,8 @@ export default function SignUpPage() {
   };
 
   return (
+    <Dialog onClose={handleClose} open={open}>
+ 
     <div className="signup-page">
       <div className="signup-container">
         <h2>Sign Up</h2>
@@ -63,5 +71,7 @@ export default function SignUpPage() {
         </p>
       </div>
     </div>
+  
+    </Dialog>
   );
 }

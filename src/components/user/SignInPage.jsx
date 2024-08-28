@@ -1,19 +1,17 @@
-// import React from 'react'
-
-// export default function SignInPage() {
-//   return (
-//     <div>
-//         <h1>SignInPage</h1></div>
-//   )
-// }
-
 import React, { useState } from 'react';
+import {Dialog} from "@mui/material";
 import '/src/styles/SignInPage.css';
 
 export default function SignInPage() {
+  const [open, setOpen] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+
+  const handleClose = () => {
+    setOpen(false); // Close the dialog
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,6 +27,7 @@ export default function SignInPage() {
   };
 
   return (
+    <Dialog onClose={handleClose} open={open}>
     <div className="signin-page">
       <div className="signin-container">
         <h2>Sign In</h2>
@@ -61,5 +60,6 @@ export default function SignInPage() {
         </p>
       </div>
     </div>
+    </Dialog>
   );
 }
