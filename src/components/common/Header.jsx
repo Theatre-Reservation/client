@@ -60,7 +60,7 @@ const Header = () => {
             </NavLink>
           </li>
 
-          {/* Profile Icon */}
+          {/* Profile Icon
           <li className="nav-item">
             <NavLink
               to="/profile"
@@ -70,7 +70,21 @@ const Header = () => {
             >
               <Person2Icon className="icon" />
             </NavLink>
+          </li> */}
+
+          {/* Contact us */}
+          <li className="nav-item">
+            <NavLink
+              to="/ContactUs"
+              className={({ isActive }) =>
+                isActive ? "nav-link active-link" : "nav-link"
+              }
+            >
+             Contact Us
+            </NavLink>
           </li>
+
+
 
           <li className="nav-item">
             <NavLink

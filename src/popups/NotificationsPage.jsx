@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
-import "/src/styles/NotificationsPage.css"; // Assume you have some basic styling
+import "/src/styles/NotificationsPage.css"; 
+import Dialog from "@mui/material/Dialog"
+
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(true);
+
 
   useEffect(() => {
+
+    
+
+
+
     // Fetch notifications from the backend
     const fetchNotifications = async () => {
       try {
@@ -21,13 +30,13 @@ export default function NotificationsPage() {
         setLoading(false);
       }
     };
-
+    
     fetchNotifications();
 
       // Handle real-time notifications
       const socket = io("http://localhost:8500/api/v1");
       socket.on("notification", (newNotification) => {
-        setNotifications((prevNotifications) => [...prevNotifications, newNotification]);
+        setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
       });
   
       // Clean up the socket connection
@@ -36,7 +45,12 @@ export default function NotificationsPage() {
       };
   }, []);
 
+  const handleClose = () => {
+    setOpen(false) ;   //close the dialog
+  }
+
   return (
+    <Dialog onClose={handleClose} open={open}>
     <div className="notifications-page">
       <h1>Your Notifications</h1>
       {loading ? (
@@ -61,5 +75,6 @@ export default function NotificationsPage() {
         <p>No notifications at the moment.</p>
       )}
     </div>
+    </Dialog>
   );
 }

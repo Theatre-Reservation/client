@@ -1,5 +1,6 @@
 .notifications-page {
     padding: 20px;
+    border: 4px solid #007bff; 
   }
   
   .notifications-list {
