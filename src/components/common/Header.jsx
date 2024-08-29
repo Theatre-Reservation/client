@@ -21,22 +21,22 @@ const Header = () => {
           </li>
           <li className="nav-item">
             <NavLink
-              to="/shows"
+              to="/movies"
               className={({ isActive }) =>
                 isActive ? "nav-link active-link" : "nav-link"
               }
             >
-              Shows
+              Movies
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink
-              to="/booking"
+              to="/events"
               className={({ isActive }) =>
                 isActive ? "nav-link active-link" : "nav-link"
               }
             >
-              Booking
+              Events
             </NavLink>
           </li>
 
