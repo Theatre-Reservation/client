@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/singleMoviePage.css';
+import { useNavigate } from 'react-router-dom';
 
 const SingleMoviePage = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
+  const navigate = useNavigate();
+  const bookNow = (title) => {
+    // Navigate to the selectshow page
+    navigate("/selectshow/"+title);
+    console.log(title)
+};
+
   useEffect(() => {
+    
     fetch(`http://localhost:3000/movies/single/${id}`)
       .then((res) => res.json())
       .then((data) => setMovie(data));
@@ -33,7 +42,7 @@ const SingleMoviePage = () => {
                 <span className="movie-release-date">{new Date(movie.released_date).toLocaleDateString()}</span>
                 <span className="movie-runtime">{movie.runtime}</span>
               </div>
-              <button className="book-tickets-btn">Book Tickets</button>
+              <button className="book-tickets-btn" onClick={() => bookNow(movie.title)}>Book Tickets</button>
             </div>
           </div>
         </div>

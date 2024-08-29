@@ -7,11 +7,25 @@ const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [events, setEvents] = useState([]);
 
-  const navigate=useNavigate();
+  const navigate=useNavigate(); 
   const onClickMovie=(id)=>{
     console.log(id)
     navigate('/movie/'+id)
   }
+
+  const onClickEvent=(id)=>{
+    console.log(id)
+    navigate('/event/'+id)
+  }
+
+  const viewAllMovies = () => {
+    navigate('/movies');
+  }
+
+  const viewAllEvents = () => {
+    navigate('/events');
+  }
+
   // Dummy data for recommended movies
   const recommended = [
     {
@@ -53,7 +67,6 @@ const HomePage = () => {
               key={index}
               title={item.title}
               genre={item.genre}
-              description={item.description}
               image={item.image}
             />
           ))}
@@ -61,8 +74,11 @@ const HomePage = () => {
       </section>
 
       <section>
-        <h2>Movies</h2>
-        <div className="card-container" >
+        <div className="section-header">
+          <h2>Movies</h2>
+          <button className="view-all" onClick={viewAllMovies}>View All</button>
+        </div>
+        <div className="card-container">
           {movies.map((item, index) => (
             <Card
               key={index}
@@ -71,21 +87,26 @@ const HomePage = () => {
               image={item.poster_path}
               _id={item._id}
               navigate={onClickMovie}
-             />
+            />
           ))}
         </div>
       </section>
 
       <section>
-        <h2>Events</h2>
+        <div className="section-header">
+          <h2>Events</h2>
+          <button className="view-all" onClick={viewAllEvents}>View All</button>
+        </div>
         <div className="card-container">
           {events.map((item, index) => (
             <Card
               key={index}
               title={item.title}
-              genre={item.venue}  // Didn't change the Card component. Just match with the data that want to display.
-              description={item.date} // Didn't change the Card component. Just match with the data that want to display.
+              genre={item.venue}
+              description={item.date}
               image={item.poster_path}
+              _id={item._id}
+              navigate={onClickEvent}
             />
           ))}
         </div>
