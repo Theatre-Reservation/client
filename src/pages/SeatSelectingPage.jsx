@@ -44,7 +44,9 @@ const SeatSelectingPage = () => {
 
     const handleProceed = () => {
         // Navigate to the payment page
-        navigate("/payment", { state: { selectedSeats } });
+        navigate("/payment", { state: { 
+           selectedSeats, 
+            totalAmount} });
     };
 
     const totalAmount = selectedSeats.length * seatPrice; // Calculate total amount

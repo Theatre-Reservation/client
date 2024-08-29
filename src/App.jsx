@@ -13,6 +13,7 @@ import SignUpPage from "./components/user/SignUpPage";
 import UserProfile from "./components/user/UserProfile";
 import AllMoviesPage from './pages/AllMoviesPage';
 import AllEventsPage from './pages/AllEventsPage';
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/movies" element={<AllMoviesPage />} />
           <Route path="/events" element={<AllEventsPage />} />
           <Route path="/selectshow/:movieTitle" element={<SelectShowPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
         </Routes>
       </div>
     </Router>
