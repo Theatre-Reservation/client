@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Dialog} from "@mui/material";
 import '/src/styles/SignUpPage.css';
+import axios from '../../axios';// Import Axios instance
 
 export default function SignUpPage() {
   const [open, setOpen] = useState(true);
@@ -19,12 +20,28 @@ export default function SignUpPage() {
       setError('Please fill in all fields');
       return;
     }
-    // Handle sign-up logic here, such as sending a request to the server
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Reset error message
+    // Reset error if form is valid
     setError('');
+
+    // Call API to sign up the user
+    axios.post('/user-auth/signup', { Name: name, Email: email, Password: password })
+      .then((res) => {
+        console.log('Sign Up Success:', res.data);
+        // Handle successful sign-up, e.g., redirect to login page
+        window.location.href = '/signin'; // Redirect to sign-in page after successful sign-up
+      })
+      .catch((err) => {
+        console.error('Sign Up Error:', err);
+        // setError('An error occurred during sign-up. Please try again.');
+        if (err.response && err.response.data && err.response.data.message) {
+          setError(err.response.data.message);
+        } else {
+          setError('An error occurred during sign-up. Please try again.');
+        }
+      
+      
+      
+      });
   };
 
   return (
