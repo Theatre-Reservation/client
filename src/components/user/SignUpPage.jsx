@@ -16,6 +16,8 @@ export default function SignUpPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Form validation
     if (!name || !email || !password) {
       setError('Please fill in all fields');
       return;
@@ -38,9 +40,6 @@ export default function SignUpPage() {
         } else {
           setError('An error occurred during sign-up. Please try again.');
         }
-      
-      
-      
       });
   };
 
