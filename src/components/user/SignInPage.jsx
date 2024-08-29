@@ -33,7 +33,7 @@ export default function SignInPage() {
       localStorage.setItem('token', response.data.token); //// Use localStorage or any other method
 
       // Redirect user or update UI based on successful login
-      // e.g., window.location.href = '/dashboard';
+      window.location.href = '/';
     } catch (err) {
       console.error('Login Error', err);
       setError('Login Error. Please check your credentials.');
