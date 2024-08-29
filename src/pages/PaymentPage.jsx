@@ -13,6 +13,7 @@ const PaymentForm = ({totalAmount}) => {
     const [sessionId, setSessionId] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+   
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -49,13 +50,14 @@ const PaymentForm = ({totalAmount}) => {
 
 const PaymentPage = () => {
     const location=useLocation();
-    console.log(location)
+    const [selectedSeats,setSelectedSeats]=useState([]);
     const totalAmount =location.state.totalAmount;
+
 
     return (
         <Elements stripe={stripePromise}>
             <h2>Payment Page</h2>
-            <PaymentForm totalAmount={totalAmount} />
+            <PaymentForm totalAmount={totalAmount}  />
         </Elements>
     );
    
