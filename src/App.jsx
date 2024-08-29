@@ -9,6 +9,8 @@ import Headers from "./components/common/Header";
 import SignInPage from "./components/user/SignInPage";
 import SignUpPage from "./components/user/SignUpPage";
 import UserProfile from "./components/user/UserProfile";
+import NotificationsPage from "./popups/NotificationsPage";
+import ContactUs from "./popups/ContactUs";
 
 function App() {
   return (
@@ -22,7 +24,12 @@ function App() {
           <Route path="/signIn" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/profile" element={<UserProfile />} />
+
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/ContactUs" element ={<ContactUs />} />
+
           <Route path="/movie/:id" element={<SingleMoviePage />} />
+
         </Routes>
       </div>
     </Router>
