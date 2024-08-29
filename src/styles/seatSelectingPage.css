@@ -37,6 +37,12 @@
     color: #fff;
 }
 
+.seat.reserved {
+    background-color: #d63031;
+    color: #fff;
+    cursor: not-allowed;
+}
+
 .selected-seats {
     margin-top: 20px;
 }

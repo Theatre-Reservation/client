@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import "../styles/seatSelectingPage.css";
 
 const SeatSelectingPage = () => {
@@ -7,7 +8,29 @@ const SeatSelectingPage = () => {
     const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const navigate = useNavigate(); // Initialize useNavigate
+    const [reservedSeats, setReservedSeats] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate(); 
+    const { showId } = useParams(); // Get show ID from URL
+
+    useEffect(() => {
+        // Fetch show data from backend using Axios
+        const fetchShowData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/booking/single/${showId}`);
+                const data = response.data;
+                setReservedSeats(data.reserved_seats); // Set reserved seats from backend
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching show data:", error);
+                setError("Failed to fetch show data.");
+                setLoading(false);
+            }
+        };
+        
+        fetchShowData();
+    }, [showId]);
 
     const toggleSeatSelection = (seat) => {
         if (selectedSeats.includes(seat)) {
@@ -22,6 +45,14 @@ const SeatSelectingPage = () => {
         navigate("/payment", { state: { selectedSeats } });
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     return (
         <div className="seat-selecting-page">
             <h2 className="Message">Select Your Seats</h2>
@@ -31,11 +62,12 @@ const SeatSelectingPage = () => {
                     <div key={row} className="seat-row">
                         {cols.map((col) => {
                             const seat = `${row}${col}`;
+                            const isReserved = reservedSeats.includes(seat);
                             return (
                                 <div
                                     key={seat}
-                                    className={`seat ${selectedSeats.includes(seat) ? "selected" : ""}`}
-                                    onClick={() => toggleSeatSelection(seat)}
+                                    className={`seat ${selectedSeats.includes(seat) ? "selected" : ""} ${isReserved ? "reserved" : ""}`}
+                                    onClick={() => !isReserved && toggleSeatSelection(seat)}
                                 >
                                     {seat}
                                 </div>
