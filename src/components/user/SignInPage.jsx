@@ -30,7 +30,7 @@ export default function SignInPage() {
       console.log('Login Successful', response.data);
 
       // Store JWT in localStorage or cookies
-      localStorage.setItem('token', response.data.token); // Use localStorage or any other method
+      localStorage.setItem('token', response.data.token); //// Use localStorage or any other method
 
       // Redirect user or update UI based on successful login
       // e.g., window.location.href = '/dashboard';
