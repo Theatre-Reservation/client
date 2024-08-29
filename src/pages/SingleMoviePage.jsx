@@ -62,6 +62,3 @@ const SingleMoviePage = () => {
 };
 
 export default SingleMoviePage;
-
-
-//hi
