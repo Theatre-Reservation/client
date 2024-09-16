@@ -18,6 +18,7 @@ import PaymentPage from "./pages/PaymentPage";
 
 import NotificationsPage from "./popups/NotificationsPage";
 import ContactUs from "./popups/ContactUs";
+import SearchBar from "./pages/SearchBar";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/events" element={<AllEventsPage />} />
           <Route path="/selectshow/:movieTitle" element={<SelectShowPage />} />
           <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/search" element={<SearchBar />} />
 
         </Routes>
       </div>

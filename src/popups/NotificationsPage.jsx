@@ -13,15 +13,10 @@ export default function NotificationsPage() {
 
 
   useEffect(() => {
-
-    
-
-
-
     // Fetch notifications from the backend
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get("http://localhost:8500/api/v1/notifications");
+        const response = await axios.get("http://localhost:8600/api/v1/notifications");
         
         setNotifications(response.data);
         setLoading(false);
@@ -32,17 +27,21 @@ export default function NotificationsPage() {
     };
     
     fetchNotifications();
-
       // Handle real-time notifications
-      const socket = io("http://localhost:8500/api/v1");
+      const socket = io("http://localhost:8600" ,{
+        transports: ['websocket'],
+        withCredentials: true,  // Send cookies with the request
+      });
       socket.on("notification", (newNotification) => {
+        // console.log(newNotification.data);
         setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
+        // console.log(Notification)
       });
   
       // Clean up the socket connection
-      return () => {
-        socket.disconnect();
-      };
+      // return () => {
+      //   socket.disconnect();
+      // };
   }, []);
 
   const handleClose = () => {

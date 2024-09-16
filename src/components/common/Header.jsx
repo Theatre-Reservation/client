@@ -1,10 +1,40 @@
-import React from "react";
+import React,{ useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
 import Person2Icon from '@mui/icons-material/Person2';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import SearchBar from '../../pages/SearchBar' ;
+import axios from '../../axios'; 
 
-const Header = () => {
+const Header = () => { 
+
+  const [searchResults, setSearchResults] = useState([]);
+  // This function can be defined to handle the search query submission
+  const handleSearch = async (query) => {
+    console.log('Searching for:', query);
+
+    try {
+      // Make a GET request to the search endpoint with the query parameter
+      const response = await axios.get('/search', {
+        params: { q: query },
+      });
+      
+      // Update the state with the search results
+      setSearchResults(response.data);
+
+      // Handle the search results
+      console.log('Search Results:', response.data);
+
+      // Perform further actions with the search results if needed
+      // For example, redirect to a search results page or update the UI
+      // window.location.href = `/search-results?query=${query}`;
+    } catch (error) {
+      console.error('Search Error:', error);
+      // Handle errors appropriately
+      setSearchResults([]); // Clear search results on error
+    }
+   
+  };
   return (
     <header className="header">
       <nav className="navbar">
@@ -41,11 +71,18 @@ const Header = () => {
           </li>
 
           <li className="nav-item search-item">
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search..."
-            />
+
+            <SearchBar onSearch={handleSearch} />
+              {/* Conditionally render search results below the search bar */}
+            {searchResults.length > 0 && (
+              <ul className="search-results">
+                {searchResults.map((result, index) => (
+                  <li key={index} className="search-result-item">
+                    {result.name} {/* Customize to display relevant data */}
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
 
           {/* Notification Icon */}
@@ -103,3 +140,13 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
+
+
+
+
+
+
