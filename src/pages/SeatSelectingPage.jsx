@@ -45,7 +45,8 @@ const SeatSelectingPage = () => {
     const handleProceed = () => {
         // Navigate to the payment page
         navigate("/payment", { state: { 
-           selectedSeats, 
+            showId,
+            selectedSeats, 
             totalAmount} });
     };
 
