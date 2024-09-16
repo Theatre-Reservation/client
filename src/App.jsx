@@ -12,12 +12,14 @@ import SignInPage from "./components/user/SignInPage";
 import SignUpPage from "./components/user/SignUpPage";
 import UserProfile from "./components/user/UserProfile";
 
+
 import AllMoviesPage from './pages/AllMoviesPage';
 import AllEventsPage from './pages/AllEventsPage';
 import PaymentPage from "./pages/PaymentPage";
 
 import NotificationsPage from "./popups/NotificationsPage";
 import ContactUs from "./popups/ContactUs";
+import RedirectPage from "./pages/RedirectPage";
 
 
 function App() {
@@ -43,6 +45,7 @@ function App() {
           <Route path="/events" element={<AllEventsPage />} />
           <Route path="/selectshow/:movieTitle" element={<SelectShowPage />} />
           <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/payment/redirect/:sessionId" element={<RedirectPage />} />
 
         </Routes>
       </div>
