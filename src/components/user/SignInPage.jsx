@@ -33,9 +33,13 @@ export default function SignInPage() {
 
       // Store JWT in localStorage or cookies
       localStorage.setItem('token', response.data.token); //// Use localStorage or any other method
+      
 
-      // Redirect user or update UI based on successful login
-      window.location.href = '/';
+      // Redirect based on the role (user or admin)
+      
+      window.location.href = response.data.redirectUrl;
+      // // Redirect user or update UI based on successful login
+      // window.location.href = '/';
     } catch (err) {
       console.error('Login Error', err);
       setError('Login Error. Please check your credentials.');
@@ -63,13 +67,7 @@ export default function SignInPage() {
             />
           </div>
           <div className="form-group">
-            {/* <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            /> */}
+            
              <label htmlFor="password">Password:</label>
               <div className="password-input-container">
                 <input
