@@ -69,3 +69,15 @@
     text-decoration: underline;
   }
   
+
+    /* Add this CSS to align the eye icon with the password input */
+.password-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle-icon {
+  cursor: pointer;
+  margin-left: -40px; /* Adjust position of the icon */
+}
+     

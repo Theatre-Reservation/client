@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {Dialog} from "@mui/material";
+import {Dialog,IconButton} from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import '/src/styles/SignInPage.css';
 import axios from '../../axios';// Import Axios instance
 
@@ -8,6 +9,7 @@ export default function SignInPage() {
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
   const [error, setError] = useState('');
 
 
@@ -39,6 +41,11 @@ export default function SignInPage() {
       setError('Login Error. Please check your credentials.');
     }
   };
+
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev); // Toggle password visibility
+  };
   return (
     <Dialog onClose={handleClose} open={open}>
     <div className="signin-page">
@@ -56,13 +63,30 @@ export default function SignInPage() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password:</label>
+            {/* <label htmlFor="password">Password:</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
+            /> */}
+             <label htmlFor="password">Password:</label>
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? 'text' : 'password'} // Conditionally set input type
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={togglePasswordVisibility}
+                  edge="end"
+                  className="password-toggle-icon"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </div>
           </div>
           <button type="submit" className="signin-button">
             Sign In
