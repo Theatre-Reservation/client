@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './../../src/styles/Eticket.css';
 
 const ETicketGenerator = () => {
-  const [qrCode, setQrCode] = useState(null); // To store the generated QR code
+  const [qrCodeUrl, setQrCodeUrl] = useState(null); // To store the QR code URL
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [mailDetails, setMailDetails] = useState(null);
@@ -19,8 +20,8 @@ const ETicketGenerator = () => {
       });
       console.log('Response from server:', response.data);
 
-      // Store the QR code from the backend response
-      setQrCode(response.data.qrCode);
+      // Store the QR code URL from the backend response (Firebase URL)
+      setQrCodeUrl(response.data.qrCodeURL);
       setMailDetails({
         name: response.data.mail.name,
         showName: response.data.mail.showName,
@@ -39,15 +40,15 @@ const ETicketGenerator = () => {
     <div className="container">
       <h1>E-Ticket Generator</h1>
       {error && <div style={{ color: 'red' }}>{error}</div>}
-      
-      {!qrCode ? (
+
+      {!qrCodeUrl ? (
         <div>
           <h2>Generate Your E-Ticket</h2>
           <p>Click the button below to generate your E-Ticket.</p>
           <button onClick={generateETicket} disabled={loading}>
             {loading ? 'Generating...' : 'Generate E-Ticket'}
           </button>
-  
+
           {mailDetails && (
             <div>
               <h2 style={{ color: '#333' }}>🎟️ Your E-Ticket for {mailDetails.showName}</h2>
@@ -66,12 +67,11 @@ const ETicketGenerator = () => {
         <div>
           <h2>Your E-Ticket</h2>
           <p>Scan the QR code at the event entrance:</p>
-          <img src={qrCode} alt="QR Code" style={{ border: '1px solid #ddd', padding: '10px', background: '#fff' }} />
+          <img src={qrCodeUrl} alt="QR Code" style={{ border: '1px solid #ddd', padding: '10px', background: '#fff' }} />
         </div>
       )}
     </div>
   );
-  
 };
 
 export default ETicketGenerator;
