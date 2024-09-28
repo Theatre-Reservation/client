@@ -11,7 +11,7 @@ import Headers from "./components/common/Header";
 import SignInPage from "./components/user/SignInPage";
 import SignUpPage from "./components/user/SignUpPage";
 import UserProfile from "./components/user/UserProfile";
-
+import ETicketGenerator from "./pages/Eticket";
 import AllMoviesPage from './pages/AllMoviesPage';
 import AllEventsPage from './pages/AllEventsPage';
 import PaymentPage from "./pages/PaymentPage";
@@ -35,7 +35,7 @@ function App() {
           <Route path="/adminPage" element={<AdminPage/>} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/ContactUs" element ={<ContactUs />} />
-
+          <Route path="/Etickets" element={<ETicketGenerator />} />
           <Route path="/movie/:id" element={<SingleMoviePage />} />
 
           <Route path="/event/:id" element={<SingleEventPage />} />
