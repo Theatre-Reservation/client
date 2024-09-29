@@ -7,7 +7,7 @@ import "../styles/paymentPage.css";
 
 const stripePromise = loadStripe('pk_test_51PsTIg2LvxXMvsXIlyFzKPofk4EVAXFxgxGgA1CltaVU9HooW9Yx20ZYNiCbqreuINbsmO0umy7AUePt0AaqBGRf00OYVEZqDJ');
 
-const PaymentForm = ({ totalAmount, onSucessful }) => {
+const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     const stripe = useStripe();
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -19,6 +19,32 @@ const PaymentForm = ({ totalAmount, onSucessful }) => {
         localStorage.setItem('paymentStatus', paymentStatus);
     }, [paymentStatus]);
 
+    const sendTransactionToDatabase = async (sessionId) => {
+        try {
+            const showDetailsResponse = await axios.get(`http://localhost:3000/booking/single/${showId}`);
+            if (showDetailsResponse.status === 200) {
+                const { movie, theater } = showDetailsResponse.data;
+
+                const transactionData = {
+                    userId: 'user_id_here', // This should be dynamically fetched or stored in your app's context or state
+                    showId,
+                    movie,
+                    theatre: theater,
+                    totalAmount,
+                    selectedSeats,
+                    
+                };
+                console.log(transactionData);
+
+                await axios.post('http://localhost:3001/transactions', transactionData);
+            } else {
+                console.error("Failed to fetch show details: ", showDetailsResponse.status);
+            }
+        } catch (error) {
+            console.error('Error in sending transaction data to the database:', error);
+        }
+    };
+
     const checkPaymentStatus = async (sessionId) => {
         try {
             const response = await axios.post(`http://localhost:3001/stripe/get-session/${sessionId}`);
@@ -26,11 +52,12 @@ const PaymentForm = ({ totalAmount, onSucessful }) => {
             if (session.payment_status === 'paid') {
                 setPaymentStatus('success');
                 onSucessful(sessionId);
+                sendTransactionToDatabase(sessionId);
                 if (paymentWindowRef.current) {
                     paymentWindowRef.current.close();
                 }
             } else if (session.payment_status === 'unpaid' || session.status === 'open') {
-                setTimeout(() => checkPaymentStatus(sessionId), 2000);  // Check again after 5 seconds
+                setTimeout(() => checkPaymentStatus(sessionId), 2000); // Check again after 2 seconds
             } else {
                 setPaymentStatus('failed');
                 if (paymentWindowRef.current) {
@@ -49,7 +76,7 @@ const PaymentForm = ({ totalAmount, onSucessful }) => {
     const handlePaymentStatus = async (status) => {
         setSessionId(status);
         setPaymentStatus("processing");
-        setTimeout(() => checkPaymentStatus(status), 5000);  // Start checking for payment status
+        setTimeout(() => checkPaymentStatus(status), 5000); // Start checking for payment status
     };
 
     const handleSubmit = async (event) => {
@@ -111,6 +138,8 @@ const PaymentPage = () => {
                 <PaymentForm
                     totalAmount={totalAmount}
                     onSucessful={reserveSeats}
+                    showId={showId}
+                    selectedSeats={selectedSeats}
                 />
             </div>
         </Elements>
