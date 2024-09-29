@@ -11,7 +11,6 @@ const PaymentForm = ({ id }) => {
     useEffect(() => {
         const redirectToCheckout = async () => {
             if (!stripe) {
-                // Stripe.js has not yet loaded.
                 return;
             }
             
@@ -19,9 +18,9 @@ const PaymentForm = ({ id }) => {
                 sessionId: id,
             });
 
-            if (error) {
-                console.error("Stripe checkout error:", error);
-                // Handle the error accordingly (e.g., show an error message to the user)
+            if (!error) {
+                window.opener.postMessage("payment-success", "*");  // Send message to opener
+                window.close();  // Optionally close the RedirectPage
             }
         };
 
