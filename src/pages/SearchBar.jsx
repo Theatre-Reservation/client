@@ -16,7 +16,7 @@ export default function SearchBar({ onSearch }) {
       try {
         console.log(newQuery, "New Query");
         // Call the backend search API (replace with your actual backend URL)
-        const response = await axios.get('http://localhost:8600/movies/search', {
+        const response = await axios.get('http://localhost:8600/api/v1/movies/search', {
           params: { q: newQuery }, // query parameter
         });
         setSearchResults(response.data); // Update results based on the response
@@ -49,20 +49,22 @@ export default function SearchBar({ onSearch }) {
         <button type="submit" className="search-button">Search</button>
       </form>
 
-      {/* Display search results */}
-      {searchResults.length > 0 && (
-        <ul className="search-results">
-          {searchResults.map((result) => (
-            <li key={result._id} className="search-result-item">
-              <img src={result.poster_path} alt={result.title} width="50" style={{ marginRight: '10px' }} />
-              <div>
-                <strong>{result.title}</strong>
-                <p>{result.main_genre}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* Display search results right under the search bar */}
+      <div className="results-container">
+        {searchResults.length > 0 && (
+          <ul className="search-results">
+            {searchResults.map((result) => (
+              <li key={result._id} className="search-result-item">
+                <img src={result.poster_path} alt={result.title} width="50" style={{ marginRight: '10px' }} />
+                <div>
+                  <strong>{result.title}</strong>
+                  <p>{result.main_genre}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
