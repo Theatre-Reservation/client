@@ -19,6 +19,7 @@ import AdminPage from "./components/user/AdminPage";
 // import NotificationsPage from "./popups/NotificationsPage";
 // import ContactUs from "./popups/ContactUs";
 import SearchBar from "./pages/SearchBar";
+import RedirectPage from "./pages/RedirectPage";
 
 
 function App() {
@@ -37,7 +38,6 @@ function App() {
           {/* <Route path="/ContactUs" element ={<ContactUs />} /> */}
           <Route path="/Etickets" element={<ETicketGenerator />} />
           <Route path="/movie/:id" element={<SingleMoviePage />} />
-
           <Route path="/event/:id" element={<SingleEventPage />} />
           <Route path="/selectseats/:showId" element={<SeatSelectingPage />} />
           <Route path="/movies" element={<AllMoviesPage />} />
@@ -45,6 +45,8 @@ function App() {
           <Route path="/selectshow/:movieTitle" element={<SelectShowPage />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/search" element={<SearchBar />} />
+          <Route path="/payment/redirect/:sessionId" element={<RedirectPage />} />
+
 
         </Routes>
         <Footer/>

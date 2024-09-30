@@ -41,7 +41,7 @@ const HomePage = () => {
       image: 'https://placehold.co/100',
     },
   ];
-
+  
   const cardClicked =(id) =>{
     console.log(id)
   }
@@ -59,6 +59,7 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
+      {/* 
       <section>
         <h2>Recommended for You</h2>
         <div className="card-container">
@@ -72,10 +73,11 @@ const HomePage = () => {
           ))}
         </div>
       </section>
+          */}
 
       <section>
         <div className="section-header">
-          <h2>Movies</h2>
+          <h2 style={{ marginTop: '20px' }}>Movies</h2> {/* styles just for adjust space */}
           <button className="view-all" onClick={viewAllMovies}>View All</button>
         </div>
         <div className="card-container">
