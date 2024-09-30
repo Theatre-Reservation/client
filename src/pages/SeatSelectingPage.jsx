@@ -30,7 +30,7 @@ const SeatSelectingPage = () => {
                 setLoading(false);
             }
         };
-        
+
         fetchShowData();
     }, [showId]);
 
@@ -43,10 +43,17 @@ const SeatSelectingPage = () => {
     };
 
     const handleProceed = () => {
-        // Navigate to the payment page
+        // Reset the payment status stored in local storage
+        localStorage.removeItem('paymentStatus');
+        localStorage.removeItem('lastAmount');
+        localStorage.removeItem('lastSeats');
+
+        // Navigate to the payment page with the current state
         navigate("/payment", { state: { 
-           selectedSeats, 
-            totalAmount} });
+            showId,
+            selectedSeats, 
+            totalAmount: selectedSeats.length * seatPrice
+        }});
     };
 
     const totalAmount = selectedSeats.length * seatPrice; // Calculate total amount
