@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import Card from "../components/common/Card";
 import '../styles/homePage.css';
 import { useNavigate } from "react-router-dom";
+import { useUser } from './UserContext'; // Import the useUser hook
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [events, setEvents] = useState([]);
-
   const navigate=useNavigate(); 
+  const { user } = useUser(); // Access user data from context
+
   const onClickMovie=(id)=>{
     console.log(id)
     navigate('/movie/'+id)
@@ -46,6 +48,8 @@ const HomePage = () => {
     console.log(id)
   }
   useEffect(() => {
+    // Fetching movies and events might be dependent on the user data
+    console.log("User ID:", user ? user.id : "No user logged in");
     // Fetching movies
     fetch("http://localhost:3000/movies/limited/5-different-genres")
       .then((res) => res.json())

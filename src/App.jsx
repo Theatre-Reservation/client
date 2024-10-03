@@ -20,38 +20,41 @@ import AdminPage from "./components/user/AdminPage";
 // import ContactUs from "./popups/ContactUs";
 import SearchBar from "./pages/SearchBar";
 import RedirectPage from "./pages/RedirectPage";
+import { UserProvider } from './pages/UserContext';
 
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Headers />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/booking" element={<BookingPage />} />
-          {/* <Route path="/signIn" element={<SignInPage />} /> */}
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/adminPage" element={<AdminPage/>} />
-          {/* <Route path="/notifications" element={<NotificationsPage />} /> */}
-          {/* <Route path="/ContactUs" element ={<ContactUs />} /> */}
-          <Route path="/Etickets" element={<ETicketGenerator />} />
-          <Route path="/movie/:id" element={<SingleMoviePage />} />
-          <Route path="/event/:id" element={<SingleEventPage />} />
-          <Route path="/selectseats/:showId" element={<SeatSelectingPage />} />
-          <Route path="/movies" element={<AllMoviesPage />} />
-          <Route path="/events" element={<AllEventsPage />} />
-          <Route path="/selectshow/:movieTitle" element={<SelectShowPage />} />
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/search" element={<SearchBar />} />
-          <Route path="/payment/redirect/:sessionId" element={<RedirectPage />} />
+    <UserProvider>
+      <Router>
+        <div>
+          <Headers />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/booking" element={<BookingPage />} />
+            {/* <Route path="/signIn" element={<SignInPage />} /> */}
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/adminPage" element={<AdminPage/>} />
+            {/* <Route path="/notifications" element={<NotificationsPage />} /> */}
+            {/* <Route path="/ContactUs" element ={<ContactUs />} /> */}
+            <Route path="/Etickets" element={<ETicketGenerator />} />
+            <Route path="/movie/:id" element={<SingleMoviePage />} />
+            <Route path="/event/:id" element={<SingleEventPage />} />
+            <Route path="/selectseats/:showId" element={<SeatSelectingPage />} />
+            <Route path="/movies" element={<AllMoviesPage />} />
+            <Route path="/events" element={<AllEventsPage />} />
+            <Route path="/selectshow/:movieTitle" element={<SelectShowPage />} />
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/search" element={<SearchBar />} />
+            <Route path="/payment/redirect/:sessionId" element={<RedirectPage />} />
 
 
-        </Routes>
-        <Footer/>
-      </div>
-    </Router>
+          </Routes>
+          <Footer/>
+        </div>
+      </Router>
+    </UserProvider>
   );
 }
 

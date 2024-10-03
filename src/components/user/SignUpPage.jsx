@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import {Dialog,IconButton} from "@mui/material";
+import { Dialog, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import '/src/styles/SignUpPage.css';
-import axios from '../../axios';// Import Axios instance
+import axios from '../../axios'; // Import Axios instance
+import { useUser } from '../../pages/UserContext'; // Import the useUser hook
 
 export default function SignUpPage() {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const { setUser } = useUser(); // Use the setUser function from context
 
   const handleClose = () => {
     setOpen(false); // Close the dialog
@@ -24,6 +26,7 @@ export default function SignUpPage() {
       setError('Please fill in all fields');
       return;
     }
+
     // Reset error if form is valid
     setError('');
 
@@ -31,12 +34,11 @@ export default function SignUpPage() {
     axios.post('/user-auth/signup', { Name: name, Email: email, Password: password })
       .then((res) => {
         console.log('Sign Up Success:', res.data);
-        // Handle successful sign-up, e.g., redirect to login page
+        setUser({ id: res.data.userId, name: name }); // Store user data in context
         window.location.href = '/signin'; // Redirect to sign-in page after successful sign-up
       })
       .catch((err) => {
         console.error('Sign Up Error:', err);
-        // setError('An error occurred during sign-up. Please try again.');
         if (err.response && err.response.data && err.response.data.message) {
           setError(err.response.data.message);
         } else {
@@ -44,53 +46,41 @@ export default function SignUpPage() {
         }
       });
   };
-  
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
 
-
-
-
   return (
     <Dialog onClose={handleClose} open={open}>
- 
-    <div className="signup-page">
-      <div className="signup-container">
-        <h2>Sign Up</h2>
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            {/* <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            /> */}
-             <label htmlFor="password">Password:</label>
-            <div className="password-input-container">
+      <div className="signup-page">
+        <div className="signup-container">
+          <h2>Sign Up</h2>
+          {error && <p className="error-message">{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <div className="password-input-container">
                 <input
-                  type={showPassword ? 'text' : 'password'} // Conditionally set input type
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -104,18 +94,16 @@ export default function SignUpPage() {
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </div>
-
-          </div>
-          <button type="submit" className="signup-button">
-            Sign Up
-          </button>
-        </form>
-        <p className="signin-message">
-          Already have an account? <a href="/signin">Sign in here</a>
-        </p>
+            </div>
+            <button type="submit" className="signup-button">
+              Sign Up
+            </button>
+          </form>
+          <p className="signin-message">
+            Already have an account? <a href="/signin">Sign in here</a>
+          </p>
+        </div>
       </div>
-    </div>
-  
     </Dialog>
   );
 }
