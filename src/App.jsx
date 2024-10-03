@@ -20,6 +20,8 @@ import PaymentPage from "./pages/PaymentPage";
 import NotificationsPage from "./popups/NotificationsPage";
 import ContactUs from "./popups/ContactUs";
 import RedirectPage from "./pages/RedirectPage";
+import EventPaymentPage from './pages/EventPaymentPage'; // New import for event payment page
+import EventRedirectPage from './pages/EventRedirectPage'; // New import for event redirect page
 
 
 function App() {
@@ -46,7 +48,8 @@ function App() {
           <Route path="/selectshow/:movieTitle" element={<SelectShowPage />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/payment/redirect/:sessionId" element={<RedirectPage />} />
-
+          <Route path="/event-payment" element={<EventPaymentPage />} /> {/* For event payment */}
+          <Route path="/event-payment/redirect/:sessionId" element={<EventRedirectPage />} /> {/* For event redirect to payment */}
         </Routes>
       </div>
     </Router>
