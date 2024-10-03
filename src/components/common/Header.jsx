@@ -11,24 +11,35 @@ import { io } from "socket.io-client";
 import "../../../src/styles/NotificationsPage.css";
 import "../../../src/styles/SignInPage.css";
 import "../../../src/styles/ContactUs.css";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => { 
   const [notifications, setNotifications] = useState([]);
+  const navigate=useNavigate(); 
   const [loading, setLoading] = useState(true);
   const [signInError, setSignInError] = useState("");
   const [NotificationOpen, setNotificationOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [ContactOpen, setContactOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
   const [notificationError, setNotificationError] = useState('');
+  const [error, setError] = useState(null);
   const handleSignInClick = () => {
     setSignInOpen(true);
 
   }
+
   const handleSignInClose = () => {
     setSignInOpen(false); // Close the dialog
+  };
+  const handleProfileClick = () => {
+    setProfileOpen(true);
+  }
+  const handleProfileClose = () => {
+    setProfileOpen(false); // Close the dialog
   };
   const handleContactClick = () => {
     setContactOpen(true);
@@ -44,6 +55,12 @@ const Header = () => {
   const handleNotificationClose = () => {
     setNotificationOpen(false); // Close the dialog
   };
+  useEffect(() => {
+    if (profileOpen) {
+      navigate('/profile');
+    }
+  }, [profileOpen, navigate]);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -228,8 +245,21 @@ const Header = () => {
               Sign In
             </NavLink>
           </li>
+          <li className="nav-item">
+          <NavLink
+            onClick={() => {
+              handleProfileClick();
+            }}
+            className={({ isActive }) =>
+              isActive ? "nav-link active-link" : "nav-link"
+            }
+          >
+            <Person2Icon style={{ marginRight: '8px' }} /> {/* Adds some space between the icon and text */}
+          </NavLink>
+          </li>
         </ul>
       </nav>
+
       <Dialog onClose={handleSignInClose} open={signInOpen}>
     <div className="signin-page">
       <div className="signin-container">
