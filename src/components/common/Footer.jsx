@@ -19,7 +19,7 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="footer-section links">
+        {/* <div className="footer-section links">
           <h3>Quick Links</h3>
           <ul>
             <li>
@@ -48,7 +48,7 @@ const Footer = () => {
               </NavLink>
             </li>
           </ul>
-        </div>
+        </div> */}
 
         <div className="footer-section contact">
           <h3>Contact Us</h3>
