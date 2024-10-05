@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {Dialog} from "@mui/material";
+import {Dialog,IconButton} from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import '/src/styles/SignUpPage.css';
 import axios from '../../axios';// Import Axios instance
 
@@ -8,6 +9,7 @@ export default function SignUpPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
   const [error, setError] = useState('');
 
   const handleClose = () => {
@@ -42,6 +44,14 @@ export default function SignUpPage() {
         }
       });
   };
+  
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev); // Toggle password visibility
+  };
+
+
+
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -70,13 +80,31 @@ export default function SignUpPage() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password:</label>
+            {/* <label htmlFor="password">Password:</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
+            /> */}
+             <label htmlFor="password">Password:</label>
+            <div className="password-input-container">
+                <input
+                  type={showPassword ? 'text' : 'password'} // Conditionally set input type
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={togglePasswordVisibility}
+                  edge="end"
+                  className="password-toggle-icon"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </div>
+
           </div>
           <button type="submit" className="signup-button">
             Sign Up
