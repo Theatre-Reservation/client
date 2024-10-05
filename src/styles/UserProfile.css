@@ -9,7 +9,7 @@
   background-color: #f9f9f9; /* Light background color */
 }
 
-h2 {
+.profile-container h2 {
   text-align: center; /* Center the heading */
   color: #333; /* Dark text color */
 }
