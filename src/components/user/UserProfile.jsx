@@ -8,13 +8,23 @@ const Profile = () => {
     const [formData, setFormData] = useState({ Name: '', Email: '' });
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
+    const [token, setToken] = useState(null); // Token state
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+    },[]);    
 
     // Fetch user profile when the component mounts
     useEffect(() => {
         const fetchUserProfile = async () => {
+            if (!token) {
+                setError('No token found. Please log in.');
+                setLoading(false);
+                return;
+            }
+
             try {
-                const response = await axios.get('/user-auth/profile', { withCredentials: true });
-                console.log("Fetched user data:", response.data); // <-- Add this line to check the response
+                const response = await axios.get('/api/v1/user-auth/profile' );
+                console.log("Fetched user data:", response.data); // Check the response
                 setUser(response.data); // Set the user data returned from the backend
                 setFormData({ Name: response.data.Name, Email: response.data.Email });
             } catch (err) {
@@ -24,8 +34,7 @@ const Profile = () => {
             }
         };
         fetchUserProfile();
-    }, []);
-    
+    }, [token]);
 
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
@@ -38,8 +47,16 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('jwt'); // Fetch token from localStorage
+
+        if (!token) {
+            setError('No token found. Please log in.');
+            return;
+        }
+
         try {
-            const response = await axios.put('/user-auth/profile', formData, { withCredentials: true });
+            const response = await axios.put('/user-auth/profile', formData);
+            console.log("Updated user data:", response.data); // Check the response
             setUser(response.data); // Update user data after successful save
             setIsEditing(false); // Exit edit mode after saving changes
         } catch (err) {
