@@ -20,6 +20,8 @@ import AdminPage from "./components/user/AdminPage";
 // import ContactUs from "./popups/ContactUs";
 import SearchBar from "./pages/SearchBar";
 import RedirectPage from "./pages/RedirectPage";
+import EventPaymentPage from './pages/EventPaymentPage'; // New import for event payment page
+import EventRedirectPage from './pages/EventRedirectPage'; // New import for event redirect page
 
 
 function App() {
@@ -47,6 +49,10 @@ function App() {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/search" element={<SearchBar />} />
           <Route path="/payment/redirect/:sessionId" element={<RedirectPage />} />
+
+          <Route path="/event-payment" element={<EventPaymentPage />} /> {/* For event payment */}
+          <Route path="/event-payment/redirect/:sessionId" element={<EventRedirectPage />} /> {/* For event redirect to payment */}
+
 
 
         </Routes>
