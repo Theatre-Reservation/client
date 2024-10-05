@@ -55,40 +55,52 @@ const Header = () => {
   const handleNotificationClose = () => {
     setNotificationOpen(false); // Close the dialog
   };
-  useEffect(() => {
-    if (profileOpen) {
-      navigate('/profile');
-    }
-  }, [profileOpen, navigate]);
+  // useEffect(() => {
+  //   if (profileOpen) {
+  //     navigate('/profile');
+  //   }
+  // }, [profileOpen, navigate]);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!email || !password) {
-      setSignInError('Please fill in all fields');
-      return;
+        setSignInError('Please fill in all fields');
+        return;
     }
+
     try {
-      const response = await axios.post('/user-auth/login', {
-        Email: email,
-        Password: password,
-      });
-      
-      console.log('Login Successful', response.data);
+        const response = await axios.post('http://localhost:8500/api/v1/user-auth/login', {
+            Email: email,
+            Password: password,
+        }, { withCredentials: true }); // Ensure cookies are included if used
 
-      // Store JWT in localStorage or cookies
-      localStorage.setItem('token', response.data.token); //// Use localStorage or any other method
-      
+        console.log('Login Successful', response.data);
 
-      // Redirect based on the role (user or admin)
-      
-      window.location.href = response.data.redirectUrl;
-      // Redirect user or update UI based on successful login
-      // window.location.href = '/';
+        // Check if token is available and store it in localStorage (or cookies)
+        if (response.data.token) {
+            localStorage.setItem('token', response.data.token);
+        } else {
+            throw new Error('Token not found');
+        }
+
+        // Redirect based on the role (user or admin)
+        if (response.data.redirectUrl) {
+            window.location.href = response.data.redirectUrl;
+        } else {
+            throw new Error('Redirect URL not found');
+        }
+
     } catch (err) {
-      console.error('Login Error', err);
-      setSignInError('Login Error. Please check your credentials.');
+        if (err.response && err.response.status === 401) {
+            setSignInError('Invalid credentials. Please try again.');
+        } else {
+            console.error('Login Error', err);
+            setSignInError('Login Error. Please check your credentials.');
+        }
     }
-  };
+}; 
+
 
 
   const togglePasswordVisibility = () => {
@@ -123,37 +135,37 @@ const Header = () => {
   
    
   };
-  useEffect(() => {
-    // Fetch notifications from the backend
-    const fetchNotifications = async () => {
-      try {
-        const response = await axios.get("http://localhost:8600/api/v1/notifications");
+  // useEffect(() => {
+  //   // Fetch notifications from the backend
+  //   const fetchNotifications = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:8600/api/v1/notifications");
         
-        setNotifications(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to load notifications");
-        setLoading(false);
-      }
-    };
+  //       setNotifications(response.data);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setError("Failed to load notifications");
+  //       setLoading(false);
+  //     }
+  //   };
     
-    fetchNotifications();
-      // Handle real-time notifications
-      const socket = io("http://localhost:8600" ,{
-        transports: ['websocket'],
-        withCredentials: true,  // Send cookies with the request
-      });
-      socket.on("notification", (newNotification) => {
-        // console.log(newNotification.data);
-        setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
-        // console.log(Notification)
-      });
+  //   fetchNotifications();
+  //     // Handle real-time notifications
+  //     const socket = io("http://localhost:8600" ,{
+  //       transports: ['websocket'],
+  //       withCredentials: true,  // Send cookies with the request
+  //     });
+  //     socket.on("notification", (newNotification) => {
+  //       // console.log(newNotification.data);
+  //       setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
+  //       // console.log(Notification)
+  //     });
   
-      // Clean up the socket connection
-      // return () => {
-      //   socket.disconnect();
-      // };
-  }, []);
+  //     // Clean up the socket connection
+  //     // return () => {
+  //     //   socket.disconnect();
+  //     // };
+  // }, []);
   return (
     <header className="header">
       <nav className="navbar">
@@ -246,10 +258,10 @@ const Header = () => {
             </NavLink>
           </li>
           <li className="nav-item">
-          <NavLink
-            onClick={() => {
-              handleProfileClick();
-            }}
+          <NavLink  to="/profile"
+            // onClick={() => {
+            //   handleProfileClick();
+            // }}
             className={({ isActive }) =>
               isActive ? "nav-link active-link" : "nav-link"
             }
@@ -347,3 +359,8 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
+

@@ -1,92 +1,97 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import io from 'socket.io-client';
-import '/src/styles/UserProfile.css';
+import axios from 'axios'; // For making API requests
+import '/src/styles/UserProfile.css'; // Add this line at the top of your Profile.jsx
 
-export default function UserProfile() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState(''); // Add state for email
-  const [loading, setLoading] = useState(true);
-  const [notifications, setNotifications] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to track login status
+const Profile = () => {
+    const [user, setUser] = useState(null); // Initially, the user is null until data is fetched
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState({ Name: '', Email: '' });
+    const [loading, setLoading] = useState(true); // Loading state
+    const [error, setError] = useState(null); // Error state
 
-  const socket = io("http://localhost:5173", {
-    transports: ['websocket'],
-    withCredentials: true,
-  });
+    // Fetch user profile when the component mounts
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const response = await axios.get('/user-auth/profile', { withCredentials: true });
+                console.log("Fetched user data:", response.data); // <-- Add this line to check the response
+                setUser(response.data); // Set the user data returned from the backend
+                setFormData({ Name: response.data.Name, Email: response.data.Email });
+            } catch (err) {
+                setError('Failed to fetch user data');
+            } finally {
+                setLoading(false); // Stop loading when request completes
+            }
+        };
+        fetchUserProfile();
+    }, []);
+    
 
-  // Listen for notifications from the WebSocket server
-  socket.on("notification", (newNotification) => {
-    console.log("New notification:", newNotification);
-    setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
-  });
-
-  // Fetch login details when the user logs in
-  useEffect(() => {
-    const fetchLoginDetails = async () => {
-      try {
-        const response = await axios.get("profile-auth/user_logged_in");
-        console.log(response.data, "Profile Details");
-  
-        // Extract the profile details (Name and Email) from the response
-        const { updatedProfile } = response.data;
-  
-        setName(updatedProfile.Name);   // Set name from the response
-        setEmail(updatedProfile.Email); // Set email from the response
-        setLoading(false);
-      } catch (err) {
-        console.error("Failed to load profile details:", err);
-        setLoading(false);
-      }
+    const handleEditToggle = () => {
+        setIsEditing(!isEditing);
     };
 
-    // Fetch user data only if logged in
-    if (isLoggedIn) {
-      fetchLoginDetails();
-    }
-  }, [isLoggedIn]); // Dependency array includes isLoggedIn
-
-  // WebSocket event listener for login
-  useEffect(() => {
-    console.log("Listener Listening")
-    socket.on('user_logged_in', () => {
-      console.log('User logged in event received');
-      setIsLoggedIn(true); // Set login status to true
-    });
-
-    // Clean up the socket connection on component unmount
-    return () => {
-      socket.disconnect();
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
-  }, []);
 
-  const handleSave = () => {
-    // Send updated name and email to the server
-    console.log('Profile Updated:', { name, email });
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.put('/user-auth/profile', formData, { withCredentials: true });
+            setUser(response.data); // Update user data after successful save
+            setIsEditing(false); // Exit edit mode after saving changes
+        } catch (err) {
+            setError('Failed to update profile');
+        }
+    };
 
-  return (
-    <div className="user-profile">
-      <h2>User Profile</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="profile-info">
-          <label>
-            Name:
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          </label>
-          <label>
-            Email:
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </label>
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
+
+    return (
+        <div className="profile-container">
+            <h2>User Profile</h2>
+            {isEditing ? (
+                <form onSubmit={handleSubmit} className="edit-profile-form">
+                    <div>
+                        <label>
+                            Name:
+                            <input
+                                type="text"
+                                name="Name"
+                                value={formData.Name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Email:
+                            <input
+                                type="email"
+                                name="Email"
+                                value={formData.Email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </label>
+                    </div>
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onClick={handleEditToggle}>Cancel</button>
+                </form>
+            ) : (
+                <div className="profile-info">
+                    <p><strong>Name:</strong> {user.Name}</p>
+                    <p><strong>Email:</strong> {user.Email}</p>
+                    <p><strong>Admin:</strong> {user.isAdmin ? 'Yes' : 'No'}</p>
+                    <button onClick={handleEditToggle}>Edit Profile</button>
+                </div>
+            )}
         </div>
-      )}
-      <div className="profile-actions">
-        <button onClick={handleSave} className="save-button">
-          Save
-        </button>
-      </div>
-    </div>
-  );
-}
+    );
+};
+
+export default Profile;

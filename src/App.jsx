@@ -27,6 +27,7 @@ function App() {
     <Router>
       <div>
         <Headers />
+        <main style={{ paddingBottom: '4rem' }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/booking" element={<BookingPage />} />
@@ -49,6 +50,7 @@ function App() {
 
 
         </Routes>
+        </main>
         <Footer/>
       </div>
     </Router>
