@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Card from "../components/common/Card";
 import '../styles/homePage.css';
 import { useNavigate } from "react-router-dom";
@@ -7,8 +7,8 @@ import { useUser } from './UserContext'; // Import the useUser hook
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [events, setEvents] = useState([]);
+  const UserContext = useContext(useUser); // UserContext.user.id
   const navigate=useNavigate(); 
-  const { user } = useUser(); // Access user data from context
 
   const onClickMovie=(id)=>{
     console.log(id)
