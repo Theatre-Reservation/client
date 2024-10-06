@@ -30,7 +30,7 @@ const SingleEventPage = () => {
 
   const handleProceed = () => {
     // Reset the payment status stored in local storage
-    localStorage.removeItem('paymentStatus');
+    sessionStorage.removeItem('paymentStatus');
     
     navigate("/event-payment", {
       state: {

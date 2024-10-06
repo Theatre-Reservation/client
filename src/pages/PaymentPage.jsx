@@ -12,12 +12,12 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     const navigate = useNavigate(); // Added this line
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [paymentStatus, setPaymentStatus] = useState(localStorage.getItem('paymentStatus') || 'untouched');
+    const [paymentStatus, setPaymentStatus] = useState(sessionStorage.getItem('paymentStatus') || 'untouched');
     const [sessionId, setSessionId] = useState('');
     const paymentWindowRef = useRef(null);
 
     useEffect(() => {
-        localStorage.setItem('paymentStatus', paymentStatus);
+        sessionStorage.setItem('paymentStatus', paymentStatus);
     }, [paymentStatus]);
 
     const sendTransactionToDatabase = async (sessionId) => {
