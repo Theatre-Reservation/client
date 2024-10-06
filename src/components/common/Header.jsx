@@ -55,11 +55,7 @@ const Header = () => {
   const handleNotificationClose = () => {
     setNotificationOpen(false); // Close the dialog
   };
-  // useEffect(() => {
-  //   if (profileOpen) {
-  //     navigate('/profile');
-  //   }
-  // }, [profileOpen, navigate]);
+ 
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,16 +66,17 @@ const Header = () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:8500/api/v1/user-auth/login', {
+        const response = await axios.post('/user-auth/login', {
             Email: email,
             Password: password,
         }, { withCredentials: true }); // Ensure cookies are included if used
-
-        console.log('Login Successful', response.data);
+        
+        console.log('Login Successful', response.data.user);
 
         // Check if token is available and store it in localStorage (or cookies)
         if (response.data.token) {
             localStorage.setItem('token', response.data.token);
+            console.log('Token stored:', response.data.token);
         } else {
             throw new Error('Token not found');
         }
