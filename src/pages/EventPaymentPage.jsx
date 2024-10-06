@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'; // Added useNavigate
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements ,useStripe} from '@stripe/react-stripe-js';
+import { Elements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import "../styles/paymentPage.css";
 
 const stripePromise = loadStripe('pk_test_51PsTIg2LvxXMvsXIlyFzKPofk4EVAXFxgxGgA1CltaVU9HooW9Yx20ZYNiCbqreuINbsmO0umy7AUePt0AaqBGRf00OYVEZqDJ');
 
-const PaymentForm = ({ totalAmount, onSucessful, eventId,ticketCount }) => {
+const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
     const stripe = useStripe();
+    const navigate = useNavigate(); // Added this line
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState(localStorage.getItem('paymentStatus') || 'untouched');
@@ -113,7 +114,14 @@ const PaymentForm = ({ totalAmount, onSucessful, eventId,ticketCount }) => {
                 </button>
             )}
             {paymentStatus === 'processing' && <p className="processing-message">Processing your payment...</p>}
-            {paymentStatus === 'success' && <p className="success-message">Payment successful! Thank you for your purchase.</p>}
+            {paymentStatus === 'success' && (
+                <>
+                    <p className="success-message">Payment successful! Thank you for your purchase.</p>
+                    <button className="get-etickets-button" onClick={() => navigate('/etickets')}>
+                        Get E-tickets
+                    </button>
+                </>
+            )}
             {paymentStatus === 'failed' && <p className="failed-message">Payment failed. Please try again or use a different payment method.</p>}
         </form>
     );
@@ -124,10 +132,9 @@ const EventPaymentPage = () => {
     const totalAmount = location.state.totalAmount;
     const ticketCount = location.state.ticketCount;
     const eventId = location.state.eventId;
-    console.log
 
     const reserveSeats = async (sessionId) => {
-        console.log("payment successful "+sessionId);
+        console.log("payment successful " + sessionId);
     };
 
     return (

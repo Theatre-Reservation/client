@@ -63,3 +63,19 @@
 .refresh-button:hover {
     background-color: #0056b3;
 }
+
+.get-etickets-button {
+    padding: 10px;
+    font-size: 18px;
+    background-color: #007bff; /* Blue color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.get-etickets-button:hover {
+    background-color: #0056b3;
+}
