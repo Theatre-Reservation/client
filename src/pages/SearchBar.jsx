@@ -41,7 +41,7 @@ export default function SearchBar({ onSearch }) {
       <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"
-          placeholder="Search movies..."
+          placeholder="Search ..."
           value={query}
           onChange={handleInputChange}
           className="search-input"
