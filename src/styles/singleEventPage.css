@@ -1,0 +1,97 @@
+.event-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.event-poster {
+  flex: 1 1 300px;
+  margin-right: 20px;
+}
+
+.event-poster img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.event-details {
+  flex: 3 1 600px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.event-title, .event-description, .event-info p {
+  margin: 10px 0;
+}
+
+.book-now-btn, .ticket-change-btn, .proceed-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.book-now-btn:hover, .ticket-change-btn:hover, .proceed-btn:hover {
+  background-color: #0056b3;
+}
+
+.ticket-selection {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centering the buttons and ticket count */
+  margin-bottom: 20px; /* Space between the ticket selector and total amount */
+}
+
+.ticket-heading {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center; /* Center align the text */
+  margin-bottom: 10px;
+}
+
+.ticket-change-btn {
+  margin: 0 10px;
+}
+
+.ticket-count {
+  min-width: 50px;
+  text-align: center;
+  font-size: 1.5rem;
+  display: inline-block;
+}
+
+.total-amount div {
+  display: block;
+  text-align: center; /* Center align the total amount text */
+}
+
+.proceed-btn {
+  display: block;
+  margin-top: 20px; /* Space between total amount and proceed button */
+  width: auto;
+  align-self: center; /* Center the button in the container */
+}
+
+.ticket-control {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center; /* Center all items */
+  padding: 20px;
+  width: 20%; /* Reduced width */
+  margin: auto; /* Center horizontally */
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

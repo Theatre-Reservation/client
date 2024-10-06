@@ -1,0 +1,116 @@
+.single-movie-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.movie-cover {
+  background-size: cover;
+  background-position: center;
+  height: 100%; /* Adjust this height to control how much of the cover image is visible */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0 0 50px 0;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background overlay */
+  width: 100%;
+  height: 450px; /* my one . previous was 100%*/
+  display: flex;
+  align-items: center;
+  padding: 20px; 
+  border-radius: 8px;
+}
+
+.movie-header {
+  display: flex;
+  align-items: flex-start;
+  color: white;
+}
+
+.movie-poster {
+  height: 400px;
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.movie-details {
+  margin-left: 20px;
+  flex-grow: 1;
+}
+
+.movie-details h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.movie-meta {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  color: lightgray;
+  margin-bottom: 8px;
+}
+
+.movie-meta span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.book-tickets-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.book-tickets-btn:hover {
+  background-color: #0056b3;
+}
+
+.movie-synopsis {
+  margin-top: 30px;
+}
+
+.movie-synopsis h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.movie-synopsis p {
+  font-size: 1.2rem;
+}
+
+.user-reviews {
+  margin-top: 30px;
+}
+
+.user-reviews h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.user-reviews p {
+  font-size: 1.2rem;
+}
+
+/* Additional styling for social media icons */
+.social-media-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.social-media-icons a {
+  color: white;
+  font-size: 1.5rem;
+}
