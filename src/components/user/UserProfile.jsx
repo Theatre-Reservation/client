@@ -9,22 +9,30 @@ const Profile = () => {
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
     const [token, setToken] = useState(null); // Token state
-    useEffect(() => {
-        setToken(localStorage.getItem('token'));
-    },[]);    
+
 
     // Fetch user profile when the component mounts
     useEffect(() => {
         const fetchUserProfile = async () => {
-            if (!token) {
-                setError('No token found. Please log in.');
-                setLoading(false);
+            setToken(localStorage.getItem('token'));
+            console.log("Token: ", token);
+
+            const newToken = localStorage.getItem('token');
+
+            if (!newToken) {
+                setError('No newToken found. Please log in.');
                 return;
             }
+            
 
             try {
-                const response = await axios.get('/api/v1/user-auth/profile' );
-                console.log("Fetched user data:", response.data); // Check the response
+                const response = await axios.get('http://localhost:8500/api/v1/user-auth/profile', 
+                    {
+                        headers: {
+                            Authorization: `Bearer ${newToken}`,
+                        }
+                    }
+                 );
                 setUser(response.data); // Set the user data returned from the backend
                 setFormData({ Name: response.data.Name, Email: response.data.Email });
             } catch (err) {
@@ -43,25 +51,28 @@ const Profile = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        console.log("AWA WAWA")
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('jwt'); // Fetch token from localStorage
-
-        if (!token) {
-            setError('No token found. Please log in.');
-            return;
-        }
-
-        try {
-            const response = await axios.put('/user-auth/profile', formData);
-            console.log("Updated user data:", response.data); // Check the response
-            setUser(response.data); // Update user data after successful save
-            setIsEditing(false); // Exit edit mode after saving changes
-        } catch (err) {
-            setError('Failed to update profile');
-        }
+            const token = localStorage.getItem('token'); // Fetch token from localStorage
+            console.log("Form data: " + JSON.stringify(formData));
+            if (token) {
+                const response = await axios.put('http://localhost:8500/api/v1/user-auth/profile', 
+                    formData, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                
+                console.log("Response: ", response.data);
+                setFormData(response.data);
+                setUser(response.data);
+            } else {
+                console.log("No token found in localStorage.");
+            }
     };
 
     if (loading) return <p>Loading...</p>;
