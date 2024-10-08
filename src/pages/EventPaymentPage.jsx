@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'; // Added useNavigate
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe } from '@stripe/react-stripe-js';
+import { Elements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import "../styles/paymentPage.css";
 
 const stripePromise = loadStripe('pk_test_51PsTIg2LvxXMvsXIlyFzKPofk4EVAXFxgxGgA1CltaVU9HooW9Yx20ZYNiCbqreuINbsmO0umy7AUePt0AaqBGRf00OYVEZqDJ');
 
-const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
+const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
     const stripe = useStripe();
     const navigate = useNavigate(); // Added this line
     const [error, setError] = useState(null);
@@ -19,33 +19,35 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     useEffect(() => {
         sessionStorage.setItem('paymentStatus', paymentStatus);
     }, [paymentStatus]);
-
+    
     const sendTransactionToDatabase = async (sessionId) => {
         try {
-            const showDetailsResponse = await axios.get(`http://localhost:3000/booking/single/${showId}`);
-            if (showDetailsResponse.status === 200) {
-                const { movie, theater } = showDetailsResponse.data;
-
+            // Fetch event details using the event ID
+            const eventDetailsResponse = await axios.get(`http://localhost:3000/events/single/${eventId}`);
+            if (eventDetailsResponse.status === 200) {
+                const { title, venue } = eventDetailsResponse.data;  // Adjust based on actual response structure
+    
                 const transactionData = {
-                    userId: 'user_id_here', // This should be dynamically fetched or stored in your app's context or state
-                    showId,
-                    movie,
-                    theatre: theater,
-                    totalAmount,
-                    selectedSeats,
-                    
+                    userId: 'user_id_here',  // Replace with actual user ID (can be fetched from context, auth, etc.)
+                    eventId,
+                    eventTitle: title,      // Use title from event data
+                    venue,                  // Use venue from event data
+                    totalAmount,            // Total amount for the event payment
+                    ticketCount,            // Number of tickets selected
                 };
-                console.log(transactionData);
-
-                await axios.post('http://localhost:3001/transactions', transactionData);
+    
+                console.log(transactionData);  // Log for debugging purposes
+    
+                // Send event payment transaction to the backend (using the new event-specific endpoint)
+                await axios.post('http://localhost:3001/transactions/event', transactionData);
             } else {
-                console.error("Failed to fetch show details: ", showDetailsResponse.status);
+                console.error("Failed to fetch event details: ", eventDetailsResponse.status);
             }
         } catch (error) {
             console.error('Error in sending transaction data to the database:', error);
         }
     };
-
+    
     const checkPaymentStatus = async (sessionId) => {
         try {
             const response = await axios.post(`http://localhost:3001/stripe/get-session/${sessionId}`);
@@ -83,7 +85,8 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        if (paymentStatus === "untouched" || paymentStatus === "failed") {
+        console.log(paymentStatus)
+        if (paymentStatus === "untouched" || paymentStatus === "failed" || paymentStatus ==="processing") {
             const response = await fetch('http://localhost:3001/stripe/create-checkout-session', {
                 method: 'POST',
                 headers: {
@@ -94,6 +97,7 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                 .then(data => {
                     return data.session;
                 });
+                console.log(response);
             const paymentWindow = window.open(window.location.href + "/redirect/" + response, "_blank");
             paymentWindowRef.current = paymentWindow;
             setPaymentStatus("Processing");
@@ -123,20 +127,14 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     );
 };
 
-const PaymentPage = () => {
+const EventPaymentPage = () => {
     const location = useLocation();
     const totalAmount = location.state.totalAmount;
-    const selectedSeats = location.state.selectedSeats;
-    const showId = location.state.showId;
+    const ticketCount = location.state.ticketCount;
+    const eventId = location.state.eventId;
 
     const reserveSeats = async (sessionId) => {
-        const response = await fetch(`http://localhost:3000/booking/update-seats/${showId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ reservedSeats: selectedSeats }),
-        }).then(res => res.json());
+        console.log("payment successful " + sessionId);
     };
 
     return (
@@ -146,12 +144,12 @@ const PaymentPage = () => {
                 <PaymentForm
                     totalAmount={totalAmount}
                     onSucessful={reserveSeats}
-                    showId={showId}
-                    selectedSeats={selectedSeats}
+                    ticketCount={ticketCount}
+                    eventId={eventId}
                 />
             </div>
         </Elements>
     );
 };
 
-export default PaymentPage;
+export default EventPaymentPage;

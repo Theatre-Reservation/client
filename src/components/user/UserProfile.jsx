@@ -1,92 +1,143 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import io from 'socket.io-client';
-import '/src/styles/UserProfile.css';
+import axios from 'axios'; // For making API requests
+import { useNavigate } from 'react-router-dom'; // For redirection after logout
+import '/src/styles/UserProfile.css'; // Add this line at the top of your Profile.jsx
 
-export default function UserProfile() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState(''); // Add state for email
-  const [loading, setLoading] = useState(true);
-  const [notifications, setNotifications] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to track login status
+const Profile = () => {
+    const [user, setUser] = useState(null); // Initially, the user is null until data is fetched
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState({ Name: '', Email: '' });
+    const [loading, setLoading] = useState(true); // Loading state
+    const [error, setError] = useState(null); // Error state
+    const [token, setToken] = useState(null); // Token state
+    const navigate = useNavigate(); // For navigation after logout
 
-  const socket = io("http://localhost:5173", {
-    transports: ['websocket'],
-    withCredentials: true,
-  });
+    // Fetch user profile when the component mounts
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            const newToken = localStorage.getItem('token');
+            setToken(newToken);
+            console.log("Token: ", newToken);
 
-  // Listen for notifications from the WebSocket server
-  socket.on("notification", (newNotification) => {
-    console.log("New notification:", newNotification);
-    setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
-  });
+            if (!newToken) {
+                setError('No token found. Please log in.');
+                return;
+            }
+            
+            try {
+                const response = await axios.get('http://localhost:8500/api/v1/user-auth/profile', 
+                    {
+                        headers: {
+                            Authorization: `Bearer ${newToken}`,
+                        }
+                    }
+                );
+                setUser(response.data); // Set the user data returned from the backend
+                setFormData({ Name: response.data.Name, Email: response.data.Email });
+            } catch (err) {
+                setError('Failed to fetch user data');
+            } finally {
+                setLoading(false); // Stop loading when request completes
+            }
+        };
+        fetchUserProfile();
+    }, [token]);
 
-  // Fetch login details when the user logs in
-  useEffect(() => {
-    const fetchLoginDetails = async () => {
-      try {
-        const response = await axios.get("profile-auth/user_logged_in");
-        console.log(response.data, "Profile Details");
-  
-        // Extract the profile details (Name and Email) from the response
-        const { updatedProfile } = response.data;
-  
-        setName(updatedProfile.Name);   // Set name from the response
-        setEmail(updatedProfile.Email); // Set email from the response
-        setLoading(false);
-      } catch (err) {
-        console.error("Failed to load profile details:", err);
-        setLoading(false);
-      }
+    const handleEditToggle = () => {
+        setIsEditing(!isEditing);
     };
 
-    // Fetch user data only if logged in
-    if (isLoggedIn) {
-      fetchLoginDetails();
-    }
-  }, [isLoggedIn]); // Dependency array includes isLoggedIn
-
-  // WebSocket event listener for login
-  useEffect(() => {
-    console.log("Listener Listening")
-    socket.on('user_logged_in', () => {
-      console.log('User logged in event received');
-      setIsLoggedIn(true); // Set login status to true
-    });
-
-    // Clean up the socket connection on component unmount
-    return () => {
-      socket.disconnect();
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        console.log("Form data changed");
     };
-  }, []);
 
-  const handleSave = () => {
-    // Send updated name and email to the server
-    console.log('Profile Updated:', { name, email });
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token'); // Fetch token from localStorage
+        console.log("Form data: " + JSON.stringify(formData));
+        
+        if (token) {
+            const response = await axios.put('http://localhost:8500/api/v1/user-auth/profile', 
+                formData, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                
+            console.log("Response: ", response.data);
+            setFormData(response.data);
+            setUser(response.data);
+        } else {
+            console.log("No token found in localStorage.");
+        }
+    };
 
-  return (
-    <div className="user-profile">
-      <h2>User Profile</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="profile-info">
-          <label>
-            Name:
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          </label>
-          <label>
-            Email:
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </label>
+    const handleLogout = async () => {
+        try {
+            await axios.post('http://localhost:8500/api/v1/user-auth/logout', {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            localStorage.removeItem('token'); // Clear token from localStorage
+            navigate('/'); // Redirect to login page
+        } catch (err) {
+            console.log('Logout failed:', err);
+        }
+    };
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
+
+    return (
+        <div className="profile-container">
+            <h2>User Profile</h2>
+            {isEditing ? (
+                <form onSubmit={handleSubmit} className="edit-profile-form">
+                    <div>
+                        <label>
+                            Name:
+                            <input
+                                type="text"
+                                name="Name"
+                                value={formData.Name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Email:
+                            <input
+                                type="email"
+                                name="Email"
+                                value={formData.Email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </label>
+                    </div>
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onClick={handleEditToggle}>Cancel</button>
+                </form>
+            ) : (
+                <div className="profile-info">
+                    <p><strong>Name:</strong> {user.Name}</p>
+                    <p><strong>Email:</strong> {user.Email}</p>
+                    <p><strong>Admin:</strong> {user.isAdmin ? 'Yes' : 'No'}</p>
+                    <button onClick={handleEditToggle}>Edit Profile</button>
+                </div>
+            )}
+            
+            {/* Logout button */}
+            <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
-      )}
-      <div className="profile-actions">
-        <button onClick={handleSave} className="save-button">
-          Save
-        </button>
-      </div>
-    </div>
-  );
-}
+    );
+};
+
+export default Profile;

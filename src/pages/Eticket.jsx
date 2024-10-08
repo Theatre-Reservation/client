@@ -37,37 +37,42 @@ const ETicketGenerator = () => {
   };
 
   return (
-    <div className="container">
-      <h1>E-Ticket Generator</h1>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+    <div className="eticket-container">
+      <h1 className="eticket-h1">E-Ticket Generator</h1>
+      {error && <div className="eticket-error" style={{ color: 'red' }}>{error}</div>}
 
       {!qrCodeUrl ? (
         <div>
-          <h2>Generate Your E-Ticket</h2>
-          <p>Click the button below to generate your E-Ticket.</p>
-          <button onClick={generateETicket} disabled={loading}>
+          <h2 className="eticket-h2">Generate Your E-Ticket</h2>
+          <p className="eticket-p">Click the button below to generate your E-Ticket.</p>
+          <button className="eticket-button" onClick={generateETicket} disabled={loading}>
             {loading ? 'Generating...' : 'Generate E-Ticket'}
           </button>
 
           {mailDetails && (
             <div>
-              <h2 style={{ color: '#333' }}>🎟️ Your E-Ticket for {mailDetails.showName}</h2>
-              <p>Hi <strong>{mailDetails.name}</strong>,</p>
-              <p>Thank you for booking your ticket for <strong>{mailDetails.showName}</strong>!</p>
-              <h3>Event Details:</h3>
-              <ul>
-                <li><strong>Event Name:</strong> {mailDetails.showName}</li>
-                <li><strong>Event Type:</strong> {mailDetails.type}</li>
-                <li><strong>Message:</strong> {mailDetails.message}</li>
+              <h2 className="eticket-h2" style={{ color: '#333' }}>🎟️ Your E-Ticket for {mailDetails.showName}</h2>
+              <p className="eticket-p">Hi <strong>{mailDetails.name}</strong>,</p>
+              <p className="eticket-p">Thank you for booking your ticket for <strong>{mailDetails.showName}</strong>!</p>
+              <h3 className="eticket-h3">Event Details:</h3>
+              <ul className="eticket-ul">
+                <li className="eticket-li"><strong>Event Name:</strong> {mailDetails.showName}</li>
+                <li className="eticket-li"><strong>Event Type:</strong> {mailDetails.type}</li>
+                <li className="eticket-li"><strong>Message:</strong> {mailDetails.message}</li>
               </ul>
             </div>
           )}
         </div>
       ) : (
         <div>
-          <h2>Your E-Ticket</h2>
-          <p>Scan the QR code at the event entrance:</p>
-          <img src={qrCodeUrl} alt="QR Code" style={{ border: '1px solid #ddd', padding: '10px', background: '#fff' }} />
+          <h2 className="eticket-h2">Your E-Ticket</h2>
+          <p className="eticket-p">Scan the QR code at the event entrance:</p>
+          <img
+            src={qrCodeUrl}
+            alt="QR Code"
+            className="eticket-img"
+            style={{ border: '1px solid #ddd', padding: '10px', background: '#fff' }}
+          />
         </div>
       )}
     </div>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/singleEventPage.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const SingleEventPage = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [ticketCount, setTicketCount] = useState(1);
   const [showTicketSelector, setShowTicketSelector] = useState(false);
+  const navigate = useNavigate(); // For navigating to EventPaymentPage
 
   useEffect(() => {
     fetch(`http://localhost:3000/events/single/${id}`)
@@ -26,6 +27,19 @@ const SingleEventPage = () => {
   const incrementTickets = () => setTicketCount(prev => prev + 1);
   const decrementTickets = () => setTicketCount(prev => Math.max(1, prev - 1));
   const totalPrice = event ? (ticketCount * event.ticket_price).toFixed(2) : 0;
+
+  const handleProceed = () => {
+    // Reset the payment status stored in local storage
+    sessionStorage.removeItem('paymentStatus');
+    
+    navigate("/event-payment", {
+      state: {
+        totalAmount: parseFloat(totalPrice),
+        ticketCount,
+        eventId: id,
+      },
+    });
+  };
 
   if (!event) {
     return <div>Loading...</div>;
@@ -58,7 +72,9 @@ const SingleEventPage = () => {
                   <div>Total Amount:</div>
                   <div>LKR {totalPrice}</div>
                 </div>
-                <button className="proceed-btn">Proceed</button>
+                <button className="proceed-btn" onClick={handleProceed}>
+                  Proceed
+                </button>
               </div>
             </div>
           )}
