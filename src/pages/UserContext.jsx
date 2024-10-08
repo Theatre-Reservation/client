@@ -1,48 +1,49 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios for API requests
+import axios from 'axios';
 
-// Create Context
 const UserContext = createContext();
 
-// Provider component
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);  // This will store the user data
-    const [loading, setLoading] = useState(true); // Loading state
-    const [error, setError] = useState(null); // Error state
+  const [user, setUser] = useState(null);  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setLoading(false);
-                return;
-            }
+  const fetchUserProfile = async (token) => {
+    try {
+      const response = await axios.get('http://localhost:8500/api/v1/user-auth/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data);
+    } catch (err) {
+      console.error('Failed to fetch user data', err);
+      setError('Failed to fetch user data');
+      localStorage.removeItem('token'); // Remove invalid token
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            try {
-                const response = await axios.get('http://localhost:8500/api/v1/user-auth/profile', 
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        }
-                    }
-                );
-                setUser(response.data);
-            } catch (err) {
-                console.error('Failed to fetch user data', err);
-                setError('Failed to fetch user data');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchUserProfile();
-    }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetchUserProfile(token);
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
-    return (
-        <UserContext.Provider value={{ user, setUser, loading, error }}>
-            {children}
-        </UserContext.Provider>
-    );
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+  };
+
+  return (
+    <UserContext.Provider value={{ user, setUser, loading, error, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
-// Custom hook to use the user context
 export const useUser = () => useContext(UserContext);

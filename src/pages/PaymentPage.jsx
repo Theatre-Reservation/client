@@ -4,12 +4,14 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import "../styles/paymentPage.css";
+import { useUser } from './UserContext'; // Import useUser
 
 const stripePromise = loadStripe('pk_test_51PsTIg2LvxXMvsXIlyFzKPofk4EVAXFxgxGgA1CltaVU9HooW9Yx20ZYNiCbqreuINbsmO0umy7AUePt0AaqBGRf00OYVEZqDJ');
 
 const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     const stripe = useStripe();
-    const navigate = useNavigate(); // Added this line
+    const navigate = useNavigate(); 
+    const { user } = useUser(); // Access user data from context
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState(sessionStorage.getItem('paymentStatus') || 'untouched');
@@ -21,19 +23,23 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     }, [paymentStatus]);
 
     const sendTransactionToDatabase = async (sessionId) => {
+        if (!user) {
+            console.error('User not authenticated');
+            return;
+        }
+
         try {
             const showDetailsResponse = await axios.get(`http://localhost:3000/booking/single/${showId}`);
             if (showDetailsResponse.status === 200) {
                 const { movie, theater } = showDetailsResponse.data;
 
                 const transactionData = {
-                    userId: 'user_id_here', // This should be dynamically fetched or stored in your app's context or state
+                    userId: user._id, // Use the user ID from context
                     showId,
                     movie,
                     theatre: theater,
                     totalAmount,
                     selectedSeats,
-                    
                 };
                 console.log(transactionData);
 
