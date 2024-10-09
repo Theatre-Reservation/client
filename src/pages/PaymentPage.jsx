@@ -85,6 +85,9 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                 setTimeout(() => checkPaymentStatus(sessionId), 2000); // Check again after 2 seconds
             } else {
                 setPaymentStatus('failed');
+                await axios.patch(`http://localhost:3000/booking/lock-seats/${showId}`, {
+                    temporaryReservedSeats: [],
+                });
                 if (paymentWindowRef.current) {
                     paymentWindowRef.current.close();
                 }
