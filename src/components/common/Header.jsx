@@ -12,14 +12,45 @@ import "../../../src/styles/NotificationsPage.css";
 import "../../../src/styles/SignInPage.css";
 import "../../../src/styles/ContactUs.css";
 import { useNavigate } from "react-router-dom";
+import '/src/styles/SignUpPage.css';
+
 
 const Header = () => { 
+
+
+
+  const [signUpOpen, setSignUpOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const [name, setName] = useState('');
+
+  const handleClose = () => {
+    setOpen(false); // Close the dialog
+  };
+
+  
+  
+
+  const signUpTogglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev); // Toggle password visibility
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate(); 
   const [loading, setLoading] = useState(true);
   const [signInError, setSignInError] = useState("");
   const [NotificationOpen, setNotificationOpen] = useState(false);
-  const [signInOpen, setSignInOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [ContactOpen, setContactOpen] = useState(false);
   const [email, setEmail] = useState('');
@@ -47,6 +78,14 @@ const Header = () => {
     setSignInOpen(false); // Close the dialog
   };
 
+  const handleSignUpClick = () => {
+    setSignUpOpen(true);
+  };
+
+  const handleSignUpClose = () => {
+    setSignUpOpen(false); // Close the dialog
+  };
+
   const handleProfileClick = () => {
     setProfileOpen(true);
   }
@@ -66,12 +105,59 @@ const Header = () => {
   const handleNotificationClick = () => {
     setNotificationOpen(true);
   }
+  const handleSignIn = () => {
+    setSignInOpen(true);
+    setSignUpOpen(false);
+    // Redirect to sign-in page or perform any action
+    
+    // You can use history.push('/sign-in') if using react-router-dom for navigation
+  };
+
+    const handleSignUp = () => {
+    setSignInOpen(false);
+    setSignUpOpen(true);
+    // Redirect to sign-in page or perform any action
+    
+    // You can use history.push('/sign-in') if using react-router-dom for navigation
+  };
 
   const handleNotificationClose = () => {
     setNotificationOpen(false); // Close the dialog
   };
 
-  const handleSubmit = async (e) => {
+  const handleSignUpSubmit = (e) => {
+
+    e.preventDefault();
+
+    // Form validation
+    if (!name || !email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+    // Reset error if form is valid
+    setError('');
+
+    // Call API to sign up the user
+    axios.post('/user-auth/signup', { Name: name, Email: email, Password: password })
+      .then((res) => {
+        console.log('Sign Up Success:', res.data);
+        setSignInOpen(true);
+        setSignUpOpen(false);
+        // Handle successful sign-up, e.g., redirect to login page
+        // window.location.href = '/signin'; 
+      })
+      .catch((err) => {
+        console.error('Sign Up Error:', err);
+        // setError('An error occurred during sign-up. Please try again.');
+        if (err.response && err.response.data && err.response.data.message) {
+          setError(err.response.data.message);
+        } else {
+          setError('An error occurred during sign-up. Please try again.');
+        }
+      });
+  };
+
+  const handleSignInSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -237,7 +323,7 @@ const Header = () => {
           <div className="signin-container">
             <h2>Sign In</h2>
             {signInError && <p className="error-message">{signInError}</p>}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSignInSubmit}>
               <div className="form-group">
                 <label htmlFor="email">Email:</label>
                 <input
@@ -271,11 +357,75 @@ const Header = () => {
               </button>
             </form>
             <p className="signup-message">
-              Don't have an account? <a href="/signup">Sign up here</a>
+              Don't have an account?  <button onClick={() => handleSignUp()}>Sign up here</button>
             </p>
           </div>
         </div>
       </Dialog>
+
+      <Dialog onClose={handleSignUpClose} open={signUpOpen}>
+ 
+      <div className="signup-page">
+        <div className="signup-container">
+          <h2>Sign Up</h2>
+          {error && <p className="error-message">{error}</p>}
+          <form onSubmit={handleSignUpSubmit}>
+            <div className="form-group">
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              {/* <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              /> */}
+                <label htmlFor="password">Password:</label>
+              <div className="password-input-container">
+                  <input
+                    type={showPassword ? 'text' : 'password'} // Conditionally set input type
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={signUpTogglePasswordVisibility}
+                    edge="end"
+                    className="password-toggle-icon"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </div>
+
+       </div>
+       <button type="submit" className="signup-button">
+         Sign Up
+       </button>
+     </form>
+     <p className="signup-message">
+     Already have an account?  <button onClick={() => handleSignIn()}>Sign in here</button>
+    </p>
+   </div>
+ </div>
+
+ </Dialog>
     </header>
   );
 };
