@@ -65,8 +65,12 @@ const Header = () => {
   useEffect(() => {
     // Check if a token exists in localStorage on component mount
     const token = localStorage.getItem('token');
+    console.log(token);
     if (token) {
       setIsLoggedIn(true); // User is logged in
+    }
+    else{
+      setIsLoggedIn(false);     
     }
   }, []);
 
@@ -362,6 +366,44 @@ const Header = () => {
           </div>
         </div>
       </Dialog>
+
+      <Dialog onClose={handleContactClose} open={ContactOpen}>
+       <div className="contact-us-dialog">
+        <h2>Contact Us</h2>
+        <p>
+          Have questions or need assistance with your theater reservations? We're here to help! 
+          Reach out to us via email at <a href="mailto:support@theaterreservations.com">support@theaterreservations.com</a> 
+            or give us a call at (555) 123-4567. 
+        </p>
+        <p>Our team is available 24/7 to assist you with your booking needs.</p>
+      </div>
+    </Dialog>
+    <Dialog onClose={handleNotificationClose} open={NotificationOpen}>
+    <div className="notifications-page">
+      <h1>Your Notifications</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : notificationError ? (
+        <p>{notificationError}</p>
+      ) : notifications.length > 0 ? (
+        <ul className="notifications-list">
+          {notifications.map((notification) => (
+            <li key={notification._id} className="notification-item">
+              <div className="notification-content">
+                <h3 className="show-name">{notification.ShowName || "General Notification"}</h3>
+                <p className="notification-message">{notification.Message}</p>
+                <p className="notification-time">
+                  {new Date(notification.Timestamp).toLocaleString()}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No notifications at the moment.</p>
+      )}
+    </div>
+    </Dialog>
 
       <Dialog onClose={handleSignUpClose} open={signUpOpen}>
  
