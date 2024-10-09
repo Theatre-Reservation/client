@@ -22,6 +22,14 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
         sessionStorage.setItem('paymentStatus', paymentStatus);
     }, [paymentStatus]);
 
+    useEffect(() => {
+        if (user) {
+          console.log('User ID:', user._id);
+          console.log('User Email:', user.Email);
+          console.log('User Name:', user.Name);
+        }
+      }, [user]);
+
     const sendTransactionToDatabase = async (sessionId) => {
         if (!user) {
             console.error('User not authenticated');
@@ -44,6 +52,16 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                 console.log(transactionData);
 
                 await axios.post('http://localhost:3001/transactions', transactionData);
+
+                navigate('/etickets', {
+                    state: {
+                        userName: user.Name,
+                        userEmail: user.Email,
+                        movieName: movie,
+                        theatreName: theater,
+                        selectedSeats: selectedSeats,
+                    },
+                });
             } else {
                 console.error("Failed to fetch show details: ", showDetailsResponse.status);
             }

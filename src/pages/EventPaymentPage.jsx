@@ -21,6 +21,14 @@ const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
     useEffect(() => {
         sessionStorage.setItem('paymentStatus', paymentStatus);
     }, [paymentStatus]);
+
+    useEffect(() => {
+        if (user) {
+          console.log('User ID:', user._id);
+          console.log('User Email:', user.Email);
+          console.log('User Name:', user.Name);
+        }
+      }, [user]);
     
     const sendTransactionToDatabase = async (sessionId) => {
         if (!user) {
@@ -47,6 +55,18 @@ const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
 
                 // Send event payment transaction to the backend
                 await axios.post('http://localhost:3001/transactions/event', transactionData);
+
+                // Navigate to the E-ticket page with additional data
+                navigate('/etickets', {
+                    state: {
+                        userName: user.Name,
+                        userEmail: user.Email,
+                        eventTitle: title,
+                        venue,
+                        ticketCount,
+                    },
+                });
+
             } else {
                 console.error("Failed to fetch event details: ", eventDetailsResponse.status);
             }

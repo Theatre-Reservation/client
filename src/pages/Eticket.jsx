@@ -1,12 +1,47 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './../../src/styles/Eticket.css';
+import { useLocation } from 'react-router-dom'; // Leshmith
 
 const ETicketGenerator = () => {
+
+  const location = useLocation(); // Leshmith
+
   const [qrCodeUrl, setQrCodeUrl] = useState(null); // To store the QR code URL
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [mailDetails, setMailDetails] = useState(null);
+
+  // Capture the passed data :Leshmith
+  const {
+    userName = '',
+    userEmail = '',
+
+    movieName = '',
+    theatreName = '',
+    selectedSeats = [],
+
+    eventTitle = '',
+    venue = '',
+    ticketCount = 0,
+
+  } = location.state || {};
+
+  // Determine if this is a movie or an event :Leshmith
+  const isMovie = !!movieName;
+  
+  console.log('Captured Data:', {
+    userName,
+    userEmail,
+    movieName,
+    theatreName,
+    selectedSeats,
+    eventTitle,
+    venue,
+    ticketCount,
+    isMovie,
+  });
+
 
   // Handle generating e-ticket
   const generateETicket = async () => {
