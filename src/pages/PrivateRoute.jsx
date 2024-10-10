@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }) => {
   return user ? (
     children
   ) : (
-    <Navigate to="/signup" replace state={{ from: location }} />  /*Replace with correct link. This is currently navite to signup page. Not "Sign In" page */
+    <Navigate to="/signin" replace state={{ from: location }} />  
   );
 };
 
