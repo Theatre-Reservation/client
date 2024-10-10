@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import Card from "../components/common/Card";
 import '../styles/homePage.css';
 import { useNavigate } from "react-router-dom";
+import { useUser } from './UserContext'; // Import the useUser hook
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [events, setEvents] = useState([]);
 
   const navigate=useNavigate(); 
+  const { user, loading, error } = useUser(); // Get user data from context
+
   const onClickMovie=(id)=>{
     console.log(id)
     navigate('/movie/'+id)
@@ -26,22 +29,14 @@ const HomePage = () => {
     navigate('/events');
   }
 
-  // Dummy data for recommended movies
-  const recommended = [
-    {
-      title: 'Inception',
-      genre: 'Sci-fi',
-      description: 'A mind-bending thriller by Christopher Nolan.',
-      image: 'https://placehold.co/100',
-    },
-    {
-      title: 'Indian 2',
-      genre: 'Tamil',
-      description: 'A gripping Tamil action film.',
-      image: 'https://placehold.co/100',
-    },
-  ];
-  
+  useEffect(() => {
+    if (user) {
+      console.log('User ID:', user._id);
+      console.log('User Email:', user.Email);
+      console.log('User Name:', user.Name);
+    }
+  }, [user]);
+ 
   const cardClicked =(id) =>{
     console.log(id)
   }
@@ -59,22 +54,6 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      {/* 
-      <section>
-        <h2>Recommended for You</h2>
-        <div className="card-container">
-          {recommended.map((item, index) => (
-            <Card
-              key={index}
-              title={item.title}
-              genre={item.genre}
-              image={item.image}
-            />
-          ))}
-        </div>
-      </section>
-          */}
-
       <section>
         <div className="section-header">
           <h2 style={{ marginTop: '20px' }}>Movies</h2> {/* styles just for adjust space */}

@@ -44,9 +44,9 @@ const SeatSelectingPage = () => {
 
     const handleProceed = () => {
         // Reset the payment status stored in local storage
-        localStorage.removeItem('paymentStatus');
-        localStorage.removeItem('lastAmount');
-        localStorage.removeItem('lastSeats');
+        sessionStorage.removeItem('paymentStatus');
+        sessionStorage.removeItem('lastAmount');
+        sessionStorage.removeItem('lastSeats');
 
         // Navigate to the payment page with the current state
         navigate("/payment", { state: { 

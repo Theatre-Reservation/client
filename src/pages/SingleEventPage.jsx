@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/singleEventPage.css';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useUser } from './UserContext'; // Import useUser
 
 const SingleEventPage = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [ticketCount, setTicketCount] = useState(1);
   const [showTicketSelector, setShowTicketSelector] = useState(false);
-  const navigate = useNavigate(); // For navigating to EventPaymentPage
+  const navigate = useNavigate(); // For navigation
+  const location = useLocation(); // To get current location
+  const { user, loading } = useUser(); // Access user and loading state
 
   useEffect(() => {
     fetch(`http://localhost:3000/events/single/${id}`)
@@ -21,6 +24,18 @@ const SingleEventPage = () => {
   }, [id]);
 
   const handleBookNow = () => {
+    if (loading) {
+      // Optionally, show a loading indicator or disable the button
+      return;
+    }
+
+    if (!user) {
+      // User is not logged in, redirect to login page
+      navigate('/signup', { state: { from: location } });  // This link is not correct. It navigate to sign up page. Not sign in page.
+      return;
+    }
+
+    // User is logged in, proceed to show ticket selector
     setShowTicketSelector(true);
   };
 
@@ -30,7 +45,7 @@ const SingleEventPage = () => {
 
   const handleProceed = () => {
     // Reset the payment status stored in local storage
-    localStorage.removeItem('paymentStatus');
+    sessionStorage.removeItem('paymentStatus');
     
     navigate("/event-payment", {
       state: {
@@ -78,7 +93,11 @@ const SingleEventPage = () => {
               </div>
             </div>
           )}
-          {!showTicketSelector && <button onClick={handleBookNow} className="book-now-btn">Book Now</button>}
+          {!showTicketSelector && (
+            <button onClick={handleBookNow} className="book-now-btn">
+              Book Now
+            </button>
+          )}
         </div>
       </div>
     </div>

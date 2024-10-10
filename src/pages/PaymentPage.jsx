@@ -1,42 +1,67 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'; // Added useNavigate
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import "../styles/paymentPage.css";
+import { useUser } from './UserContext'; // Import useUser
 
 const stripePromise = loadStripe('pk_test_51PsTIg2LvxXMvsXIlyFzKPofk4EVAXFxgxGgA1CltaVU9HooW9Yx20ZYNiCbqreuINbsmO0umy7AUePt0AaqBGRf00OYVEZqDJ');
 
 const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     const stripe = useStripe();
+    const navigate = useNavigate(); 
+    const { user } = useUser(); // Access user data from context
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [paymentStatus, setPaymentStatus] = useState(localStorage.getItem('paymentStatus') || 'untouched');
+    const [paymentStatus, setPaymentStatus] = useState(sessionStorage.getItem('paymentStatus') || 'untouched');
     const [sessionId, setSessionId] = useState('');
     const paymentWindowRef = useRef(null);
 
     useEffect(() => {
-        localStorage.setItem('paymentStatus', paymentStatus);
+        sessionStorage.setItem('paymentStatus', paymentStatus);
     }, [paymentStatus]);
 
+    useEffect(() => {
+        if (user) {
+          console.log('User ID:', user._id);
+          console.log('User Email:', user.Email);
+          console.log('User Name:', user.Name);
+        }
+      }, [user]);
+
     const sendTransactionToDatabase = async (sessionId) => {
+        if (!user) {
+            console.error('User not authenticated');
+            return;
+        }
+
         try {
             const showDetailsResponse = await axios.get(`http://localhost:3000/booking/single/${showId}`);
             if (showDetailsResponse.status === 200) {
                 const { movie, theater } = showDetailsResponse.data;
 
                 const transactionData = {
-                    userId: 'user_id_here', // This should be dynamically fetched or stored in your app's context or state
+                    userId: user._id, // Use the user ID from context
                     showId,
                     movie,
                     theatre: theater,
                     totalAmount,
                     selectedSeats,
-                    
                 };
                 console.log(transactionData);
 
                 await axios.post('http://localhost:3001/transactions', transactionData);
+
+                navigate('/etickets', {
+                    state: {
+                        userName: user.Name,
+                        userEmail: user.Email,
+                        movieName: movie,
+                        theatreName: theater,
+                        selectedSeats: selectedSeats,
+                    },
+                });
             } else {
                 console.error("Failed to fetch show details: ", showDetailsResponse.status);
             }
@@ -109,7 +134,14 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                 </button>
             )}
             {paymentStatus === 'processing' && <p className="processing-message">Processing your payment...</p>}
-            {paymentStatus === 'success' && <p className="success-message">Payment successful! Thank you for your purchase.</p>}
+            {paymentStatus === 'success' && (
+                <>
+                    <p className="success-message">Payment successful! Thank you for your purchase.</p>
+                    <button className="get-etickets-button" onClick={() => navigate('/etickets')}>
+                        Get E-tickets
+                    </button>
+                </>
+            )}
             {paymentStatus === 'failed' && <p className="failed-message">Payment failed. Please try again or use a different payment method.</p>}
         </form>
     );
