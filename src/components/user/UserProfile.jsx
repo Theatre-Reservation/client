@@ -119,6 +119,7 @@ const Profile = () => {
                                 value={formData.Email}
                                 onChange={handleChange}
                                 required
+                                disabled={true}
                             />
                         </label>
                     </div>
