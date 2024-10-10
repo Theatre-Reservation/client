@@ -4,12 +4,14 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import "../styles/paymentPage.css";
+import { useUser } from './UserContext'; // Import useUser
 
 const stripePromise = loadStripe('pk_test_51PsTIg2LvxXMvsXIlyFzKPofk4EVAXFxgxGgA1CltaVU9HooW9Yx20ZYNiCbqreuINbsmO0umy7AUePt0AaqBGRf00OYVEZqDJ');
 
 const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
     const stripe = useStripe();
-    const navigate = useNavigate(); // Added this line
+    const navigate = useNavigate(); 
+    const { user } = useUser(); // Access user data from context
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState(sessionStorage.getItem('paymentStatus') || 'untouched');
@@ -19,27 +21,52 @@ const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
     useEffect(() => {
         sessionStorage.setItem('paymentStatus', paymentStatus);
     }, [paymentStatus]);
+
+    useEffect(() => {
+        if (user) {
+          console.log('User ID:', user._id);
+          console.log('User Email:', user.Email);
+          console.log('User Name:', user.Name);
+        }
+      }, [user]);
     
     const sendTransactionToDatabase = async (sessionId) => {
+        if (!user) {
+            console.error('User not authenticated');
+            return;
+        }
+
         try {
             // Fetch event details using the event ID
             const eventDetailsResponse = await axios.get(`http://localhost:3000/events/single/${eventId}`);
             if (eventDetailsResponse.status === 200) {
                 const { title, venue } = eventDetailsResponse.data;  // Adjust based on actual response structure
-    
+
                 const transactionData = {
-                    userId: 'user_id_here',  // Replace with actual user ID (can be fetched from context, auth, etc.)
+                    userId: user._id,  // Use the authenticated user's ID
                     eventId,
-                    eventTitle: title,      // Use title from event data
-                    venue,                  // Use venue from event data
-                    totalAmount,            // Total amount for the event payment
-                    ticketCount,            // Number of tickets selected
+                    eventTitle: title,
+                    venue,
+                    totalAmount,
+                    ticketCount,
                 };
-    
+
                 console.log(transactionData);  // Log for debugging purposes
-    
-                // Send event payment transaction to the backend (using the new event-specific endpoint)
+
+                // Send event payment transaction to the backend
                 await axios.post('http://localhost:3001/transactions/event', transactionData);
+
+                // Navigate to the E-ticket page with additional data
+                navigate('/etickets', {
+                    state: {
+                        userName: user.Name,
+                        userEmail: user.Email,
+                        eventTitle: title,
+                        venue,
+                        ticketCount,
+                    },
+                });
+
             } else {
                 console.error("Failed to fetch event details: ", eventDetailsResponse.status);
             }
