@@ -43,6 +43,23 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
         }
       }, [user]);
 
+    // **New useEffect to handle beforeunload event**
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (paymentStatus !== 'success') {
+                const data = JSON.stringify({
+                    showId,
+                    seatsToRelease: selectedSeats,
+                });
+                navigator.sendBeacon('http://localhost:3000/booking/release-seats', data);
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [paymentStatus, showId, selectedSeats]);
+
     const sendTransactionToDatabase = async (sessionId) => {
         if (!user) {
             console.error('User not authenticated');
