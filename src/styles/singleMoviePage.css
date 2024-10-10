@@ -98,7 +98,7 @@
   bottom: 0;
   width: 50px; /* Adjust the width of the underline */
   height: 3px; /* Thickness of the underline */
-  background-color: #90ee90; /* Light green color */
+  background-color: #007bff; 
   border-radius: 2px; /* Optional: rounded edges */
 }
 
