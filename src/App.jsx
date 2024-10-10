@@ -9,6 +9,7 @@ import SelectShowPage from "./pages/SelectShowPage";
 import Headers from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import SignUpPage from "./components/user/SignUpPage";
+import SignInPage from "./components/user/SignInPage";
 import UserProfile from "./components/user/UserProfile";
 import ETicketGenerator from "./pages/Eticket";
 import AllMoviesPage from './pages/AllMoviesPage';
@@ -33,7 +34,7 @@ function App() {
           <main style={{ paddingBottom: '4rem' }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            {/* <Route path="/signIn" element={<SignInPage />} /> */}
+            <Route path="/signin" element={<SignInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/adminPage" element={<AdminPage/>} />
@@ -51,9 +52,6 @@ function App() {
             <Route path="/payment/redirect/:sessionId" element={<PrivateRoute><RedirectPage /></PrivateRoute>} />
             <Route path="/event-payment" element={<PrivateRoute><EventPaymentPage /></PrivateRoute>} /> {/* For event payment */}
             <Route path="/event-payment/redirect/:sessionId" element={<PrivateRoute><EventRedirectPage /></PrivateRoute>} /> {/* For event redirect to payment */}
-
-
-
           </Routes>
           </main>
           <Footer/>

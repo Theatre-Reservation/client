@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {Dialog,IconButton} from "@mui/material";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import '/src/styles/SignUpPage.css';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from '../../axios';// Import Axios instance
-
 export default function SignUpPage() {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState('');
@@ -11,14 +11,12 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
   const [error, setError] = useState('');
-
+  const location = useLocation();
   const handleClose = () => {
     setOpen(false); // Close the dialog
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
     // Form validation
     if (!name || !email || !password) {
       setError('Please fill in all fields');
@@ -26,7 +24,6 @@ export default function SignUpPage() {
     }
     // Reset error if form is valid
     setError('');
-
     // Call API to sign up the user
     axios.post('/user-auth/signup', { Name: name, Email: email, Password: password })
       .then((res) => {
@@ -45,16 +42,11 @@ export default function SignUpPage() {
       });
   };
   
-
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
-
-
-
-
   return (
-    <Dialog onClose={handleClose} open={open}>
+    // <Dialog onClose={handleClose} open={open}>
  
     <div className="signup-page">
       <div className="signup-container">
@@ -104,7 +96,6 @@ export default function SignUpPage() {
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </div>
-
           </div>
           <button type="submit" className="signup-button">
             Sign Up
@@ -116,6 +107,6 @@ export default function SignUpPage() {
       </div>
     </div>
   
-    </Dialog>
+    // </Dialog>
   );
 }
