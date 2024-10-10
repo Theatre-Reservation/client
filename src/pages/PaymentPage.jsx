@@ -17,9 +17,22 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     const [paymentStatus, setPaymentStatus] = useState(sessionStorage.getItem('paymentStatus') || 'untouched');
     const [sessionId, setSessionId] = useState('');
     const paymentWindowRef = useRef(null);
+    const paymentTimeoutRef = useRef(null); //for timer
 
     useEffect(() => {
         sessionStorage.setItem('paymentStatus', paymentStatus);
+    }, [paymentStatus]);
+
+    useEffect(() => {
+        // Set a 10-minute timer (600,000 milliseconds)
+        paymentTimeoutRef.current = setTimeout(() => {
+            if (paymentStatus !== 'success') {
+                handlePaymentFailure(); // Fail payment if not completed in 10 minutes
+            }
+        }, 600000); // 10 minutes
+
+        // Clean up timer on component unmount or payment success
+        return () => clearTimeout(paymentTimeoutRef.current);
     }, [paymentStatus]);
 
     useEffect(() => {
@@ -29,6 +42,23 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
           console.log('User Name:', user.Name);
         }
       }, [user]);
+
+    // **New useEffect to handle beforeunload event**
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (paymentStatus !== 'success') {
+                const data = JSON.stringify({
+                    showId,
+                    seatsToRelease: selectedSeats,
+                });
+                navigator.sendBeacon('http://localhost:3000/booking/release-seats', data);
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [paymentStatus, showId, selectedSeats]);
 
     const sendTransactionToDatabase = async (sessionId) => {
         if (!user) {
@@ -78,23 +108,47 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                 setPaymentStatus('success');
                 onSucessful(sessionId);
                 sendTransactionToDatabase(sessionId);
+                clearTimeout(paymentTimeoutRef.current); // Clear the timer if payment succeeds
                 if (paymentWindowRef.current) {
                     paymentWindowRef.current.close();
                 }
             } else if (session.payment_status === 'unpaid' || session.status === 'open') {
-                setTimeout(() => checkPaymentStatus(sessionId), 2000); // Check again after 2 seconds
+                setTimeout(() => checkPaymentStatus(sessionId), 3000); // Check again after 3 seconds
             } else {
-                setPaymentStatus('failed');
+                handlePaymentFailure(); // Handle payment failure if payment status is 'failed'
                 if (paymentWindowRef.current) {
                     paymentWindowRef.current.close();
                 }
             }
         } catch (error) {
             console.error('Error checking payment status:', error);
-            setPaymentStatus('failed');
+            handlePaymentFailure();
             if (paymentWindowRef.current) {
                 paymentWindowRef.current.close();
             }
+        }
+    };
+
+    const handlePaymentFailure = async () => {
+        setPaymentStatus('failed');
+        try {
+            // Release only the user's selected seats
+            await axios.patch(`http://localhost:3000/booking/release-seats/${showId}`, {
+                seatsToRelease: selectedSeats,
+            });
+
+            // Notify the RedirectPage to close if it is open
+            if (paymentWindowRef.current) {
+                paymentWindowRef.current.postMessage('payment-failed', '*');
+                paymentWindowRef.current.close();
+            }
+
+            // Navigate back to the seat selection page with a message
+            navigate(`/selectseats/${showId}`, {
+                state: { message: 'Payment failed. Your selected seats have been released.' }
+            });
+        } catch (error) {
+            console.error('Error releasing seats:', error);
         }
     };
 

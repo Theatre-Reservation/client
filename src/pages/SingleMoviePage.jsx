@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/singleMoviePage.css';
-import { useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext';
 
 const SingleMoviePage = () => {
@@ -17,7 +16,6 @@ const SingleMoviePage = () => {
 
   const bookNow = (title) => {
     navigate("/selectshow/" + title);
-    console.log(title);
   };
 
   useEffect(() => {
@@ -27,7 +25,6 @@ const SingleMoviePage = () => {
   }, [id]);
 
   useEffect(() => {
-    // Fetch reviews for the movie
     fetch(`http://localhost:3000/reviews/movie/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -75,11 +72,7 @@ const SingleMoviePage = () => {
 
   return (
     <div className="single-movie-page">
-      {/* Movie cover, details, and booking button */}
-      <div 
-        className="movie-cover" 
-        style={{ backgroundImage: `url(${movie.cover_path})` }}
-      >
+      <div className="movie-cover" style={{ backgroundImage: `url(${movie.cover_path})` }}>
         <div className="overlay">
           <div className="movie-header">
             <img src={movie.poster_path} alt={movie.title} className="movie-poster" />
@@ -97,15 +90,13 @@ const SingleMoviePage = () => {
         </div>
       </div>
 
-      {/* Movie synopsis */}
       <div className="movie-synopsis">
-        <h2>Summary</h2>
-        <p>{movie.description}</p>
+        <h2 className="underline-title">Summary</h2>
+        <p className="movie-description">{movie.description}</p>
       </div>
 
-      {/* User Reviews Section */}
       <div className="user-reviews">
-        <h2>Movie Reviews</h2>
+        <h2 className="underline-title">Movie Reviews</h2>
         {loadingReviews ? (
           <p>Loading reviews...</p>
         ) : reviews.length === 0 ? (
@@ -114,14 +105,15 @@ const SingleMoviePage = () => {
           <ul className="review-list">
             {reviews.map((review) => (
               <li key={review._id} className="review-item">
-                <strong>{review.userName}</strong>
-                <p style={{margin:0}}>{review.comment}</p>
+                <div className="review-content">
+                  <strong className="review-author">{review.userName}</strong>
+                  <p>{review.comment}</p>
+                </div>
               </li>
             ))}
           </ul>
         )}
 
-        {/* Add Review Form */}
         {user ? (
           <div className="add-review">
             <textarea

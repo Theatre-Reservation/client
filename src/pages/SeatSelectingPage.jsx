@@ -21,7 +21,13 @@ const SeatSelectingPage = () => {
             try {
                 const response = await axios.get(`http://localhost:3000/booking/single/${showId}`);
                 const data = response.data;
-                setReservedSeats(data.reserved_seats); // Set reserved seats from backend
+                //setReservedSeats(data.reserved_seats); // Set reserved seats from backend
+                var allReservedSeats = data.reserved_seats;
+                allReservedSeats.push.apply(allReservedSeats,data.temporary_reserved_seats);
+                setReservedSeats(allReservedSeats);
+                //reservedSeats.push.apply(reservedSeats, data.temporary_reserved_seats);
+                
+                console.log(reservedSeats);
                 setSeatPrice(data.price); // Set the price per seat from backend
                 setLoading(false);
             } catch (error) {
@@ -42,20 +48,27 @@ const SeatSelectingPage = () => {
         }
     };
 
-    const handleProceed = () => {
-        // Reset the payment status stored in local storage
-        sessionStorage.removeItem('paymentStatus');
-        sessionStorage.removeItem('lastAmount');
-        sessionStorage.removeItem('lastSeats');
-
-        // Navigate to the payment page with the current state
-        navigate("/payment", { state: { 
-            showId,
-            selectedSeats, 
-            totalAmount: selectedSeats.length * seatPrice
-        }});
+    const handleProceed = async () => {
+        try {
+            // Lock the selected seats temporarily before proceeding
+            await axios.patch(`http://localhost:3000/booking/lock-seats/${showId}`, {
+                temporaryReservedSeats: selectedSeats,
+            });
+    
+            // Reset the payment status stored in local storage
+            sessionStorage.removeItem('paymentStatus');
+            sessionStorage.removeItem('lastAmount');
+            sessionStorage.removeItem('lastSeats');
+    
+            // Navigate to the payment page with the current state
+            navigate("/payment", {
+                state: { showId, selectedSeats, totalAmount: selectedSeats.length * seatPrice }
+            });
+        } catch (error) {
+            console.error("Failed to lock seats:", error);
+        }
     };
-
+    
     const totalAmount = selectedSeats.length * seatPrice; // Calculate total amount
 
     if (loading) {

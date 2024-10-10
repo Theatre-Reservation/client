@@ -25,6 +25,19 @@ const PaymentForm = ({ id }) => {
         };
 
         redirectToCheckout();
+
+        // Listen for messages from the opener window (i.e., PaymentPage)
+        const handleMessage = (event) => {
+            if (event.data === 'payment-failed') {
+                window.close();
+            }
+        };
+
+        window.addEventListener('message', handleMessage);
+
+        // Clean up the event listener when the component unmounts
+        return () => window.removeEventListener('message', handleMessage);
+
     }, [stripe, id]);
 
     return <div><p>Redirecting to payment...</p></div>;

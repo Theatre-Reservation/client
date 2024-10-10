@@ -78,12 +78,28 @@
 }
 
 /* Updated styling for the movie synopsis */
-.movie-synopsis {
-  margin-top: 30px;
-  background: #f5f5f5;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+.movie-description {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.underline-title {
+  position: relative;
+  display: inline-block; /* Adjust as needed */
+  padding-bottom: 5px; /* Space between text and underline */
+  margin-bottom: 20px; /* Space after the heading */
+}
+
+.underline-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px; /* Adjust the width of the underline */
+  height: 3px; /* Thickness of the underline */
+  background-color: #007bff; 
+  border-radius: 2px; /* Optional: rounded edges */
 }
 
 .movie-synopsis h2 {
@@ -91,23 +107,16 @@
   margin-bottom: 15px;
   color: #333;
   font-weight: bold;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
-.movie-synopsis p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #555;
-}
-
-/* Updated styling for user reviews */
+.movie-synopsis,
 .user-reviews {
   margin-top: 30px;
-  background: #f5f5f5;
+  background: #ffffff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .user-reviews h2 {
@@ -115,36 +124,59 @@
   margin-bottom: 15px;
   color: #333;
   font-weight: bold;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
 .review-list {
   list-style-type: none;
   padding: 0;
-  margin: 20px 0;
+  margin-top: 20px;
 }
 
 .review-item {
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 8px 15px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #eee;
+  display: flex;
+  align-items: flex-start;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.review-item strong {
-  display: block;
+.review-avatar {
+  margin-right: 15px;
+}
+
+.review-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.review-content {
+  flex-grow: 1;
+}
+
+.review-author {
   font-size: 1.1rem;
-  margin-bottom: 8px;
+  font-weight: bold;
   color: #333;
 }
 
-.review-item p {
+.review-content p {
   font-size: 1rem;
   line-height: 1.5;
   color: #666;
+  margin: 5px 0;
+}
+
+.review-time {
+  font-size: 0.9rem;
+  color: #999;
+  margin-top: 5px;
+  display: block;
 }
 
 .add-review {
@@ -180,14 +212,3 @@
   background-color: #0056b3;
 }
 
-/* Additional styling for social media icons */
-.social-media-icons {
-  display: flex;
-  gap: 15px;
-  margin-top: 10px;
-}
-
-.social-media-icons a {
-  color: white;
-  font-size: 1.5rem;
-}
