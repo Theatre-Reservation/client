@@ -31,7 +31,7 @@ const SingleEventPage = () => {
 
     if (!user) {
       // User is not logged in, redirect to login page
-      navigate('/signup', { state: { from: location } });  // This link is not correct. It navigate to sign up page. Not sign in page.
+      navigate('/signin', { state: { from: location } });  // This link is not correct. It navigate to sign up page. Not sign in page.
       return;
     }
 

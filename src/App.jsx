@@ -8,7 +8,8 @@ import SeatSelectingPage from "./pages/SeatSelectingPage";
 import SelectShowPage from "./pages/SelectShowPage";
 import Headers from "./components/common/Header";
 import Footer from "./components/common/Footer";
-// import SignUpPage from "./components/user/SignUpPage";
+import SignUpPage from "./components/user/SignUpPage";
+import SignInPage from "./components/user/SignInPage";
 import UserProfile from "./components/user/UserProfile";
 import ETicketGenerator from "./pages/Eticket";
 import AllMoviesPage from './pages/AllMoviesPage';
@@ -33,8 +34,8 @@ function App() {
           <main style={{ paddingBottom: '4rem' }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            {/* <Route path="/signIn" element={<SignInPage />} /> */}
-            {/* <Route path="/signup" element={<SignUpPage />} /> */}
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/adminPage" element={<AdminPage/>} />
             {/* <Route path="/notifications" element={<NotificationsPage />} /> */}

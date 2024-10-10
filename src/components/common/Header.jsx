@@ -63,16 +63,18 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    const fetchUserProfile = async () => {
     // Check if a token exists in localStorage on component mount
-    const token = localStorage.getItem('token');
-    console.log(token);
-    if (token) {
-      setIsLoggedIn(true); // User is logged in
-    }
-    else{
-      setIsLoggedIn(false);     
-    }
-  }, []);
+      const token = localStorage.getItem('token');
+      if (token) {
+        setIsLoggedIn(true); // User is logged in
+      }
+      else{
+        setIsLoggedIn(false);     
+      }
+    };
+  fetchUserProfile();
+  });
 
   const handleSignInClick = () => {
     setSignInOpen(true);
