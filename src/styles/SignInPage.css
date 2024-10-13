@@ -1,83 +1,140 @@
+/* Unique Signin Page Styles */
 .signin-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 4px solid #007bff; 
-    background-color: #f5f5f5;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4rem; /* Consistent padding with signup page */
   
-  .signin-container {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-  }
-  
-  h2 {
-    margin-bottom: 1rem;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    text-align: left;
-  }
-  
-  input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .signin-button {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .signin-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .error-message {
-    color: red;
-    margin-bottom: 1rem;
-  }
-  
-  .signup-message {
-    margin-top: 1rem;
-  }
-  
-  .signup-message a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .signup-message a:hover {
-    text-decoration: underline;
-  }
-  
+}
 
+.signin-page .signin-container {
+  background-color: #333842; /* Matches background tone of signup page */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow like signup */
+  width: 350px;
+  justify-content: center;
+  text-align: center;
+  color: #ddd; /* Softer text color for readability */
+}
 
-  /* Add this CSS to align the eye icon with the password input */
-.password-input-container {
+.signin-page h2 {
+  margin-bottom: 1.5rem;
+  color: #80d8f1; /* Matches the accent color from the signup page */
+}
+
+.signin-page .form-group {
+  margin-bottom: 1rem;
+}
+
+.signin-page label {
+  display: block;
+  font-weight: bold;
+  text-align: left;
+  color: #80d8f1; /* Accent color to match signup page */
+}
+
+.signin-page input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #f0f0f0; /* Light background for clear contrast */
+  color: #333; /* Darker text for input fields */
+}
+
+.signin-page input::placeholder {
+  color: #555; /* Matches placeholder style from signup page */
+}
+
+.signin-page .signin-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signin-page .signin-button:hover {
+  background-color: #0056b3; /* Hover effect similar to signup button */
+}
+
+.signin-page .error-message {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.signin-page .signup-message {
+  margin-top: 1rem;
+  color: #ccc; /* Subtle color like signup page */
+}
+
+.signin-page .signup-message a {
+  color: #80d8f1; /* Accent color for link to match signup */
+  text-decoration: none;
+}
+
+.signin-page .signup-message a:hover {
+  text-decoration: underline;
+}
+
+/* Adjust positioning and contrast of password icon */
+.signin-page .password-input-container {
   display: flex;
   align-items: center;
 }
 
-.password-toggle-icon {
+.signin-page .password-toggle-icon {
   cursor: pointer;
   margin-left: -40px; /* Adjust position of the icon */
+  color: #007bff; /* Accent color for visibility */
+}
+
+.signin-page .signup-message button, 
+.signin-page .signin-message button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.signin-page .signup-message button:hover, 
+.signin-page .signin-message button:hover {
+  color: #0056b3; /* Hover color */
+  text-decoration: none;
+}
+
+.signin-page .signup-message button:focus, 
+.signin-page .signin-message button:focus {
+  outline: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .signin-page .signin-container {
+    width: 100%;
+    max-width: 350px;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .signin-page .signin-container {
+    padding: 1rem;
+  }
+
+  .signin-page h2 {
+    font-size: 1.2rem;
+  }
+
+  .signin-page .signin-button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
 }

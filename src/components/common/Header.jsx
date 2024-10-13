@@ -7,7 +7,6 @@ import SearchBar from '../../pages/SearchBar';
 import { Dialog, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from '../../axios'; 
-import { io } from "socket.io-client";
 import "../../../src/styles/NotificationsPage.css";
 import "../../../src/styles/SignInPage.css";
 import "../../../src/styles/ContactUs.css";
@@ -22,30 +21,6 @@ const Header = () => {
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
   const [name, setName] = useState('');
-
-  const handleClose = () => {
-    setOpen(false); // Close the dialog
-  };
-
-  
-  
-
-  const signUpTogglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev); // Toggle password visibility
-  };
-
-
-
-
-
-
-
-
-
-
-
-
-
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate(); 
   const [loading, setLoading] = useState(true);
@@ -58,6 +33,18 @@ const Header = () => {
   const [showPassword, setShowPassword] = useState(false); 
   const [notificationError, setNotificationError] = useState('');
   const [error, setError] = useState(null);
+
+  const handleClose = () => {
+    setOpen(false); // Close the dialog
+  };
+
+  
+  
+
+  const signUpTogglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev); // Toggle password visibility
+  };
+
   
   // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -114,17 +101,13 @@ const Header = () => {
   const handleSignIn = () => {
     setSignInOpen(true);
     setSignUpOpen(false);
-    // Redirect to sign-in page or perform any action
     
-    // You can use history.push('/sign-in') if using react-router-dom for navigation
   };
 
     const handleSignUp = () => {
     setSignInOpen(false);
     setSignUpOpen(true);
-    // Redirect to sign-in page or perform any action
-    
-    // You can use history.push('/sign-in') if using react-router-dom for navigation
+
   };
 
   const handleNotificationClose = () => {
@@ -149,8 +132,7 @@ const Header = () => {
         console.log('Sign Up Success:', res.data);
         setSignInOpen(true);
         setSignUpOpen(false);
-        // Handle successful sign-up, e.g., redirect to login page
-        // window.location.href = '/signin'; 
+         
       })
       .catch((err) => {
         console.error('Sign Up Error:', err);
@@ -433,13 +415,7 @@ const Header = () => {
               />
             </div>
             <div className="form-group">
-              {/* <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              /> */}
+            
                 <label htmlFor="password">Password:</label>
               <div className="password-input-container">
                   <input

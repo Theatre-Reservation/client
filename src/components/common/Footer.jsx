@@ -19,36 +19,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* <div className="footer-section links">
-          <h3>Quick Links</h3>
-          <ul>
-            <li>
-              <NavLink to="/" className="footer-link">
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/movies" className="footer-link">
-                Movies
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/events" className="footer-link">
-                Events
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/contactUs" className="footer-link">
-                Contact Us
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/signIn" className="footer-link">
-                Sign In
-              </NavLink>
-            </li>
-          </ul>
-        </div> */}
+
 
         <div className="footer-section contact">
           <h3>Contact Us</h3>
