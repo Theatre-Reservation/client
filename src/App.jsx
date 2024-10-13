@@ -24,14 +24,21 @@ import EventPaymentPage from './pages/EventPaymentPage'; // New import for event
 import EventRedirectPage from './pages/EventRedirectPage'; // New import for event redirect page
 import { UserProvider } from './pages/UserContext';
 import PrivateRoute from './pages/PrivateRoute';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+
+const clientId = "883544448113-ir92t0hik1a6dsjnsmu7099gjjdp34jc.apps.googleusercontent.com";
 
 function App() {
   return (
     <UserProvider>
       <Router>
         <div>
+        <GoogleOAuthProvider clientId={"883544448113-ir92t0hik1a6dsjnsmu7099gjjdp34jc.apps.googleusercontent.com"}>
           <Headers />
+          </GoogleOAuthProvider>
           <main style={{ paddingBottom: '4rem' }}>
+         
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/signin" element={<SignInPage />} />

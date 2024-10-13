@@ -13,6 +13,7 @@ import "../../../src/styles/SignInPage.css";
 import "../../../src/styles/ContactUs.css";
 import { useNavigate } from "react-router-dom";
 import '/src/styles/SignUpPage.css';
+import { GoogleLogin } from "@react-oauth/google";
 
 
 const Header = () => { 
@@ -22,6 +23,7 @@ const Header = () => {
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
   const [name, setName] = useState('');
+  const clientId = "883544448113-ir92t0hik1a6dsjnsmu7099gjjdp34jc.apps.googleusercontent.com";
 
   const handleClose = () => {
     setOpen(false); // Close the dialog
@@ -111,6 +113,42 @@ const Header = () => {
   const handleNotificationClick = () => {
     setNotificationOpen(true);
   }
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const response = await axios.post('http://localhost:8500/api/v1/user-auth/google-login', {
+        tokenId: credentialResponse.credential,
+      });
+  
+      console.log('Google Login Successful', response.data.user);
+  
+      // Check if token is available and store it in localStorage (or cookies)
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        console.log('Token stored:', response.data.token);
+        setIsLoggedIn(true); // Update login status
+      } else {
+        throw new Error('Token not found');
+      }
+  
+      // Redirect based on the role (user or admin)
+      if (response.data.redirectUrl) {
+        window.location.href = response.data.redirectUrl;
+      } else {
+        throw new Error('Redirect URL not found');
+      }
+    } catch (err) {
+      console.error('Google Login Error', err);
+      setSignInError('Google Login Error. Please try again.');
+    }
+  };
+  
+  const handleGoogleError = () => {
+    console.log('Google Login Failed');
+    setSignInError('Google Login failed. Please try again.');
+  };
+
+
   const handleSignIn = () => {
     setSignInOpen(true);
     setSignUpOpen(false);
@@ -227,6 +265,7 @@ const Header = () => {
   };
 
   return (
+    <GoogleOAuthProvider clientId="883544448113-ir92t0hik1a6dsjnsmu7099gjjdp34jc.apps.googleusercontent.com">
     <header className="header">
       <nav className="navbar">
         <ul className="nav-list">
@@ -364,6 +403,12 @@ const Header = () => {
             </form>
             <p className="signup-message">
               Don't have an account?  <button onClick={() => handleSignUp()}>Sign up here</button>
+
+              {/* Google Login Button */}
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+            />
             </p>
           </div>
         </div>
@@ -433,13 +478,7 @@ const Header = () => {
               />
             </div>
             <div className="form-group">
-              {/* <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              /> */}
+            
                 <label htmlFor="password">Password:</label>
               <div className="password-input-container">
                   <input
@@ -471,6 +510,7 @@ const Header = () => {
 
  </Dialog>
     </header>
+    </GoogleOAuthProvider>
   );
 };
 
