@@ -69,13 +69,7 @@ export default function SignInPage() {
         throw new Error('Token not found');
       }
 
-      // Redirect based on the role (user or admin)
-    //   if (response.data.redirectUrl) {
-    //     window.location.href = response.data.redirectUrl;
-    //   } else {
-    //     throw new Error('Redirect URL not found');
-    //   }
-
+     
     } catch (err) {
       if (err.response && err.response.status === 401) {
         setSignInError('Invalid credentials. Please try again.');
@@ -90,7 +84,7 @@ export default function SignInPage() {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
   return (
-    // <Dialog onClose={handleSignInClose} open={signInOpen}>
+ 
    
     <div className="signin-page">
       <div className="signin-container">
@@ -135,6 +129,6 @@ export default function SignInPage() {
       </div>
   
     </div>
-//   </Dialog>
+
   );
 }

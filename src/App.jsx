@@ -31,7 +31,7 @@ function App() {
       <Router>
         <div>
           <Headers />
-          <main>
+          <main style={{ paddingBottom: '4rem' }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/signin" element={<SignInPage />} />
