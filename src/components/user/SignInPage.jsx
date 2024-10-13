@@ -91,6 +91,7 @@ export default function SignInPage() {
   };
   return (
     // <Dialog onClose={handleSignInClose} open={signInOpen}>
+   
     <div className="signin-page">
       <div className="signin-container">
         <h2>Sign In</h2>
@@ -132,6 +133,7 @@ export default function SignInPage() {
           Don't have an account?  <a href="/signup">Sign Up here</a>
         </p>
       </div>
+  
     </div>
 //   </Dialog>
   );

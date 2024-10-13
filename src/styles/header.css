@@ -155,7 +155,7 @@ transition: color 0.3s ease;
 
 /* Stylings of signin popup*/
 
-.signin-page {
+/* .signin-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -224,7 +224,7 @@ input {
 
 .signup-message a:hover {
   text-decoration: underline;
-}
+} */
 
 
 
