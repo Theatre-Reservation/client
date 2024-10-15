@@ -1,12 +1,47 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './../../src/styles/Eticket.css';
+import { useLocation } from 'react-router-dom'; // Leshmith
 
 const ETicketGenerator = () => {
+
+  const location = useLocation(); // Leshmith
+
   const [qrCodeUrl, setQrCodeUrl] = useState(null); // To store the QR code URL
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [mailDetails, setMailDetails] = useState(null);
+
+  // Capture the passed data :Leshmith
+  const {
+    userName = '',
+    userEmail = '',
+
+    movieName = '',
+    theatreName = '',
+    selectedSeats = [],
+
+    eventTitle = '',
+    venue = '',
+    ticketCount = 0,
+
+  } = location.state || {};
+
+  // Determine if this is a movie or an event :Leshmith
+  const isMovie = !!movieName;
+  
+  console.log('Captured Dataeefee:', {
+    userName,
+    userEmail,
+    movieName,
+    theatreName,
+    selectedSeats,
+    eventTitle,
+    venue,
+    ticketCount,
+    isMovie,
+  });
+
 
   // Handle generating e-ticket
   const generateETicket = async () => {
@@ -16,17 +51,32 @@ const ETicketGenerator = () => {
     try {
       // Call the backend to generate the e-ticket and QR code
       const response = await axios.post('http://localhost:8600/api/v1/mail/send-qrcode', {
-        mailId: '66ec798d174382eee49ef1ef', // Replace with dynamic mailId if needed
+        userName,
+        userEmail,
+        movieName,
+        theatreName,
+        selectedSeats,
+        eventTitle,
+        venue,
+        ticketCount,
+        isMovie,
       });
+      
       console.log('Response from server:', response.data);
 
       // Store the QR code URL from the backend response (Firebase URL)
       setQrCodeUrl(response.data.qrCodeURL);
+      console.log(userName, movieName)
       setMailDetails({
-        name: response.data.mail.name,
-        showName: response.data.mail.showName,
-        type: response.data.mail.type,
-        message: response.data.mail.message,
+        userName: userName,
+        userEmail: userEmail,
+        movieName: movieName,
+        theatreName: theatreName,
+        selectedSeats: selectedSeats,
+        eventTitle: eventTitle,
+        venue: venue,
+        ticketCount: ticketCount,
+        isMovie: isMovie,
       });
 
     } catch (err) {
@@ -38,32 +88,34 @@ const ETicketGenerator = () => {
 
   return (
     <div className="eticket-container">
+      {!qrCodeUrl  && (
       <h1 className="eticket-h1">E-Ticket Generator</h1>
+      )}
       {error && <div className="eticket-error" style={{ color: 'red' }}>{error}</div>}
 
-      {!qrCodeUrl ? (
+
         <div>
-          <h2 className="eticket-h2">Generate Your E-Ticket</h2>
-          <p className="eticket-p">Click the button below to generate your E-Ticket.</p>
-          <button className="eticket-button" onClick={generateETicket} disabled={loading}>
+        {!qrCodeUrl  && (
+          <><h2 className="eticket-h2">Generate Your E-Ticket</h2><p className="eticket-p">Click the button below to generate your E-Ticket.</p><button className="eticket-button" onClick={generateETicket} disabled={loading}>
             {loading ? 'Generating...' : 'Generate E-Ticket'}
-          </button>
+          </button></>
+        )}
 
           {mailDetails && (
             <div>
-              <h2 className="eticket-h2" style={{ color: '#333' }}>🎟️ Your E-Ticket for {mailDetails.showName}</h2>
-              <p className="eticket-p">Hi <strong>{mailDetails.name}</strong>,</p>
-              <p className="eticket-p">Thank you for booking your ticket for <strong>{mailDetails.showName}</strong>!</p>
-              <h3 className="eticket-h3">Event Details:</h3>
+              <h2 className="eticket-h2" style={{ color: '#333' }}>🎟️ Your E-Ticket for {mailDetails.movieName ? mailDetails.movieName : mailDetails.eventTitle}</h2>
+              <p className="eticket-p">Hi <strong>{mailDetails.userName}</strong>,</p>
+              <p className="eticket-p">Thank you for booking your ticket for <strong>{mailDetails.movieName ? mailDetails.movieName : mailDetails.eventTitle}</strong>!</p>
+              <h3 className="eticket-h3">Ticket Details:</h3>
               <ul className="eticket-ul">
-                <li className="eticket-li"><strong>Event Name:</strong> {mailDetails.showName}</li>
-                <li className="eticket-li"><strong>Event Type:</strong> {mailDetails.type}</li>
-                <li className="eticket-li"><strong>Message:</strong> {mailDetails.message}</li>
+                <li className="eticket-li"><strong>Movie/Event Name:</strong> {mailDetails.movieName ? mailDetails.movieName : mailDetails.eventTitle}</li>
+                <li className="eticket-li"><strong>Theatre:</strong> {mailDetails.theatreName ? mailDetails.theatreName: mailDetails.venue}</li>
+                {(mailDetails.selectedSeats != 0) ? (<li className="eticket-li"><strong>Selected Seats:</strong> {mailDetails.selectedSeats}</li>): null}
               </ul>
             </div>
           )}
         </div>
-      ) : (
+{qrCodeUrl  && (
         <div>
           <h2 className="eticket-h2">Your E-Ticket</h2>
           <p className="eticket-p">Scan the QR code at the event entrance:</p>
@@ -74,7 +126,9 @@ const ETicketGenerator = () => {
             style={{ border: '1px solid #ddd', padding: '10px', background: '#fff' }}
           />
         </div>
-      )}
+)}
+
+
     </div>
   );
 };
