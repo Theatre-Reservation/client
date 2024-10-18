@@ -53,13 +53,14 @@
 .selected-seats-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 20px;
-    margin-top: 100px; /* my one*/
+    margin-top: 100px; /* my one */
     margin-left: 50px;
     background-color: #f4f4f4;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Adjusted for better layout */
 }
 
 .selected-seats {
@@ -74,6 +75,54 @@
     font-size: 18px;
     font-weight: bold;
     align-self: center;
+}
+
+/* New styles for loyalty section */
+.loyalty-section {
+    display: flex; /* Add this */
+    flex-direction: column; /* Add this */
+    align-items: center; /* Center items horizontally */;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e0f7fa;
+    border-radius: 8px;
+    text-align: left;
+    width: 100%;
+}
+
+.loyalty-section p {
+    margin: 5px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+.apply-button, .remove-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    align-self: center;
+}
+
+.apply-button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.apply-button:hover:not(:disabled), .remove-button:hover {
+    background-color: #16a085;
+}
+
+.remove-button {
+    background-color: #e74c3c;
+}
+
+.remove-button:hover {
+    background-color: #c0392b;
 }
 
 .proceed-button {
@@ -93,5 +142,5 @@
 }
 
 .message-2 {
-    align-self:center ;
+    align-self: center;
 }
