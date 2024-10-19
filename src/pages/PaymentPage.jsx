@@ -10,6 +10,8 @@ const stripePromise = loadStripe('pk_test_51PsTIg2LvxXMvsXIlyFzKPofk4EVAXFxgxGgA
 
 const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
     const stripe = useStripe();
+    const location = useLocation();
+    const appliedPoints = location.state.appliedPoints; // Retrieve appliedPoints here
     const navigate = useNavigate(); 
     const { user } = useUser(); // Access user data from context
     const [error, setError] = useState(null);
@@ -82,6 +84,30 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                 console.log(transactionData);
 
                 await axios.post('http://localhost:3001/transactions', transactionData);
+
+
+                // **New Section: Calculate and Update Loyalty Points**
+
+                // Calculate 10% of totalAmount as new loyalty points
+                let loyaltyPoints = Math.floor(totalAmount * 0.1); // Ensures integer points
+
+                // Subtract the appliedPoints from the new loyalty points (allowing negative values)
+                loyaltyPoints = loyaltyPoints - appliedPoints; // Points can go below 0
+
+                // Make PATCH request to update loyalty points
+                const loyaltyResponse = await axios.patch(`http://localhost:3000/booking/loyalty-points/${user._id}`, {
+                    points: loyaltyPoints,
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (loyaltyResponse.status === 200) {
+                    console.log(loyaltyResponse.data.message);
+                } else {
+                    console.error('Failed to update loyalty points:', loyaltyResponse.data.message);
+                }
 
                 navigate('/etickets', {
                     state: {
