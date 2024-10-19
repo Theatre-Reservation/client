@@ -10,7 +10,7 @@ export const UserProvider = ({ children }) => {
 
   const fetchUserProfile = async (token) => {
     try {
-      const response = await axios.get('http://localhost:8500/api/v1/user-auth/profile', {
+      const response = await axios.get('https://auth-service1-bkdhfbh9a3a2g4ba.canadacentral-01.azurewebsites.net/api/v1/user-auth/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

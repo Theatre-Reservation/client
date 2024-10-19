@@ -13,7 +13,7 @@ const SingleEventPage = () => {
   const { user, loading } = useUser(); // Access user and loading state
 
   useEffect(() => {
-    fetch(`http://localhost:3000/events/single/${id}`)
+    fetch(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/events/single/${id}`)
       .then(res => res.json())
       .then(data => {
         if (data && data.ticket_price) {

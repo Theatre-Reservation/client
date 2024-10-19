@@ -14,8 +14,8 @@ export default function SearchBar({ onSearch }) {
   const loadAllData = async () => {
     try {
       const [moviesResponse, eventsResponse] = await Promise.all([
-        axios.get('http://localhost:8600/api/v1/movies/search'),
-        axios.get('http://localhost:8600/api/v1/event-search/search'),
+        axios.get('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search'),
+        axios.get('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search'),
       ]);
       // Combine movie and event results
       const allResults = [
@@ -39,9 +39,9 @@ export default function SearchBar({ onSearch }) {
   const getApiEndpoint = () => {
     const pathname = window.location.pathname;
     if (pathname.includes('movies')) {
-      return 'http://localhost:8600/api/v1/movies/search';
+      return 'https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search';
     } else if (pathname.includes('events')) {
-      return 'http://localhost:8600/api/v1/event-search/search';
+      return 'https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search';
     } 
     return null;
   };
@@ -59,10 +59,10 @@ export default function SearchBar({ onSearch }) {
         if (pathname === '/') {
           // Fetch from both APIs for combined results
           const [moviesResponse, eventsResponse] = await Promise.all([
-            axios.get('http://localhost:8600/api/v1/movies/search', {
+            axios.get('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search', {
               params: { q: newQuery }, // query parameter for movies
             }),
-            axios.get('http://localhost:8600/api/v1/event-search/search', {
+            axios.get('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search', {
               params: { q: newQuery }, // query parameter for events
             }),
           ]);

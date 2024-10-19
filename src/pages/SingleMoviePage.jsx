@@ -19,13 +19,13 @@ const SingleMoviePage = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/movies/single/${id}`)
+    fetch(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/movies/single/${id}`)
       .then((res) => res.json())
       .then((data) => setMovie(data));
   }, [id]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/reviews/movie/${id}`)
+    fetch(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/reviews/movie/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setReviews(data);
@@ -46,7 +46,7 @@ const SingleMoviePage = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:3000/reviews', {
+      const response = await fetch('https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

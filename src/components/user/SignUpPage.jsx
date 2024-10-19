@@ -28,7 +28,7 @@ export default function SignUpPage() {
     axios.post('/user-auth/signup', { Name: name, Email: email, Password: password })
       .then((res) => {
         console.log('Sign Up Success:', res.data);
-        // Handle successful sign-up, e.g., redirect to login page
+        
         window.location.href = '/signin'; // Redirect to sign-in page after successful sign-up
       })
       .catch((err) => {
