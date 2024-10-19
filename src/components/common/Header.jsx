@@ -1,66 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
-import Person2Icon from '@mui/icons-material/Person2';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import SearchBar from '../../pages/SearchBar';
-import { Dialog, IconButton } from "@mui/material";
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import axios from '../../axios'; 
+import Person2Icon from "@mui/icons-material/Person2";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import SearchBar from "../../pages/SearchBar";
+import { Button, Dialog, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import axios from "../../axios";
 import "../../../src/styles/NotificationsPage.css";
 import "../../../src/styles/SignInPage.css";
 import "../../../src/styles/ContactUs.css";
 import { useNavigate } from "react-router-dom";
-import '/src/styles/SignUpPage.css';
+import "/src/styles/SignUpPage.css";
 
-
-const Header = () => { 
-
-
-
+const Header = () => {
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [notifications, setNotifications] = useState([]);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [signInError, setSignInError] = useState("");
   const [NotificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [ContactOpen, setContactOpen] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); 
-  const [notificationError, setNotificationError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [notificationError, setNotificationError] = useState("");
   const [error, setError] = useState(null);
 
   const handleClose = () => {
     setOpen(false); // Close the dialog
   };
 
-  
-  
-
   const signUpTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
 
-  
   // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-    // Check if a token exists in localStorage on component mount
-      const token = localStorage.getItem('token');
+      // Check if a token exists in localStorage on component mount
+      const token = localStorage.getItem("token");
       if (token) {
         setIsLoggedIn(true); // User is logged in
-      }
-      else{
-        setIsLoggedIn(false);     
+      } else {
+        setIsLoggedIn(false);
       }
     };
-  fetchUserProfile();
+    fetchUserProfile();
   });
 
   const handleSignInClick = () => {
@@ -81,7 +72,7 @@ const Header = () => {
 
   const handleProfileClick = () => {
     setProfileOpen(true);
-  }
+  };
 
   const handleProfileClose = () => {
     setProfileOpen(false); // Close the dialog
@@ -89,7 +80,7 @@ const Header = () => {
 
   const handleContactClick = () => {
     setContactOpen(true);
-  }
+  };
 
   const handleContactClose = () => {
     setContactOpen(false); // Close the dialog
@@ -97,17 +88,15 @@ const Header = () => {
 
   const handleNotificationClick = () => {
     setNotificationOpen(true);
-  }
+  };
   const handleSignIn = () => {
     setSignInOpen(true);
     setSignUpOpen(false);
-    
   };
 
-    const handleSignUp = () => {
+  const handleSignUp = () => {
     setSignInOpen(false);
     setSignUpOpen(true);
-
   };
 
   const handleNotificationClose = () => {
@@ -115,32 +104,35 @@ const Header = () => {
   };
 
   const handleSignUpSubmit = (e) => {
-
     e.preventDefault();
 
     // Form validation
     if (!name || !email || !password) {
-      setError('Please fill in all fields');
+      setError("Please fill in all fields");
       return;
     }
     // Reset error if form is valid
-    setError('');
+    setError("");
 
     // Call API to sign up the user
-    axios.post('/user-auth/signup', { Name: name, Email: email, Password: password })
+    axios
+      .post("/user-auth/signup", {
+        Name: name,
+        Email: email,
+        Password: password,
+      })
       .then((res) => {
-        console.log('Sign Up Success:', res.data);
+        console.log("Sign Up Success:", res.data);
         setSignInOpen(true);
         setSignUpOpen(false);
-         
       })
       .catch((err) => {
-        console.error('Sign Up Error:', err);
+        console.error("Sign Up Error:", err);
         // setError('An error occurred during sign-up. Please try again.');
         if (err.response && err.response.data && err.response.data.message) {
           setError(err.response.data.message);
         } else {
-          setError('An error occurred during sign-up. Please try again.');
+          setError("An error occurred during sign-up. Please try again.");
         }
       });
   };
@@ -149,7 +141,7 @@ const Header = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      setSignInError('Please fill in all fields');
+      setSignInError("Please fill in all fields");
       return;
     }
 
@@ -159,33 +151,32 @@ const Header = () => {
         Password: password,
       }, { withCredentials: true }); // Ensure cookies are included if used
 
-      console.log('Login Successful', response.data.user);
+      console.log("Login Successful", response.data.user);
 
       // Check if token is available and store it in localStorage (or cookies)
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        console.log('Token stored:', response.data.token);
+        localStorage.setItem("token", response.data.token);
+        console.log("Token stored:", response.data.token);
         setIsLoggedIn(true); // Update login status
       } else {
-        throw new Error('Token not found');
+        throw new Error("Token not found");
       }
 
       // Redirect based on the role (user or admin)
       if (response.data.redirectUrl) {
         window.location.href = response.data.redirectUrl;
       } else {
-        throw new Error('Redirect URL not found');
+        throw new Error("Redirect URL not found");
       }
-
     } catch (err) {
       if (err.response && err.response.status === 401) {
-        setSignInError('Invalid credentials. Please try again.');
+        setSignInError("Invalid credentials. Please try again.");
       } else {
-        console.error('Login Error', err);
-        setSignInError('Login Error. Please check your credentials.');
+        console.error("Login Error", err);
+        setSignInError("Login Error. Please check your credentials.");
       }
     }
-  }; 
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
@@ -193,17 +184,17 @@ const Header = () => {
 
   const [searchResults, setSearchResults] = useState([]);
   const handleSearch = async (query) => {
-    console.log('Searching for:', query);
+    console.log("Searching for:", query);
 
     try {
-      const response = await axios.get('/search', {
+      const response = await axios.get("/search", {
         params: { q: query },
       });
-      
+
       setSearchResults(response.data);
-      console.log('Search Results:', response.data);
+      console.log("Search Results:", response.data);
     } catch (error) {
-      console.error('Search Error:', error);
+      console.error("Search Error:", error);
       setSearchResults([]); // Clear search results on error
     }
   };
@@ -288,7 +279,7 @@ const Header = () => {
                   isActive ? "nav-link active-link" : "nav-link"
                 }
               >
-                <Person2Icon style={{ marginRight: '8px' }} />
+                <Person2Icon style={{ marginRight: "8px" }} />
               </NavLink>
             </li>
           ) : (
@@ -299,7 +290,9 @@ const Header = () => {
                   isActive ? "nav-link active-link" : "nav-link"
                 }
               >
-                Sign In
+                <Button variant="contained" color="primary">
+                  Sign In
+                </Button>
               </NavLink>
             </li>
           )}
@@ -309,7 +302,7 @@ const Header = () => {
       <Dialog onClose={handleSignInClose} open={signInOpen}>
         <div className="signin-page">
           <div className="signin-container">
-            <h2>Sign In</h2>
+            <h2>Flash Ticket</h2>
             {signInError && <p className="error-message">{signInError}</p>}
             <form onSubmit={handleSignInSubmit}>
               <div className="form-group">
@@ -325,7 +318,7 @@ const Header = () => {
                 <label htmlFor="password">Password:</label>
                 <div className="password-input-container">
                   <input
-                    type={showPassword ? 'text' : 'password'} // Conditionally set input type
+                    type={showPassword ? "text" : "password"} // Conditionally set input type
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -345,81 +338,89 @@ const Header = () => {
               </button>
             </form>
             <p className="signup-message">
-              Don't have an account?  <button onClick={() => handleSignUp()}>Sign up here</button>
+              Don't have an account?{" "}
+              <button onClick={() => handleSignUp()}>Sign up here</button>
             </p>
           </div>
         </div>
       </Dialog>
 
       <Dialog onClose={handleContactClose} open={ContactOpen}>
-       <div className="contact-us-dialog">
-        <h2>Contact Us</h2>
-        <p>
-          Have questions or need assistance with your theater reservations? We're here to help! 
-          Reach out to us via email at <a href="mailto:support@theaterreservations.com">support@theaterreservations.com</a> 
-            or give us a call at (555) 123-4567. 
-        </p>
-        <p>Our team is available 24/7 to assist you with your booking needs.</p>
-      </div>
-    </Dialog>
-    <Dialog onClose={handleNotificationClose} open={NotificationOpen}>
-    <div className="notifications-page">
-      <h1>Your Notifications</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : notificationError ? (
-        <p>{notificationError}</p>
-      ) : notifications.length > 0 ? (
-        <ul className="notifications-list">
-          {notifications.map((notification) => (
-            <li key={notification._id} className="notification-item">
-              <div className="notification-content">
-                <h3 className="show-name">{notification.ShowName || "General Notification"}</h3>
-                <p className="notification-message">{notification.Message}</p>
-                <p className="notification-time">
-                  {new Date(notification.Timestamp).toLocaleString()}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No notifications at the moment.</p>
-      )}
-    </div>
-    </Dialog>
+        <div className="contact-us-dialog">
+          <h2>Contact Us</h2>
+          <p>
+            Have questions or need assistance with your theater reservations?
+            We're here to help! Reach out to us via email at{" "}
+            <a href="mailto:support@theaterreservations.com">
+              support@theaterreservations.com
+            </a>
+            or give us a call at (555) 123-4567.
+          </p>
+          <p>
+            Our team is available 24/7 to assist you with your booking needs.
+          </p>
+        </div>
+      </Dialog>
+      <Dialog onClose={handleNotificationClose} open={NotificationOpen}>
+        <div className="notifications-page">
+          <h1>Your Notifications</h1>
+          {loading ? (
+            <p>Loading...</p>
+          ) : notificationError ? (
+            <p>{notificationError}</p>
+          ) : notifications.length > 0 ? (
+            <ul className="notifications-list">
+              {notifications.map((notification) => (
+                <li key={notification._id} className="notification-item">
+                  <div className="notification-content">
+                    <h3 className="show-name">
+                      {notification.ShowName || "General Notification"}
+                    </h3>
+                    <p className="notification-message">
+                      {notification.Message}
+                    </p>
+                    <p className="notification-time">
+                      {new Date(notification.Timestamp).toLocaleString()}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No notifications at the moment.</p>
+          )}
+        </div>
+      </Dialog>
 
       <Dialog onClose={handleSignUpClose} open={signUpOpen}>
- 
-      <div className="signup-page">
-        <div className="signup-container">
-          <h2>Sign Up</h2>
-          {error && <p className="error-message">{error}</p>}
-          <form onSubmit={handleSignUpSubmit}>
-            <div className="form-group">
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-            
+        <div className="signup-page">
+          <div className="signup-container">
+            <h2>Sign Up</h2>
+            {error && <p className="error-message">{error}</p>}
+            <form onSubmit={handleSignUpSubmit}>
+              <div className="form-group">
+                <label htmlFor="name">Name:</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
                 <label htmlFor="password">Password:</label>
-              <div className="password-input-container">
+                <div className="password-input-container">
                   <input
-                    type={showPassword ? 'text' : 'password'} // Conditionally set input type
+                    type={showPassword ? "text" : "password"} // Conditionally set input type
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -433,19 +434,18 @@ const Header = () => {
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </div>
-
-       </div>
-       <button type="submit" className="signup-button">
-         Sign Up
-       </button>
-     </form>
-     <p className="signup-message">
-     Already have an account?  <button onClick={() => handleSignIn()}>Sign in here</button>
-    </p>
-   </div>
- </div>
-
- </Dialog>
+              </div>
+              <button type="submit" className="signup-button">
+                Sign Up
+              </button>
+            </form>
+            <p className="signup-message">
+              Already have an account?{" "}
+              <button onClick={() => handleSignIn()}>Sign in here</button>
+            </p>
+          </div>
+        </div>
+      </Dialog>
     </header>
   );
 };

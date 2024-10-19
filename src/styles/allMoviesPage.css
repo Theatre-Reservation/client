@@ -1,5 +1,5 @@
 .all-movies-page {
-    padding: 0 100px;
+    padding: 0 70px;
   }
   
   h2 {
@@ -8,14 +8,36 @@
   
   .card-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content:flex-start;
     flex-wrap: wrap;
     gap: 16px;
   }
-  
+
   .card-container .card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     flex: 1 1 calc(20% - 16px);
     max-width: calc(20% - 16px);
+    /* padding: 10px; */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-container .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-container .card img {
+    width: 95%;
+    object-fit: cover;
+    border-radius: 5px 20px;
+    /* padding: 5px; */
+    margin: 5px;
+    border: 2px solid rgba(201, 197, 225, 0.378);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   @media (max-width: 1200px) {

@@ -1,29 +1,38 @@
 /* Unique Signup Page Styles */
- .signup-page {
+.signup-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  
-
-  padding: 1.5rem; /* Optional padding to add space around the container */
-
-
+  padding: 2.75rem;
+  padding-bottom: 2.5rem;
+  padding-top: 2.5rem;
+  background-color: #98aed6;
+  background-image: linear-gradient(325deg, #c4e8c0 0%, #689fae 74%);
+  border-radius: 67px 2px 67px 2px; /* Set border radius for all corners */
 }
 
 .signup-page .signup-container {
-  background-color: #333842; /* A lighter tone to distinguish from the header/footer */
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow for better separation */
-  width: 350px;
-  justify-content: center;
-  text-align: center;
-  color: #ddd; /* Softer text color for readability */
+  background-color: #1a2e54;
+    /* Matches background tone of signup page */
+    padding: 0.2rem 2rem 2rem 2rem;
+    border-radius: 25px;
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.3);
+    /* Stronger shadow like signup */
+    height: 480px;
+    width: 350px;
+    justify-content: center;
+    text-align: center;
+    color: #ddd;
 }
 
 .signup-page h2 {
-  margin-bottom: 1.5rem;
-  color: #80d8f1; /* Matches link color in the footer */
+  font-size: 2.5rem;
+    /* Increased font size for more prominence */
+    margin-bottom: 3rem;
+    color: hsl(204, 100%, 50%);
+    /* Bright yellow color for better visibility and binding */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* Added shadow for depth */
 }
 
 .signup-page .form-group {
@@ -31,19 +40,24 @@
 }
 
 .signup-page label {
-  display: block;
-  font-weight: bold;
-  text-align: left;
-  color: #80d8f1; /* Accent color to draw attention */
+  margin-left: 5px;
+    margin-bottom: 5px;
+    display: block;
+    font-weight: bold;
+    text-align: left;
+    color: #80d8f1;
+    /* Accent color to match signup page */
 }
 
 .signup-page input {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #444;
-  border-radius: 4px;
-  background-color: #f0f0f0; /* Light background for clear contrast */
-  color: #333; /* Darker text for input fields */
+  width: 95%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    /* Light background for clear contrast */
+    color: #333;
+    /* Darker text for input fields */
 }
 
 .signup-page input::placeholder {
@@ -52,13 +66,14 @@
 
 .signup-page .signup-button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
+    margin-top: 35px;
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .signup-page .signup-button:hover {
