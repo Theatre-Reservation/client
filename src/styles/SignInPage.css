@@ -3,8 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 4rem; /* Consistent padding with signup page */
-  
+  padding: 1.5rem; 
 }
 
 .signin-page .signin-container {
