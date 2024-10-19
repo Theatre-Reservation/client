@@ -15,7 +15,6 @@ import ETicketGenerator from "./pages/Eticket";
 import AllMoviesPage from './pages/AllMoviesPage';
 import AllEventsPage from './pages/AllEventsPage';
 import PaymentPage from "./pages/PaymentPage";
-import AdminPage from "./components/user/AdminPage";
 // import NotificationsPage from "./popups/NotificationsPage";
 // import ContactUs from "./popups/ContactUs";
 import SearchBar from "./pages/SearchBar";
@@ -37,7 +36,6 @@ function App() {
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<UserProfile />} />
-            <Route path="/adminPage" element={<AdminPage/>} />
             {/* <Route path="/notifications" element={<NotificationsPage />} /> */}
             {/* <Route path="/ContactUs" element ={<ContactUs />} /> */}
             <Route path="/Etickets" element={<ETicketGenerator />} />

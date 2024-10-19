@@ -146,14 +146,10 @@ const Header = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8500/api/v1/user-auth/login",
-        {
-          Email: email,
-          Password: password,
-        },
-        { withCredentials: true }
-      ); // Ensure cookies are included if used
+      const response = await axios.post('https://auth-service1-bkdhfbh9a3a2g4ba.canadacentral-01.azurewebsites.net/api/v1/user-auth/login', {
+        Email: email,
+        Password: password,
+      }, { withCredentials: true }); // Ensure cookies are included if used
 
       console.log("Login Successful", response.data.user);
 

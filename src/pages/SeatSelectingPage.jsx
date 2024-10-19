@@ -27,7 +27,7 @@ const SeatSelectingPage = () => {
         // Fetch show data from backend using Axios
         const fetchShowData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/booking/single/${showId}`);
+                const response = await axios.get(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/single/${showId}`);
                 const data = response.data;
                 // Combine reserved seats and temporary_reserved_seats
                 const allReservedSeats = [...data.reserved_seats, ...data.temporary_reserved_seats];
@@ -47,7 +47,7 @@ const SeatSelectingPage = () => {
                 return;
             }
             try {
-                const response = await axios.get(`http://localhost:3000/booking/loyalty-points/${user._id}`);
+                const response = await axios.get(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/loyalty-points/${user._id}`);
                 if (response.status === 200) {
                     setLoyaltyPoints(response.data.loyaltyPoints);
                 } else {
@@ -101,7 +101,7 @@ const SeatSelectingPage = () => {
     const handleProceed = async () => {
         try {
             // Lock the selected seats temporarily before proceeding
-            await axios.patch(`http://localhost:3000/booking/lock-seats/${showId}`, {
+            await axios.patch(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/lock-seats/${showId}`, {
                 temporaryReservedSeats: selectedSeats,
             }, {
                 headers: {

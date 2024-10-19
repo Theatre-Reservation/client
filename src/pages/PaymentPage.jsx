@@ -53,7 +53,7 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                     showId,
                     seatsToRelease: selectedSeats,
                 });
-                navigator.sendBeacon('http://localhost:3000/booking/release-seats', data);
+                navigator.sendBeacon('https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/release-seats', data);
             }
         };
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -69,7 +69,7 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
         }
 
         try {
-            const showDetailsResponse = await axios.get(`http://localhost:3000/booking/single/${showId}`);
+            const showDetailsResponse = await axios.get(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/single/${showId}`);
             if (showDetailsResponse.status === 200) {
                 const { movie, theater } = showDetailsResponse.data;
 
@@ -83,7 +83,7 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                 };
                 console.log(transactionData);
 
-                await axios.post('http://localhost:3001/transactions', transactionData);
+                await axios.post('https://payment-gateway-ftdxd8crezfyexe5.canadacentral-01.azurewebsites.net/transactions', transactionData);
 
 
                 // **New Section: Calculate and Update Loyalty Points**
@@ -95,7 +95,7 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
                 loyaltyPoints = loyaltyPoints - appliedPoints; // Points can go below 0
 
                 // Make PATCH request to update loyalty points
-                const loyaltyResponse = await axios.patch(`http://localhost:3000/booking/loyalty-points/${user._id}`, {
+                const loyaltyResponse = await axios.patch(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/loyalty-points/${user._id}`, {
                     points: loyaltyPoints,
                 }, {
                     headers: {
@@ -128,7 +128,7 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
 
     const checkPaymentStatus = async (sessionId) => {
         try {
-            const response = await axios.post(`http://localhost:3001/stripe/get-session/${sessionId}`);
+            const response = await axios.post(`https://payment-gateway-ftdxd8crezfyexe5.canadacentral-01.azurewebsites.net/stripe/get-session/${sessionId}`);
             const session = response.data.session;
             if (session.payment_status === 'paid') {
                 setPaymentStatus('success');
@@ -159,7 +159,7 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
         setPaymentStatus('failed');
         try {
             // Release only the user's selected seats
-            await axios.patch(`http://localhost:3000/booking/release-seats/${showId}`, {
+            await axios.patch(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/release-seats/${showId}`, {
                 seatsToRelease: selectedSeats,
             });
 
@@ -188,7 +188,7 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
         event.preventDefault();
         setLoading(true);
         if (paymentStatus === "untouched" || paymentStatus === "failed") {
-            const response = await fetch('http://localhost:3001/stripe/create-checkout-session', {
+            const response = await fetch('https://payment-gateway-ftdxd8crezfyexe5.canadacentral-01.azurewebsites.net/stripe/create-checkout-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -234,7 +234,7 @@ const PaymentPage = () => {
     const showId = location.state.showId;
 
     const reserveSeats = async (sessionId) => {
-        const response = await fetch(`http://localhost:3000/booking/update-seats/${showId}`, {
+        const response = await fetch(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/update-seats/${showId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

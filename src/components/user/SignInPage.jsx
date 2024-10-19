@@ -47,14 +47,10 @@ export default function SignInPage() {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8500/api/v1/user-auth/login",
-        {
-          Email: email,
-          Password: password,
-        },
-        { withCredentials: true }
-      ); // Ensure cookies are included if used
+      const response = await axios.post('https://auth-service1-bkdhfbh9a3a2g4ba.canadacentral-01.azurewebsites.net/api/v1/user-auth/login', {
+        Email: email,
+        Password: password,
+      }, { withCredentials: true }); // Ensure cookies are included if used
 
       console.log("Login Successful", response.data.user);
 
@@ -64,11 +60,10 @@ export default function SignInPage() {
         console.log("Token stored:", response.data.token);
         setIsLoggedIn(true); // Update login status
         console.log(previousPage, "Previous Page");
-        console.log(previousPage.pathname, "Path");
-        window.location.href =
-          "http://localhost:5173" +
-          JSON.parse(localStorage.getItem("previousPage")).pathname;
-        localStorage.removeItem("previousPage");
+        console.log(previousPage.pathname,"Path")
+        window.location.href = 'https://flash-ticket.netlify.app' + JSON.parse(localStorage.getItem('previousPage')).pathname;
+        localStorage.removeItem('previousPage');
+
       } else {
         throw new Error("Token not found");
       }
