@@ -62,7 +62,7 @@ export default function SignInPage() {
         setIsLoggedIn(true); // Update login status
         console.log(previousPage, "Previous Page");
         console.log(previousPage.pathname,"Path")
-        window.location.href = 'http://localhost:5173' + JSON.parse(localStorage.getItem('previousPage')).pathname;
+        window.location.href = 'https://flash-ticket.netlify.app' + JSON.parse(localStorage.getItem('previousPage')).pathname;
         localStorage.removeItem('previousPage');
 
       } else {
