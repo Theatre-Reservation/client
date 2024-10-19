@@ -42,12 +42,12 @@ const HomePage = () => {
   }
   useEffect(() => {
     // Fetching movies
-    fetch("http://localhost:3000/movies/limited/5-different-genres")
+    fetch("https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/movies/limited/5-different-genres")
       .then((res) => res.json())
       .then((data) => setMovies(data));
 
     // Fetching events
-    fetch("http://localhost:3000/events/limited/5")
+    fetch("https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/events/limited/5")
       .then((res) => res.json())
       .then((data) => setEvents(data));
   }, []);

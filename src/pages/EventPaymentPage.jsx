@@ -38,7 +38,7 @@ const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
 
         try {
             // Fetch event details using the event ID
-            const eventDetailsResponse = await axios.get(`http://localhost:3000/events/single/${eventId}`);
+            const eventDetailsResponse = await axios.get(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/events/single/${eventId}`);
             if (eventDetailsResponse.status === 200) {
                 const { title, venue } = eventDetailsResponse.data;  // Adjust based on actual response structure
 
@@ -54,7 +54,7 @@ const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
                 console.log(transactionData);  // Log for debugging purposes
 
                 // Send event payment transaction to the backend
-                await axios.post('http://localhost:3001/transactions/event', transactionData);
+                await axios.post('https://payment-gateway-ftdxd8crezfyexe5.canadacentral-01.azurewebsites.net/transactions/event', transactionData);
 
                 // Navigate to the E-ticket page with additional data
                 navigate('/etickets', {
@@ -77,7 +77,7 @@ const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
     
     const checkPaymentStatus = async (sessionId) => {
         try {
-            const response = await axios.post(`http://localhost:3001/stripe/get-session/${sessionId}`);
+            const response = await axios.post(`https://payment-gateway-ftdxd8crezfyexe5.canadacentral-01.azurewebsites.net/stripe/get-session/${sessionId}`);
             const session = response.data.session;
             if (session.payment_status === 'paid') {
                 setPaymentStatus('success');
@@ -114,7 +114,7 @@ const PaymentForm = ({ totalAmount, onSucessful, eventId, ticketCount }) => {
         setLoading(true);
         console.log(paymentStatus)
         if (paymentStatus === "untouched" || paymentStatus === "failed" || paymentStatus ==="processing") {
-            const response = await fetch('http://localhost:3001/stripe/create-checkout-session', {
+            const response = await fetch('https://payment-gateway-ftdxd8crezfyexe5.canadacentral-01.azurewebsites.net/stripe/create-checkout-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

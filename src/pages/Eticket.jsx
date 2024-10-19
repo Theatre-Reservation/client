@@ -50,7 +50,7 @@ const ETicketGenerator = () => {
 
     try {
       // Call the backend to generate the e-ticket and QR code
-      const response = await axios.post('http://localhost:8600/api/v1/mail/send-qrcode', {
+      const response = await axios.post('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/mail/send-qrcode', {
         userName,
         userEmail,
         movieName,

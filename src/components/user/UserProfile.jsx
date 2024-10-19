@@ -25,7 +25,7 @@ const Profile = () => {
             }
             
             try {
-                const response = await axios.get('http://localhost:8500/api/v1/user-auth/profile', 
+                const response = await axios.get('https://auth-service1-bkdhfbh9a3a2g4ba.canadacentral-01.azurewebsites.net/api/v1/user-auth/profile', 
                     {
                         headers: {
                             Authorization: `Bearer ${newToken}`,
@@ -59,7 +59,7 @@ const Profile = () => {
         console.log("Form data: " + JSON.stringify(formData));
         
         if (token) {
-            const response = await axios.put('http://localhost:8500/api/v1/user-auth/profile', 
+            const response = await axios.put('https://auth-service1-bkdhfbh9a3a2g4ba.canadacentral-01.azurewebsites.net/api/v1/user-auth/profile', 
                 formData, 
                 {
                     headers: {
@@ -77,7 +77,7 @@ const Profile = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:8500/api/v1/user-auth/logout', {}, {
+            await axios.post('https://auth-service1-bkdhfbh9a3a2g4ba.canadacentral-01.azurewebsites.net/api/v1/user-auth/logout', {}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }

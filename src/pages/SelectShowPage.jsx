@@ -11,13 +11,13 @@ const SelectShowPage = () => {
     
     useEffect(() => {
         // Fetch movie details
-        axios.get(`http://localhost:3000/movies/title/${encodeURIComponent(movieTitle)}`)
+        axios.get(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/movies/title/${encodeURIComponent(movieTitle)}`)
             .then(response => {
                 setMovieDetails(response.data);
             });
 
         // Fetch shows related to the movie
-        axios.get(`http://localhost:3000/booking/by-movie?movieTitle=${encodeURIComponent(movieTitle)}`)
+        axios.get(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/by-movie?movieTitle=${encodeURIComponent(movieTitle)}`)
             .then(response => {
                 const sortedShows = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
                 setShows(sortedShows);
