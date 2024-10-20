@@ -1,16 +1,21 @@
+/* General page styling */
 .seat-selecting-page {
     text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-.seat-selection-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
+    font-family: 'Roboto', sans-serif;
     margin-top: 20px;
 }
 
+/* Flex container for seat selection and selected seats */
+.seat-selection-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+    padding: 0 20px;
+}
+
+/* Styling for the seat rows and seat selection */
 .seats-container {
     display: flex;
     flex-direction: column;
@@ -19,84 +24,89 @@
 
 .Message {
     margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
 }
 
+/* Grid-based layout for the seats */
 .seat-row {
     display: grid;
-    grid-template-columns: repeat(4, 40px) 80px repeat(5, 40px);
+    grid-template-columns: repeat(4, 40px) 80px repeat(5, 40px); /* Creates aisle gap */
     grid-gap: 10px;
     margin-bottom: 10px;
 }
 
+/* Seat styling */
 .seat {
     width: 40px;
     height: 40px;
-    background-color: #ccc;
+    background-color: #e0e0e0;
     border: 1px solid #999;
     border-radius: 5px;
     line-height: 40px;
     text-align: center;
     cursor: pointer;
+    /* font-weight: bold; */
+    transition: background-color 0.2s ease-in-out;
 }
 
+/* Styling for selected and reserved seats */
 .seat.selected {
     background-color: #6c5ce7;
-    color: #fff;
+    color: white;
 }
 
 .seat.reserved {
     background-color: #d63031;
-    color: #fff;
+    color: white;
     cursor: not-allowed;
 }
 
+/* Container for selected seats and payment summary */
 .selected-seats-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    margin-top: 60px; 
-    margin-left: 50px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Adjusted for better layout */
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    text-align: center;
 }
 
 .selected-seats {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    font-size: 16px;
-    align-self: center;
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0 20px;
 }
 
+/* Total amount styling */
 .total-amount {
     margin-top: 10px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
-    align-self: center;
+    color: #333;
 }
 
-/* New styles for loyalty section */
+/* Loyalty section styling */
 .loyalty-section {
-    display: flex; /* Add this */
-    flex-direction: column; /* Add this */
-    align-items: center; /* Center items horizontally */;
     margin-top: 20px;
-    padding: 10px;
+    padding: 15px;
     background-color: #e0f7fa;
     border-radius: 8px;
-    text-align: left;
     width: 100%;
+    text-align: center;
 }
 
 .loyalty-section p {
     margin: 5px 0;
     font-size: 16px;
-    text-align: center;
 }
 
-.apply-button, .remove-button {
+.apply-button,
+.remove-button {
     margin-top: 10px;
     padding: 8px 16px;
     background-color: #1abc9c;
@@ -105,7 +115,12 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    align-self: center;
+    transition: background-color 0.3s ease;
+}
+
+.apply-button:hover:not(:disabled),
+.remove-button:hover {
+    background-color: #16a085;
 }
 
 .apply-button:disabled {
@@ -113,34 +128,148 @@
     cursor: not-allowed;
 }
 
-.apply-button:hover:not(:disabled), .remove-button:hover {
-    background-color: #16a085;
-}
-
 .remove-button {
     background-color: #e74c3c;
 }
 
-.remove-button:hover {
-    background-color: #c0392b;
-}
-
+/* Proceed button styling */
 .proceed-button {
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    align-self: center;
+    transition: background-color 0.3s ease;
 }
 
 .proceed-button:hover {
     background-color: #0056b3;
 }
 
-.message-2 {
-    align-self: center;
+/* Responsive adjustments */
+
+/* For large desktops (max-width: 1200px) */
+@media (max-width: 1200px) {
+    .seat-selection-container {
+        gap: 30px;
+        padding: 0 15px;
+    }
+
+    .seat-row {
+        grid-template-columns: repeat(4, 35px) 70px repeat(5, 35px);
+        grid-gap: 8px;
+    }
+
+    .seat {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+    }
+}
+
+/* For desktops and larger tablets (max-width: 992px) */
+@media (max-width: 992px) {
+    .seat-selection-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .selected-seats-container {
+        width: 280px;
+    }
+
+    .proceed-button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+
+/* For tablets (max-width: 768px) */
+@media (max-width: 768px) {
+    .seat-row {
+        grid-template-columns: repeat(4, 30px) 60px repeat(5, 30px);
+        grid-gap: 8px;
+    }
+
+    .seat {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .selected-seats-container {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .proceed-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .apply-button,
+    .remove-button {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+}
+
+/* For large mobile devices (max-width: 576px) */
+@media (max-width: 576px) {
+    .seat-row {
+        grid-template-columns: repeat(4, 28px) 50px repeat(5, 28px);
+        grid-gap: 6px;
+    }
+
+    .seat {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+    }
+
+    .selected-seats-container {
+        padding: 15px;
+        width: 100%;
+    }
+
+    .apply-button,
+    .remove-button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+}
+
+/* For small mobile devices (max-width: 480px) */
+@media (max-width: 480px) {
+    .seat-row {
+        grid-template-columns: repeat(4, 25px) 45px repeat(5, 25px);
+        grid-gap: 5px;
+    }
+
+    .seat {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+    }
+
+    .selected-seats-container {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .proceed-button {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+
+    .apply-button,
+    .remove-button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
 }

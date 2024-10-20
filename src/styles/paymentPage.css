@@ -1,7 +1,7 @@
 .payment-page {
     padding: 20px;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 40px auto;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -18,6 +18,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
 }
 
 .pay-button {
@@ -29,6 +31,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%; /* Full width on smaller screens */
 }
 
 .pay-button:hover {
@@ -67,15 +70,100 @@
 .get-etickets-button {
     padding: 10px;
     font-size: 18px;
-    background-color: #007bff; /* Blue color */
+    background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 10px;
+    width: 100%; /* Full width on smaller screens */
 }
 
 .get-etickets-button:hover {
     background-color: #0056b3;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For large desktops (max-width: 1200px) */
+@media (max-width: 1200px) {
+    .payment-page {
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    .payment-title {
+        font-size: 22px;
+    }
+}
+
+/* For desktops and larger tablets (max-width: 992px) */
+@media (max-width: 992px) {
+    .payment-page {
+        max-width: 500px;
+        padding: 15px;
+    }
+
+    .pay-button,
+    .get-etickets-button {
+        font-size: 16px;
+    }
+
+    .payment-title {
+        font-size: 20px;
+    }
+}
+
+/* For tablets (max-width: 768px) */
+@media (max-width: 768px) {
+    .payment-page {
+        max-width: 400px;
+    }
+
+    .pay-button,
+    .get-etickets-button {
+        font-size: 15px;
+        padding: 8px;
+    }
+
+    .payment-title {
+        font-size: 18px;
+    }
+}
+
+/* For large mobile devices (max-width: 576px) */
+@media (max-width: 576px) {
+    .payment-page {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .pay-button,
+    .get-etickets-button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .payment-title {
+        font-size: 18px;
+    }
+}
+
+/* For small mobile devices (max-width: 480px) */
+@media (max-width: 480px) {
+    .payment-page {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .pay-button,
+    .get-etickets-button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .payment-title {
+        font-size: 16px;
+    }
 }

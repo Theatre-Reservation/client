@@ -16,7 +16,32 @@ section {
 .card-container .card {
   flex: 1 1 calc(20% - 16px); /* Adjust to fit five cards in a row, accounting for the gap */
   max-width: calc(20% - 16px); /* Ensure max-width matches flex-basis */
-   /* Include padding and border in the element's total width and height */
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+.view-all {
+  background-color: transparent;
+  color: #007bff;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+  padding: 0;
+  margin-top: 23px;
+}
+
+.view-all:hover {
+  color: #0056b3;
 }
 
 @media (max-width: 1200px) {
@@ -45,29 +70,14 @@ section {
     flex: 1 1 100%; /* Adjust to fit one card in a row */
     max-width: 100%;
   }
+
+  .view-all {
+    font-size: 0.85em; 
+  }
 }
 
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.section-header h2 {
-  margin: 0;
-}
-
-.view-all {
-  background-color: transparent;
-  color: #007bff;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: underline;
-  padding: 0;
-}
-
-.view-all:hover {
-  color: #0056b3;
-}
+@media (max-width: 480px) {
+  .view-all {
+    font-size: 0.75em; 
+  }
+} 
