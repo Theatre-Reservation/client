@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/singleEventPage.css';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from './UserContext'; // Import useUser
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const SingleEventPage = () => {
   const { id } = useParams();

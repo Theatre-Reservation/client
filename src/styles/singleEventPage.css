@@ -111,10 +111,10 @@
   }
 
   .event-poster img {
-    width: 40%;
-    height: 500px;
+    width: 85%;
+    height: 400px;
     border-radius: 10px;
-    margin-left: 30%;
+    margin-left: 7.5%;
   }
 
   .event-details {
@@ -176,10 +176,10 @@
   }
 
   .event-poster img {
-    width: 40%;
-    height: 400px;
+    width: 80%;
+    height: 300px;
     border-radius: 10px;
-    margin-left: 30%;
+    margin-left: 10%;
   }
 
   .event-details {
@@ -203,10 +203,10 @@
   }
 
   .event-poster img {
-    width: 40%;
-    height: 350px;
+    width: 80%;
+    height: 250px;
     border-radius: 10px;
-    margin-left: 30%;
+    margin-left: 10%;
   }
 
   .event-details {
@@ -230,10 +230,10 @@
   }
 
   .event-poster img {
-    width: 40%;
-    height: 350px;
+    width: 80%;
+    height: 200px;
     border-radius: 10px;
-    margin-left: 30%;
+    margin-left: 10%;
   }
 
   .event-details {
