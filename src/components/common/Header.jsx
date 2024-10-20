@@ -283,7 +283,7 @@ const Header = () => {
             </NavLink>
           </li>
 
-          {/* <li className="nav-item">
+          <li className="nav-item">
             <NavLink
               onClick={handleContactClick}
               className={({ isActive }) =>
@@ -292,7 +292,7 @@ const Header = () => {
             >
               Contact Us
             </NavLink>
-          </li> */}
+          </li>
 
           {/* Conditionally render Sign In button or Profile icon */}
           {isLoggedIn ? (
@@ -369,7 +369,7 @@ const Header = () => {
         </div>
       </Dialog>
 
-      {/* <Dialog onClose={handleContactClose} open={ContactOpen}>
+      <Dialog onClose={handleContactClose} open={ContactOpen}>
         <div className="contact-us-dialog">
           <h2>Contact Us</h2>
           <p>
@@ -384,7 +384,7 @@ const Header = () => {
             Our team is available 24/7 to assist you with your booking needs.
           </p>
         </div>
-      </Dialog> */}
+      </Dialog>
       <Dialog onClose={handleNotificationClose} open={NotificationOpen}>
       <div className="notifications-page">
         <h1>Your Notifications</h1>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './../../src/styles/SearchBar.css';
 import { useNavigate } from "react-router-dom";
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
@@ -146,7 +147,8 @@ export default function SearchBar({ onSearch }) {
           onFocus={handleFocus} // Show results when the search bar is clicked
           className="search-input"
         />
-        <button type="submit" className="search-button">Search</button>
+        <SearchIcon className="search-button"/>
+        {/* <button type="submit" className="search-button">SearchIcon</button> */}
       </form>
 
       {/* Display search results under the search bar */}
