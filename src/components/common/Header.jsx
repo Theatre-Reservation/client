@@ -238,7 +238,7 @@ const Header = () => {
             </NavLink>
           </li>
 
-          {/* <li className="nav-item">
+          <li className="nav-item">
             <SearchBar onSearch={handleSearch} />
             {searchResults.length > 0 && (
               <ul className="search-results">
@@ -249,7 +249,7 @@ const Header = () => {
                 ))}
               </ul>
             )}
-          </li> */}
+          </li>
 
           {/* Notification Icon */}
           <li className="nav-item">

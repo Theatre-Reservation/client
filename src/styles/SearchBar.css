@@ -1,21 +1,27 @@
 .search-bar {
   display: flex;
-  flex-direction: column; /* Stack form and results vertically */
+  flex-direction: column;
+  /* Stack form and results vertically */
   align-items: center;
   margin: 20px 0;
-  width: 100%; /* Allow for proper centering */
+  width: 100%;
+  /* Allow for proper centering */
 }
 
 .search-form {
   display: flex;
   align-items: center;
-  width: 100%; /* Ensure search form takes up full width */
-  justify-content: center; /* Center the form horizontally */
+  width: 100%;
+  /* Ensure search form takes up full width */
+  justify-content: center;
+  /* Center the form horizontally */
 }
 
 .search-input {
-  padding: 10px;
-  width: 300px; /* Wider input */
+  padding: 8px;
+  /* Reduced padding for height */
+  width: 250px;
+  /* Reduced input width from 300px to 250px */
   border: 1px solid #ccc;
   border-radius: 4px 0 0 4px;
   font-size: 16px;
@@ -27,7 +33,9 @@
 }
 
 .search-button {
-  padding: 10px 15px;
+  display: flex;
+  padding: 8px 10px;
+  /* Reduced padding for height */
   border: none;
   background-color: #007bff;
   color: white;
@@ -35,6 +43,8 @@
   border-radius: 0 4px 4px 0;
   font-size: 16px;
   outline: none;
+  width: 15%;
+  /* Adjust button width for larger screens */
 }
 
 .search-button:hover {
@@ -43,18 +53,21 @@
 
 /* Results container */
 .results-container {
-  width: 100%; /* Full width under the search form */
-  max-width: 600px; /* Limit width of the results */
+  width: 100%;
+  /* Full width under the search form */
+  max-width: 600px;
+  /* Limit width of the results */
   margin-top: 20px;
-
 }
 
 .search-results {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  width: 100%; /* Full width for the results */
+  width: 100%;
+  /* Full width for the results */
   max-height: 600%;
+  /* Consider changing this to a specific value if needed */
 }
 
 .search-result-item {
@@ -74,4 +87,90 @@
 .search-result-item:hover {
   background-color: #f1f1f1;
   cursor: pointer;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .search-bar {
+    margin: 10px 0;
+    width: 100%;
+    padding: 10px;
+    /* Add padding around the search bar */
+    background-color: #222;
+    /* Add a dark background to stand out */
+    border-radius: 8px;
+    /* Rounded corners for a smoother look */
+  }
+
+  .search-form {
+    flex-direction: row;
+    /* Keep input and button in one row on mobile */
+    width: 100%;
+  }
+
+  .search-input {
+    width: 70%;
+    /* Increased input width on mobile for better usability */
+    padding: 8px;
+    /* Adjust padding for better height */
+    font-size: 14px;
+    /* Smaller font size for mobile */
+    border: 2px solid #007bff;
+    /* Add a solid border for visibility */
+    border-radius: 4px 0 0 4px;
+    /* Rounded corners */
+  }
+
+  .search-input:focus {
+    border-color: #0056b3;
+  }
+
+  .search-button {
+    width: 25%;
+    /* Adjusted button width for mobile */
+    font-size: 14px;
+    /* Default font size */
+    padding: 8px;
+    /* Adjust padding for better height */
+  }
+
+  .results-container {
+    max-width: 100%;
+    /* Full width on mobile */
+    margin-top: 10px;
+    /* Slightly reduce margin on mobile */
+  }
+
+  .search-results {
+    max-height: none;
+    /* Remove max-height restriction for better usability on small screens */
+  }
+
+  .search-result-item {
+    padding: 8px;
+    /* Slightly smaller padding for mobile */
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 800px) {
+  .search-button {
+    font-size: 12px;
+    /* Reduce font size on medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .search-button {
+    font-size: 10px;
+    /* Further reduce font size on small screens */
+  }
+}
+
+@media (max-width: 360px) {
+  .search-button {
+    font-size: 8px;
+    /* Smallest font size for very small screens */
+  }
 }

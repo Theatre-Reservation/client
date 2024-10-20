@@ -1,30 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import './../../src/styles/SearchBar.css';
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import "./../../src/styles/SearchBar.css";
 import { useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function SearchBar({ onSearch }) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false); // State to manage visibility
   const searchRef = useRef(null); // Reference to the search bar and results container
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // Load all data when pathname includes '/'
   const loadAllData = async () => {
     try {
       const [moviesResponse, eventsResponse] = await Promise.all([
-        axios.get('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search'),
-        axios.get('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search'),
+        axios.get(
+          "https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search"
+        ),
+        axios.get(
+          "https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search"
+        ),
       ]);
       // Combine movie and event results
-      const allResults = [
-        ...moviesResponse.data,
-        ...eventsResponse.data
-      ];
+      const allResults = [...moviesResponse.data, ...eventsResponse.data];
       setSearchResults(allResults); // Store combined results
     } catch (error) {
-      console.error('Error loading all data:', error);
+      console.error("Error loading all data:", error);
       setSearchResults([]); // Clear results on error
     }
   };
@@ -32,17 +34,17 @@ export default function SearchBar({ onSearch }) {
   // Load all movies and events when pathname includes '/'
   useEffect(() => {
     const pathname = window.location.pathname;
-    if (pathname === '/') {
+    if (pathname === "/") {
       loadAllData();
     }
   }, []);
   const getApiEndpoint = () => {
     const pathname = window.location.pathname;
-    if (pathname.includes('movies')) {
-      return 'https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search';
-    } else if (pathname.includes('events')) {
-      return 'https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search';
-    } 
+    if (pathname.includes("movies")) {
+      return "https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search";
+    } else if (pathname.includes("events")) {
+      return "https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search";
+    }
     return null;
   };
   // Handle input changes as the user types
@@ -56,21 +58,24 @@ export default function SearchBar({ onSearch }) {
     // Call the appropriate API endpoint based on the URL and query
     if (newQuery.length > 0) {
       try {
-        if (pathname === '/') {
+        if (pathname === "/") {
           // Fetch from both APIs for combined results
           const [moviesResponse, eventsResponse] = await Promise.all([
-            axios.get('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search', {
-              params: { q: newQuery }, // query parameter for movies
-            }),
-            axios.get('https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search', {
-              params: { q: newQuery }, // query parameter for events
-            }),
+            axios.get(
+              "https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/movies/search",
+              {
+                params: { q: newQuery }, // query parameter for movies
+              }
+            ),
+            axios.get(
+              "https://notification-service-fydkg2d3b8bxa8d9.canadacentral-01.azurewebsites.net/api/v1/event-search/search",
+              {
+                params: { q: newQuery }, // query parameter for events
+              }
+            ),
           ]);
           // Combine results
-          const allResults = [
-            ...moviesResponse.data,
-            ...eventsResponse.data
-          ];
+          const allResults = [...moviesResponse.data, ...eventsResponse.data];
           setSearchResults(allResults); // Update results based on the response
         } else {
           // Fetch based on specific page (movies or events)
@@ -83,7 +88,7 @@ export default function SearchBar({ onSearch }) {
           }
         }
       } catch (error) {
-        console.error('Error fetching search results:', error);
+        console.error("Error fetching search results:", error);
         setSearchResults([]); // Clear results if an error occurs
       }
     } else {
@@ -103,9 +108,9 @@ export default function SearchBar({ onSearch }) {
     const pathname = window.location.pathname;
 
     // Navigate based on whether the user is on the movies or events page
-    if (pathname.includes('movies')) {
+    if (pathname.includes("movies")) {
       navigate(`/movie/${id}`); // Navigate to the movie detail page
-    } else if (pathname.includes('events')) {
+    } else if (pathname.includes("events")) {
       navigate(`/event/${id}`); // Navigate to the event detail page
     } else {
       navigate(`/movie/${id}`); // Default to movie detail page
@@ -127,11 +132,11 @@ export default function SearchBar({ onSearch }) {
     };
 
     // Add event listener for clicks outside the component
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     // Cleanup event listener on component unmount
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -146,7 +151,8 @@ export default function SearchBar({ onSearch }) {
           onFocus={handleFocus} // Show results when the search bar is clicked
           className="search-input"
         />
-        <button type="submit" className="search-button">Search</button>
+        <SearchIcon className="search-button" />
+        {/* <button type="submit" className="search-button">SearchIcon</button> */}
       </form>
 
       {/* Display search results under the search bar */}
@@ -158,17 +164,18 @@ export default function SearchBar({ onSearch }) {
                 key={result._id}
                 className="search-result-item"
                 onClick={() => handleItemClick(result._id)} // Pass only the ID to handleItemClick
-                style={{ cursor: 'pointer' }} // Optional: to change the cursor to a pointer when hovering over the item
+                style={{ cursor: "pointer" }} // Optional: to change the cursor to a pointer when hovering over the item
               >
                 <img
                   src={result.poster_path}
                   alt={result.title}
                   width="50"
-                  style={{ marginRight: '10px' }}
+                  style={{ marginRight: "10px" }}
                 />
                 <div>
                   <strong>{result.title}</strong>
-                  <p>{result.main_genre || result.main_category}</p> {/* Handle genre/category for both movies and events */}
+                  <p>{result.main_genre || result.main_category}</p>{" "}
+                  {/* Handle genre/category for both movies and events */}
                 </div>
               </li>
             ))}
