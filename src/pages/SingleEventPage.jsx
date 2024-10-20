@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import '../styles/singleEventPage.css';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from './UserContext'; // Import useUser
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const SingleEventPage = () => {
   const { id } = useParams();
@@ -77,7 +76,7 @@ const SingleEventPage = () => {
           <p><strong>Ticket Price:</strong> LKR {event.ticket_price.toFixed(2)}</p>
           {showTicketSelector && (
             <div className='ticket-container'>
-              <div className="ticket-control mx-auto">
+              <div className="ticket-control centered-element">
                 <div className="ticket-heading">Select Tickets:</div>
                 <div className="ticket-selection">
                   <button onClick={decrementTickets} className="ticket-change-btn">-</button>
@@ -89,7 +88,7 @@ const SingleEventPage = () => {
                     <div>Total Amount:</div>
                     <div>LKR {totalPrice}</div>
                   </div>
-                  <button className="proceed-btn mx-auto" onClick={handleProceed}>
+                  <button className="proceed-btn centered-element" onClick={handleProceed}>
                     Proceed
                   </button>
                 </div>
