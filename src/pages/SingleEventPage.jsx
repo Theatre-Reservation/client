@@ -75,21 +75,23 @@ const SingleEventPage = () => {
           <p><strong>Runtime:</strong> {event.runtime}</p>
           <p><strong>Ticket Price:</strong> LKR {event.ticket_price.toFixed(2)}</p>
           {showTicketSelector && (
-            <div className="ticket-control">
-              <div className="ticket-heading">Select Tickets:</div>
-              <div className="ticket-selection">
-                <button onClick={decrementTickets} className="ticket-change-btn">-</button>
-                <span className="ticket-count">{ticketCount}</span>
-                <button onClick={incrementTickets} className="ticket-change-btn">+</button>
-              </div>
-              <div className="total-and-proceed">
-                <div className="total-amount">
-                  <div>Total Amount:</div>
-                  <div>LKR {totalPrice}</div>
+            <div className='ticket-container'>
+              <div className="ticket-control centered-element">
+                <div className="ticket-heading">Select Tickets:</div>
+                <div className="ticket-selection">
+                  <button onClick={decrementTickets} className="ticket-change-btn">-</button>
+                  <span className="ticket-count">{ticketCount}</span>
+                  <button onClick={incrementTickets} className="ticket-change-btn">+</button>
                 </div>
-                <button className="proceed-btn" onClick={handleProceed}>
-                  Proceed
-                </button>
+                <div className="total-and-proceed">
+                  <div className="total-amount">
+                    <div>Total Amount:</div>
+                    <div>LKR {totalPrice}</div>
+                  </div>
+                  <button className="proceed-btn centered-element" onClick={handleProceed}>
+                    Proceed
+                  </button>
+                </div>
               </div>
             </div>
           )}

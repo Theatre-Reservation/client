@@ -50,14 +50,14 @@
 .ticket-selection {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centering the buttons and ticket count */
-  margin-bottom: 20px; /* Space between the ticket selector and total amount */
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .ticket-heading {
   font-size: 1.2rem;
   font-weight: bold;
-  text-align: center; /* Center align the text */
+  text-align: center;
   margin-bottom: 10px;
 }
 
@@ -74,24 +74,191 @@
 
 .total-amount div {
   display: block;
-  text-align: center; /* Center align the total amount text */
+  text-align: center;
 }
 
 .proceed-btn {
   display: block;
-  margin-top: 20px; /* Space between total amount and proceed button */
+  margin-top: 20px;
   width: auto;
-  align-self: center; /* Center the button in the container */
+  align-self: center;
 }
 
 .ticket-control {
   display: inline-flex;
   flex-direction: column;
-  align-items: center; /* Center all items */
+  align-items: center;
   padding: 20px;
-  width: 20%; /* Reduced width */
-  margin: auto; /* Center horizontally */
+  width: 20%;
+  margin: auto;
   background-color: #f4f4f4;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.centered-element {
+  display: block;
+  margin: 10px auto; 
+}
+
+/* Media Queries for Responsiveness */
+
+/* For large desktops */
+@media (max-width: 1200px) {
+  .event-container {
+    flex-direction: column;
+    align-items: center; /* Center items vertically */
+  }
+
+  .event-poster {
+    flex: 1 1 100%;
+    margin: 0 0 20px 0;
+  }
+
+  .event-poster img {
+    width: 85%;
+    height: 400px;
+    border-radius: 10px;
+    margin-left: 7.5%;
+  }
+
+  .event-details {
+    flex: 1 1 100%;
+    padding: 15px;
+    width: 70%; 
+  }
+
+  .ticket-control{
+    width: 30%;
+  }
+
+  .ticket-container{
+    display: flex;
+    justify-content: center;  /* Horizontally centers the inner div */
+    align-items: center; 
+  }
+
+  .event-details p,.event-details h1{
+    text-align: center;
+  }
+
+  .event-info{
+    /* display: flex; */
+    justify-content: center;  /* Horizontally centers the inner div */
+    align-items: center; 
+  }
+
+  .book-now-btn {
+    display: block;           /* Make the button a block element */
+    margin: 0 auto;           /* This will center it horizontally */ 
+  }
+  
+}
+
+/* For desktops and larger tablets */
+@media (max-width: 992px) {
+  .event-container {
+    padding: 15px;
+  }
+
+  .event-details {
+    padding: 15px;
+  }
+
+  .ticket-control {
+    width: 40%;
+  }
+}
+
+/* For tablets */
+@media (max-width: 768px) {
+  .event-container {
+    padding: 10px;
+  }
+
+  .event-poster {
+    margin-right: 0;
+  }
+
+  .event-poster img {
+    width: 80%;
+    height: 300px;
+    border-radius: 10px;
+    margin-left: 10%;
+  }
+
+  .event-details {
+    padding: 10px;
+  }
+
+  .ticket-control {
+    width: 50%;
+  }
+}
+
+/* For large mobile devices */
+@media (max-width: 576px) {
+  .event-container {
+    padding: 10px;
+  }
+
+  .event-poster {
+    flex: 1 1 100%;
+    margin-bottom: 20px;
+  }
+
+  .event-poster img {
+    width: 80%;
+    height: 250px;
+    border-radius: 10px;
+    margin-left: 10%;
+  }
+
+  .event-details {
+    flex: 1 1 100%;
+    padding: 10px;
+  }
+
+  .ticket-control {
+    width: 60%;
+  }
+}
+
+/* For small mobile devices */
+@media (max-width: 480px) {
+  .event-container {
+    padding: 10px;
+  }
+
+  .event-poster {
+    margin-right: 0;
+  }
+
+  .event-poster img {
+    width: 80%;
+    height: 200px;
+    border-radius: 10px;
+    margin-left: 10%;
+  }
+
+  .event-details {
+    padding: 10px;
+  }
+
+  .ticket-control {
+    width: 80%;
+  }
+
+  .event-title {
+    font-size: 1.5rem;
+  }
+
+  .ticket-count {
+    font-size: 1.2rem;
+  }
+
+  .book-now-btn, .ticket-change-btn, .proceed-btn {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+  }
 }

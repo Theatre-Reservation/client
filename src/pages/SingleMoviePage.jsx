@@ -73,10 +73,10 @@ const SingleMoviePage = () => {
   return (
     <div className="single-movie-page">
       <div className="movie-cover" style={{ backgroundImage: `url(${movie.cover_path})` }}>
-        <div className="overlay">
+        <div className="overlay-1">
           <div className="movie-header">
-            <img src={movie.poster_path} alt={movie.title} className="movie-poster" />
-            <div className="movie-details">
+            <img src={movie.poster_path} alt={movie.title} className="movie-poster-1" />
+            <div className="movie-details-1">
               <h1>{movie.title}</h1>
               <div className="movie-meta">
                 <span className="movie-language">{movie.language}</span>

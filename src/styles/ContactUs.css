@@ -3,11 +3,13 @@
 .contact-us-dialog {
     padding: 20px;
     max-width: 400px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
+    background-color: #223c75;
     text-align: center;
     font-family: Arial, sans-serif;
-    border: 4px solid #007bff; 
+    border: 1px solid #007bff; 
+        border-radius: 10px;
+          backdrop-filter: blur(200px);
+          background-image: linear-gradient(325deg, rgba(198, 239, 171, 0.8) 0%, rgba(146, 213, 221, 0.8) 74%);
   }
   
   .contact-us-dialog h2 {
@@ -18,12 +20,12 @@
   
   .contact-us-dialog p {
     font-size: 16px;
-    color: #666;
+    color: #0e0e0e;
     margin-bottom: 20px;
   }
   
   .contact-us-dialog a {
-    color: #007bff;
+    color: #0B2F9F;
     text-decoration: none;
     font-weight: bold;
   }
@@ -31,4 +33,12 @@
   .contact-us-dialog a:hover {
     text-decoration: underline;
   }
+
+    @media (max-width: 768px) {
+      .contact-us-dialog {
+        border-radius: 30px 2px 30px 2px;
+        background-image: linear-gradient(325deg, rgba(162, 222, 123, 0.8) 0%, rgba(55, 180, 197, 0.8) 74%);
+        transition: all 0.5s ease-in-out;
+      }
+    }
   

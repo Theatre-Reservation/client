@@ -1,46 +1,23 @@
+/* General styling */
 .header {
   background-color: #282c34;
-  padding: 20 px;
-}
-
-.search-results {
-list-style: none;
-padding: 0;
-margin-top: 10px;
-background-color: white;
-border: 1px solid #ccc;
-max-height: 200px;
-overflow-y: auto;
-position: absolute;
-width: 100%;
-z-index: 1000;
-}
-
-.search-result-item {
-padding: 10px;
-cursor: pointer;
-border-bottom: 1px solid #eee;
+  padding: 4px;
 }
 
 .search-result-item:hover {
-background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
-
+/* Navbar styling */
 .navbar {
   display: flex;
-  /* justify-content: space-around; */
   justify-content: center;
-
   align-items: center;
 }
 
 .nav-list {
   list-style: none;
   display: flex;
-  /* gap: 2rem;
-  margin: 0;
-  padding: 0; */
   align-items: center;
   gap: 4rem;
   padding: 5px;
@@ -48,16 +25,18 @@ background-color: #f0f0f0;
 }
 
 .nav-item {
-  /* margin: 0; */
   position: relative;
+
+  /* To make the dropdown work */
+  display: inline-block;
 }
 
 .nav-link {
   color: #80d8f1;
   text-decoration: none;
   font-size: 1.2rem;
-  padding: 5px 10px;
-transition: color 0.3s ease;
+  padding: 5px 5px;
+  transition: color 0.3s ease;
 }
 
 .nav-link:hover {
@@ -69,16 +48,16 @@ transition: color 0.3s ease;
   color: white;
 }
 
-
+/* Search styling */
 .search-item {
   flex-grow: 1;
 }
 
 .search-input {
-  width: 100%;
-  max-width: 300px;
-  padding: 5px 10px;
-  border: 5px;
+  width: 90%;
+  max-width: 200px;
+  /* padding: 5px 10px; */
+  border: 2px solid #ccc;
   border-radius: 20px;
   outline: none;
   font-size: 1rem;
@@ -88,153 +67,108 @@ transition: color 0.3s ease;
 
 .search-input::placeholder {
   color: #292626;
-
 }
 
+.search-results {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+  border-radius: 10px;
+}
+
+.search-result-item {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.search-result-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive Design */
+
+/* Tablets (up to 800px) */
 @media (max-width: 800px) {
-.navbar {
+  .navbar {
     flex-direction: row;
-    /* align-items: left; */
-}
+  }
 
-.nav-list {
+  .nav-list {
     flex-direction: row;
     gap: 15px;
-}
+  }
 
-.search-item {
+  .search-item {
     width: 100%;
     max-width: 100%;
     margin: 10px 0;
-}
+  }
 
-.nav-link {
+  .nav-link {
     font-size: 1rem;
-}
+  }
+
 }
 
+/* Small devices (up to 480px) */
 @media (max-width: 480px) {
-.nav-list {
+  .nav-list {
     gap: 10px;
-}
+  }
 
-.nav-link {
+  .nav-link {
     font-size: 0.9rem;
     padding: 5px;
-}
+  }
 
-.search-input {
+  .search-input {
     max-width: 100%;
     font-size: 0.9rem;
     padding: 5px;
-}
+  }
 
-.header {
+  .header {
     padding: 0.5rem;
-}
+  }
+
+  /* Hide search bar for smaller screens */
+  .search-input {
+    display: none;
+  }
+
+    .nav-item button {
+      font-size: 0.8rem;
+      padding: 4px;
+      height: 25px;
+    }
 }
 
+/* Extra small devices (up to 360px) */
 @media (max-width: 360px) {
-.nav-list {
-    gap: 8px;
-}
+  .nav-list {
+    gap: 2px;
+  }
 
-.nav-link {
+  .nav-link {
     font-size: 0.8rem;
     padding: 4px;
-}
+  }
 
-.search-input {
-    display : none;
-}
+  .nav-item button {
+    font-size: 0.8rem;
+    padding: 4px;
+    height: 25px;
+  }
 
-.header {
+  .header {
     padding: 0.5rem;
-}
-}
-
-/* Stylings of signin popup*/
-
-/* .signin-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 4px solid #007bff; 
-  background-color: #f5f5f5;
-}
-
-.signin-container {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  text-align: center;
-}
-
-h2 {
-  margin-bottom: 1rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  text-align: left;
-}
-
-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.signin-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.signin-button:hover {
-  background-color: #0056b3;
-}
-
-.error-message {
-  color: red;
-  margin-bottom: 1rem;
-}
-
-.signup-message {
-  margin-top: 1rem;
-}
-
-.signup-message a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.signup-message a:hover {
-  text-decoration: underline;
-} */
-
-
-
-/* Add this CSS to align the eye icon with the password input */
-.password-input-container {
-display: flex;
-align-items: center;
-}
-
-.password-toggle-icon {
-cursor: pointer;
-margin-left: -40px; /* Adjust position of the icon */
+  }
 }

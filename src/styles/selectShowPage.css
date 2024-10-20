@@ -139,3 +139,125 @@
     margin-right: 50px;
 }
 
+/* Media Queries for Responsiveness */
+
+/* Large Desktops (max-width: 1200px) */
+@media (max-width: 1200px) {
+    .movie-poster {
+      width: 250px;
+      height: 350px;
+    }
+  
+    .movie-details h1 {
+      font-size: 2rem;
+    }
+  
+    .overlay {
+      height: 400px;
+    }
+  }
+  
+  /* Tablets (max-width: 992px) */
+  @media (max-width: 992px) {
+    .movie-poster {
+      width: 200px;
+      height: 300px;
+    }
+  
+    .movie-details h1 {
+      font-size: 1.8rem;
+    }
+  
+    .overlay {
+      height: 350px;
+    }
+  }
+  
+  /* Small Tablets (max-width: 768px) */
+  @media (max-width: 768px) {
+    .movie-poster {
+      width: 140px;
+      height: 210px;
+    }
+  
+    .movie-details h1 {
+      font-size: 1.6rem;
+      margin-top: 10px;
+    }
+  
+    .book-tickets-btn {
+      width: 100%;
+    }
+  
+    .overlay {
+      height: 300px;
+    }
+  }
+  
+  /* Large Mobile Devices (max-width: 576px) */
+  @media (max-width: 576px) {
+    .movie-poster {
+      width: 120px;
+      height: 200px;
+    }
+  
+    .movie-details h1 {
+      font-size: 1.4rem;
+      margin-top: 5px;
+    }
+  
+    .movie-details {
+      margin-left: 20px;
+    }
+  
+    .book-tickets-btn {
+      font-size: 1rem;
+    }
+  
+    .overlay {
+      height: 250px;
+    }
+  }
+  
+  /* Small Mobile Devices (max-width: 480px) */
+  @media (max-width: 480px) {
+    .single-movie-page {
+      padding: 10px;
+    }
+  
+    .movie-poster {
+      width: 100px;
+      height: 150px;
+      margin-top: 0;
+      margin: auto;
+    }
+  
+    .movie-details h1 {
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+  
+    .movie-details {
+      margin-left: 0;
+      text-align: center;
+    }
+  
+    .movie-header{
+      flex-direction: column;
+      margin: auto;
+    }
+  
+    .book-tickets-btn {
+      font-size: 0.9rem;
+      width: 100%;
+    }
+  
+    .overlay {
+      height: 400px;
+    }
+  
+    .movie-description {
+      font-size: 1rem;
+    }
+  }
+  

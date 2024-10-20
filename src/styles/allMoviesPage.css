@@ -1,48 +1,48 @@
 .all-movies-page {
-    padding: 0 100px;
-  }
-  
-  h2 {
-    margin-bottom: 40px;
-  }
-  
-  .card-container {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  
+  padding: 0 100px;
+}
+
+.all-movies-page h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.card-container .card {
+  flex: 1 1 calc(20% - 16px);
+  max-width: calc(20% - 16px);
+}
+
+@media (max-width: 1200px) {
   .card-container .card {
-    flex: 1 1 calc(20% - 16px);
-    max-width: calc(20% - 16px);
+    flex: 1 1 calc(25% - 16px);
+    max-width: calc(25% - 16px);
   }
-  
-  @media (max-width: 1200px) {
-    .card-container .card {
-      flex: 1 1 calc(25% - 16px);
-      max-width: calc(25% - 16px);
-    }
+}
+
+@media (max-width: 992px) {
+  .card-container .card {
+    flex: 1 1 calc(33.33% - 16px);
+    max-width: calc(33.33% - 16px);
   }
-  
-  @media (max-width: 992px) {
-    .card-container .card {
-      flex: 1 1 calc(33.33% - 16px);
-      max-width: calc(33.33% - 16px);
-    }
+}
+
+@media (max-width: 768px) {
+  .card-container .card {
+    flex: 1 1 calc(50% - 16px);
+    max-width: calc(50% - 16px);
   }
-  
-  @media (max-width: 768px) {
-    .card-container .card {
-      flex: 1 1 calc(50% - 16px);
-      max-width: calc(50% - 16px);
-    }
+}
+
+@media (max-width: 576px) {
+  .card-container .card {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
-  
-  @media (max-width: 576px) {
-    .card-container .card {
-      flex: 1 1 100%;
-      max-width: 100%;
-    }
-  }
-  
+}

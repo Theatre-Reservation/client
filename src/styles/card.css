@@ -34,4 +34,93 @@
     color: rgb(179, 51, 51);
   }
   
+/* For large desktops */
+@media only screen and (max-width: 1200px) {
+  .card {
+      width: 95%;
+  }
 
+  .card-title {
+      font-size: 1.1em;
+  }
+
+  .card-description {
+      font-size: 0.75em;
+  }
+}
+
+/* For desktops and tablets (medium screens) */
+@media only screen and (max-width: 992px) {
+  .card {
+      width: 90%;
+  }
+
+  .card-title {
+      font-size: 1.05em;
+  }
+
+  .card-description {
+      font-size: 0.7em;
+  }
+}
+
+/* For tablets (small screens) */
+@media only screen and (max-width: 768px) {
+  .card {
+      width: 85%;
+  }
+
+  .card-image {
+      height: 200px;
+  }
+
+  .card-title {
+      font-size: 1em;
+  }
+
+  .card-description {
+      font-size: 0.7em;
+  }
+}
+
+/* For larger mobile devices */
+@media only screen and (max-width: 576px) {
+  .card {
+      width: 100%;
+  }
+
+  .card-image {
+      height: 180px;
+  }
+
+  .card-title {
+      font-size: 0.95em;
+  }
+
+  .card-description {
+      font-size: 0.65em;
+  }
+}
+
+/* For small mobile devices */
+@media only screen and (max-width: 480px) {
+  .card {
+      width: 100%;
+  }
+
+  .card-image {
+      height: 150px;
+  }
+
+  .card-title {
+      font-size: 0.9em;
+  }
+
+  .card-genre {
+      font-size: 0.8em;
+  }
+
+  .card-description {
+      font-size: 0.6em;
+  }
+}
