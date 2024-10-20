@@ -47,10 +47,14 @@ export default function SignInPage() {
     }
 
     try {
-      const response = await axios.post('https://auth-service1-bkdhfbh9a3a2g4ba.canadacentral-01.azurewebsites.net/api/v1/user-auth/login', {
-        Email: email,
-        Password: password,
-      }, { withCredentials: true }); // Ensure cookies are included if used
+      const response = await axios.post(
+        "https://auth-service1-bkdhfbh9a3a2g4ba.canadacentral-01.azurewebsites.net/api/v1/user-auth/login",
+        {
+          Email: email,
+          Password: password,
+        },
+        { withCredentials: true }
+      ); // Ensure cookies are included if used
 
       console.log("Login Successful", response.data.user);
 
@@ -60,10 +64,11 @@ export default function SignInPage() {
         console.log("Token stored:", response.data.token);
         setIsLoggedIn(true); // Update login status
         console.log(previousPage, "Previous Page");
-        console.log(previousPage.pathname,"Path")
-        window.location.href = 'https://flash-ticket.netlify.app' + JSON.parse(localStorage.getItem('previousPage')).pathname;
-        localStorage.removeItem('previousPage');
-
+        console.log(previousPage.pathname, "Path");
+        window.location.href =
+          "https://flash-ticket.netlify.app" +
+          JSON.parse(localStorage.getItem("previousPage")).pathname;
+        localStorage.removeItem("previousPage");
       } else {
         throw new Error("Token not found");
       }
@@ -81,46 +86,48 @@ export default function SignInPage() {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
   return (
-    <div className="signin-page">
-      <div className="signin-container">
-        <h2>Login to Flash Ticket</h2>
-        {signInError && <p className="error-message">{signInError}</p>}
-        <form onSubmit={handleSignInSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password:</label>
-            <div className="password-input-container">
+    <div className="signin">
+      <div className="signin-page">
+        <div className="signin-container">
+          <h2>Flash Ticket</h2>
+          {signInError && <p className="error-message">{signInError}</p>}
+          <form onSubmit={handleSignInSubmit}>
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
               <input
-                type={showPassword ? "text" : "password"} // Conditionally set input type
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={togglePasswordVisibility}
-                edge="end"
-                className="password-toggle-icon"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
             </div>
-          </div>
-          <button type="submit" className="signin-button">
-            Sign In
-          </button>
-        </form>
-        <p className="signup-message">
-          Don't have an account? <a href="/signup">Sign Up here</a>
-        </p>
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? "text" : "password"} // Conditionally set input type
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={togglePasswordVisibility}
+                  edge="end"
+                  className="password-toggle-icon"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </div>
+            </div>
+            <button type="submit" className="signin-button">
+              Sign In
+            </button>
+          </form>
+          <p className="signup-message">
+            Don't have an account? <a href="/signup">Sign Up here</a>
+          </p>
+        </div>
       </div>
     </div>
   );

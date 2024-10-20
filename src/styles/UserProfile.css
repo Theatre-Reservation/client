@@ -1,130 +1,170 @@
-/* Updated UserProfile.css */
-
 /* Profile Container Styling */
 .profile-container {
-  max-width: 400px;  /* Limit the width of the profile container */
-  margin: 20px auto; /* Center the container */
-  padding: 20px;     /* Add padding inside the container */
-  border: 1px solid #ccc; /* Light gray border */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  background-color: #f9f9f9; /* Light background color */
-  text-align: left; /* Align text to the left */
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  /* text-align: left; */
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(200px);
+  background-image: linear-gradient(325deg, rgba(179, 237, 140, 0.8) 0%, rgba(65, 201, 219, 0.8) 74%);
+    /* Apply blur effect */
+}
+
+.profile-container:hover {
+  transform: translateY(-3px); /* Subtle elevation effect on hover */
 }
 
 /* Profile Heading Styling */
 .profile-container h2 {
   text-align: center; /* Center the heading */
-  color: #333; /* Dark text color */
-  margin-bottom: 20px; /* Space below the heading */
+  color: #2c3e50; /* Darker, more modern text color */
+  font-size: 24px; /* Slightly larger font for better impact */
+  margin-bottom: 24px; /* Space below heading */
+  font-weight: 600; /* Semi-bold font for emphasis */
+  letter-spacing: 1px; /* Increased letter spacing */
 }
 
 /* Profile Information Styling */
 .profile-info p {
-  margin: 10px 0; /* Space between paragraphs */
-  color: #555; /* Slightly lighter text color */
-  font-size: 16px; /* Font size for better readability */
+
+  margin: 12px 20px; /* Better spaced paragraphs */
+  color: #404a4b; /* Subtle gray text color */
+  font-size: 20px; /* Optimal font size for readability */
+  line-height: 1.6; /* Improve line spacing for readability */
 }
 
 .profile-info strong {
-  color: #333; /* Darker text for strong emphasis */
+  color: #2c3e50; /* Darker text for emphasized content */
+  font-weight: 600; /* Bold for strong emphasis */
 }
 
 /* Edit Profile Form */
 .edit-profile-form {
-  display: flex; /* Use flexbox for form layout */
-  flex-direction: column; /* Arrange children in a column */
+  display: flex; /* Flexbox layout */
+  flex-direction: column; /* Arrange form fields vertically */
 }
 
 .edit-profile-form label {
-  margin-bottom: 10px; /* Space below labels */
-  font-weight: bold; /* Bold text for labels */
-  color: #333; /* Dark label color */
+  margin-bottom: 8px; /* Space below labels */
+  margin-left: 5px;
+  font-weight: 500; /* Medium weight text for labels */
+  color: #2c3e50; /* Darker label color */
+  font-size: 16px; /* Subtle label font size */
 }
 
 .edit-profile-form input {
-  padding: 10px; /* Padding inside input fields */
-  border: 1px solid #ccc; /* Light border around inputs */
-  border-radius: 4px; /* Slightly rounded corners */
-  font-size: 16px; /* Adjust font size */
-  width: 100%; /* Make the input fields full width */
-  margin-bottom: 15px; /* Space below input fields */
+  padding: 12px; /* Generous padding inside inputs */
+  border: 1px solid #ccc; /* Light border for input fields */
+  border-radius: 6px; /* Softer rounded corners */
+  font-size: 16px; /* Font size for readability */
+  width: 94%; /* Full-width inputs */
+  margin-bottom: 20px; /* Space below input fields */
+  background-color: #fdfdfd; /* Slight background color */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for focus state */
+}
+
+.edit-profile-form input:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Subtle shadow on focus */
 }
 
 /* Buttons in the Edit Form */
 .edit-profile-form button {
-  margin-top: 10px; /* Space above buttons */
-  padding: 10px; /* Padding inside buttons */
+  margin: 10px;
+  text-align: center; /* Center text in button */
+  justify-content: center;
+  align-items: center;
+  padding: 12px; /* Larger padding for buttons */
   border: none; /* No border */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 15px; /* Rounded corners for a modern look */
   background-color: #007bff; /* Primary button color */
-  color: white; /* Text color */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s; /* Smooth background transition */
+  color: white; /* White text */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 16px; /* Comfortable button font size */
+  font-weight: 500; /* Slightly bold text */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition on hover */
 }
 
 .edit-profile-form button:hover {
   background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Subtle lift effect on hover */
 }
 
 /* Profile Info Button Styling */
 .profile-info button {
+  display: inline-block; /* Inline block for button */
+  justify-content: center;
+  align-items: center;
   margin-top: 15px; /* Space above button */
-  padding: 8px 12px; /* Padding for profile info button */
-  border: 1px solid #007bff; /* Border around button */
+  margin-left: 20px;
+  padding: 8px 14px; /* Button padding */
+  border: 1px solid #007bff; /* Blue border */
   background-color: transparent; /* Transparent background */
-  color: #007bff; /* Primary button color */
-  cursor: pointer; /* Pointer cursor on hover */
-  border-radius: 4px; /* Rounded corners */
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color */
+  color: #007bff; /* Blue text */
+  cursor: pointer; /* Pointer cursor */
+  border-radius: 15px; /* Rounded corners */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
 }
 
 .profile-info button:hover {
-  background-color: #007bff; /* Change background on hover */
-  color: white; /* Change text color on hover */
+  background-color: #007bff; /* Blue background on hover */
+  color: white; /* White text on hover */
 }
 
 /* Logout Button */
 .logout-button {
-  margin-top: 20px; /* Space above the logout button */
-  padding: 10px 20px; /* Padding inside the logout button */
-  background-color: #d9534f; /* Red background for logout */
-  color: white; /* White text color */
+  margin-top: 10px; /* Space above button */
+  margin-left: 20px;
+  transition: all 0.4s ease;
+  padding: 8px 24px; /* Larger padding */
+  background-color: #e74c3c; /* Red background */
+  color: white; /* White text */
   border: none; /* No border */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth background transition */
+  border-radius: 15px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 16px; /* Comfortable font size */
+  font-weight: 500; /* Slightly bold */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover transition */
 }
 
 .logout-button:hover {
-  background-color: #c9302c; /* Darker red on hover */
+  background-color: #c0392b; /* Darker red on hover */
+  transform: translateY(-2px); /* Lift effect */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .profile-container {
-    padding: 15px; /* Less padding on smaller screens */
+    padding: 20px; /* Adjust padding */
+    margin: 10px; /* Adjust margin */
+      border-radius: 69px 2px 69px 2px;
+        background-image: linear-gradient(325deg, rgba(162, 222, 123, 0.8) 0%, rgba(55, 180, 197, 0.8) 74%);
+        transition: all 0.5s ease-in-out;
   }
 
   h2 {
-    font-size: 20px; /* Adjust font size for smaller screens */
+    font-size: 22px; /* Smaller heading font */
   }
 
   .profile-info p {
-    font-size: 14px; /* Smaller font size for better readability on small devices */
-  }
-
-  button {
-    font-size: 14px; /* Smaller font for buttons */
-    padding: 8px 16px; /* Adjust button padding */
+    font-size: 14px; /* Smaller font for smaller screens */
+            transition: all 0.5s ease-in-out;
   }
 
   .edit-profile-form input {
-    font-size: 14px; /* Smaller font size for input fields */
+    font-size: 14px; /* Smaller input font size */
+    padding: 10px; /* Adjust input padding */
+    
   }
 
-  .logout-button {
-    font-size: 14px; /* Adjust font size for the logout button */
-    padding: 8px 16px; /* Adjust padding */
+  .logout-button, .edit-profile-form button {
+    font-size: 14px; /* Smaller button font size */
+    padding: 10px 20px; /* Adjust button padding */
+    transition: all 0.3s ease;
   }
 }
