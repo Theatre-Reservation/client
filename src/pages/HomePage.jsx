@@ -75,7 +75,7 @@ const HomePage = () => {
 
       <section>
         <div className="section-header">
-          <h2>Events</h2>
+          <h2 style={{marginTop:"20px"}} >Events</h2>
           <button className="view-all" onClick={viewAllEvents}>View All</button>
         </div>
         <div className="card-container">
