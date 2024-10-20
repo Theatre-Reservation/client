@@ -19,7 +19,7 @@ export default defineConfig({
       registerType: 'autoUpdate', // Automatically updates the app when new content is available
       manifest: {
         name: 'Flash Tickets',
-        short_name: 'App',
+        short_name: 'Flash Tickets',
         description: 'A theatre reservation system.',
         theme_color: '#ffffff',
         background_color: '#ffffff',
