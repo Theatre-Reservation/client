@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
 import Person2Icon from '@mui/icons-material/Person2';
@@ -12,6 +12,7 @@ import "../../../src/styles/SignInPage.css";
 import "../../../src/styles/ContactUs.css";
 import { useNavigate } from "react-router-dom";
 import '/src/styles/SignUpPage.css';
+import { io } from 'socket.io-client'; 
 
 
 const Header = () => { 
@@ -33,6 +34,9 @@ const Header = () => {
   const [showPassword, setShowPassword] = useState(false); 
   const [notificationError, setNotificationError] = useState('');
   const [error, setError] = useState(null);
+  const socketRef = useRef(null);
+  
+  // const socket = io('http://localhost:8000');
 
   const handleClose = () => {
     setOpen(false); // Close the dialog
@@ -51,17 +55,33 @@ const Header = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-    // Check if a token exists in localStorage on component mount
+      // Check if a token exists in localStorage on component mount
       const token = localStorage.getItem('token');
       if (token) {
         setIsLoggedIn(true); // User is logged in
-      }
-      else{
-        setIsLoggedIn(false);     
+        
+       
+        if (!socketRef.current) {
+          socketRef.current = io('http://localhost:8000');
+          socketRef.current.on('newMovie', (movie) => {
+            console.log('New movie received:', movie);
+            setNotifications((prev) => [movie,...prev ]);
+          });
+        }
+    
+        return () => {
+          socketRef.current.disconnect();
+          socketRef.current = null;  // Cleanup
+        };
+      } else {
+        setIsLoggedIn(false); // User is not logged in
       }
     };
-  fetchUserProfile();
-  });
+  
+    fetchUserProfile();
+  }, []); 
+
+  
 
   const handleSignInClick = () => {
     setSignInOpen(true);
@@ -195,7 +215,7 @@ const Header = () => {
   const handleSearch = async (query) => {
     console.log('Searching for:', query);
 
-    try {
+    try {          
       const response = await axios.get('/search', {
         params: { q: query },
       });
@@ -207,7 +227,7 @@ const Header = () => {
       setSearchResults([]); // Clear search results on error
     }
   };
-
+ 
   return (
     <header className="header">
       <nav className="navbar">
@@ -363,31 +383,37 @@ const Header = () => {
       </div>
     </Dialog>
     <Dialog onClose={handleNotificationClose} open={NotificationOpen}>
-    <div className="notifications-page">
-      <h1>Your Notifications</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : notificationError ? (
-        <p>{notificationError}</p>
-      ) : notifications.length > 0 ? (
-        <ul className="notifications-list">
-          {notifications.map((notification) => (
-            <li key={notification._id} className="notification-item">
-              <div className="notification-content">
-                <h3 className="show-name">{notification.ShowName || "General Notification"}</h3>
-                <p className="notification-message">{notification.Message}</p>
-                <p className="notification-time">
-                  {new Date(notification.Timestamp).toLocaleString()}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No notifications at the moment.</p>
-      )}
-    </div>
+      <div className="notifications-page">
+        <h1>Your Notifications</h1>
+
+
+          {notifications.length > 0 ? (
+  <ul className="notifications-list">
+    {notifications 
+    .slice() // Create a copy to avoid mutating the original array
+    .sort((a, b) => new Date(b.released_date) - new Date(a.released_date))
+    .map((newMovie) => (
+      <li key={newMovie.admin_id} className="notification-item">
+        <div className="notification-content">
+          <h3 className="show-name"><strong>New Movie Added : </strong>{newMovie.title }</h3>
+          <p className="notification-message"><strong>Language:</strong> {newMovie.language || "N/A"}</p>
+          <p className="notification-message"><strong>Description:</strong> {newMovie.description || "No description available."}</p>
+          <p className="notification-message"><strong>Main Genre:</strong> {newMovie.main_genre || "N/A"}</p>
+          <p className="notification-message"><strong>Released Date :</strong> {newMovie.released_date.substring(0, 10) || "N/A"}</p>
+          
+        </div>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p>No notifications yet</p>
+)}
+
+      
+      </div>
     </Dialog>
+
+
 
       <Dialog onClose={handleSignUpClose} open={signUpOpen}>
  
