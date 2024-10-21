@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
 import Person2Icon from "@mui/icons-material/Person2";
@@ -12,6 +12,7 @@ import "../../../src/styles/SignInPage.css";
 import "../../../src/styles/ContactUs.css";
 import { useNavigate } from "react-router-dom";
 import "/src/styles/SignUpPage.css";
+import { io } from 'socket.io-client'; 
 
 const Header = () => {
   const [signUpOpen, setSignUpOpen] = useState(false);
@@ -29,6 +30,7 @@ const Header = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [notificationError, setNotificationError] = useState("");
   const [error, setError] = useState(null);
+  const socketRef = useRef(null);
 
   const handleClose = () => {
     setOpen(false); // Close the dialog
@@ -47,13 +49,36 @@ const Header = () => {
       const token = localStorage.getItem("token");
       if (token) {
         setIsLoggedIn(true); // User is logged in
+        if (!socketRef.current) {
+          socketRef.current = io('http://localhost:8000');
+          socketRef.current.on('newMovie', (movie) => {
+            console.log('New movie received:', movie);
+            setNotifications((prev) => [{ ...movie, type: 'movie' }, ...prev]);
+          });
+        
+          socketRef.current.on('newShowDiscount', (show) => {
+            console.log('New show discount received:', show);
+            setNotifications((prev) => [{ ...show, type: 'show' }, ...prev]);
+          });
+        
+          socketRef.current.on('newEventDiscount', (event) => {
+            console.log('New event discount received:', event);
+            setNotifications((prev) => [{ ...event, type: 'event' }, ...prev]);
+          });
+        }
+    
+        return () => {
+          socketRef.current.disconnect();
+          socketRef.current = null;  // Cleanup
+        };
       } else {
-        setIsLoggedIn(false);
+        setIsLoggedIn(false); // User is not logged in
       }
     };
     fetchUserProfile();
-  });
-
+  },[]);
+  
+  
   const handleSignInClick = () => {
     setSignInOpen(true);
   };
@@ -365,36 +390,59 @@ const Header = () => {
           </p>
         </div>
       </Dialog>
+  
       <Dialog onClose={handleNotificationClose} open={NotificationOpen}>
-        <div className="notifications-page">
-          <h1>Your Notifications</h1>
-          {loading ? (
-            <p>Loading...</p>
-          ) : notificationError ? (
-            <p>{notificationError}</p>
-          ) : notifications.length > 0 ? (
-            <ul className="notifications-list">
-              {notifications.map((notification) => (
-                <li key={notification._id} className="notification-item">
-                  <div className="notification-content">
-                    <h3 className="show-name">
-                      {notification.ShowName || "General Notification"}
-                    </h3>
-                    <p className="notification-message">
-                      {notification.Message}
-                    </p>
-                    <p className="notification-time">
-                      {new Date(notification.Timestamp).toLocaleString()}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No notifications at the moment.</p>
-          )}
-        </div>
-      </Dialog>
+      <div className="notifications-page">
+        <h1>Your Notifications</h1>
+
+
+        {notifications.length > 0 ? (
+  <ul className="notifications-list">
+    {notifications
+      .slice() // Create a copy to avoid mutating the original array
+      .sort((a, b) => new Date(b.released_date) - new Date(a.released_date))
+      .map((notification) => (
+        <li key={notification.admin_id} className="notification-item">
+          <div className="notification-content">
+            {notification.type === 'movie' && (
+              <>
+                <h3 className="show-name"><strong>New Movie Added: </strong>{notification.title}</h3>
+                <p className="notification-message"><strong>Language:</strong> {notification.language || "N/A"}</p>
+                <p className="notification-message"><strong>Description:</strong> {notification.description || "No description available."}</p>
+                <p className="notification-message"><strong>Main Genre:</strong> {notification.main_genre || "N/A"}</p>
+                <p className="notification-message"><strong>Released Date:</strong> {notification.released_date?.substring(0, 10) || "N/A"}</p>
+              </>
+            )}
+            {notification.type === 'show' && (
+              <>
+                <h3 className="show-name"><strong>New Show Discount: </strong>{notification.movie}</h3>
+                <p className="notification-message"><strong>Ticket price:</strong> {notification.price || "N/A"}</p> 
+                <p className="notification-message"><strong>Discount Percentage:</strong> {notification.discountPercentage || "N/A"}</p> 
+                <p className="notification-message"><strong>Available seats:</strong> {notification.available_seats|| "N/A"}</p>
+                <p className="notification-message"><strong>Show Date:</strong> {notification.date || "N/A"}</p>
+              </>
+            )}
+            {notification.type === 'event' && (
+              <>
+                <h3 className="show-name"><strong>New Event Discount: </strong>{notification.title}</h3>
+                <p className="notification-message"><strong>Ticket price:</strong> {notification.ticket_price || "N/A"}</p> 
+                <p className="notification-message"><strong>Discount Percentage:</strong> {notification.discountPercentage || "N/A"}</p> 
+                <p className="notification-message"><strong>Description:</strong> {notification.description || "No description available."}</p>
+                <p className="notification-message"><strong>Event Date:</strong> {notification.show_date?.substring(0, 10) || "N/A"}</p>
+              </>
+            )}
+          </div>
+        </li>
+      ))}
+  </ul>
+) : (
+  <p>No notifications yet</p>
+)}
+
+      
+      </div>
+    </Dialog>
+
 
       <Dialog onClose={handleSignUpClose} open={signUpOpen}>
         <div className="signup-page">
