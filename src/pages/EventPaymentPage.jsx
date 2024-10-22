@@ -166,14 +166,16 @@ const EventPaymentPage = () => {
 
     return (
         <Elements stripe={stripePromise}>
-            <div className="payment-page">
-                <h2 className="payment-title">Payment Page</h2>
-                <PaymentForm
-                    totalAmount={totalAmount}
-                    onSucessful={reserveSeats}
-                    ticketCount={ticketCount}
-                    eventId={eventId}
-                />
+            <div style={{margin:"60px"}}>
+                <div className="payment-page">
+                    <h2 className="payment-title">Payment Page</h2>
+                    <PaymentForm
+                        totalAmount={totalAmount}
+                        onSucessful={reserveSeats}
+                        ticketCount={ticketCount}
+                        eventId={eventId}
+                    />
+                </div>
             </div>
         </Elements>
     );
