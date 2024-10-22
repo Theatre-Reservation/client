@@ -284,18 +284,18 @@ const Header = () => {
             <NavLink
               onClick={handleNotificationClick}
               className={({ isActive }) =>
-                isActive ? "nav-link active-link" : "nav-link"
+                !isActive ? "nav-link active-link" : "nav-link"
               }
             >
               <NotificationsActiveIcon className="icon" />
             </NavLink>
           </li>
 
-          <li className="nav-item">
+         <li className="nav-item">
             <NavLink
               onClick={handleContactClick}
               className={({ isActive }) =>
-                isActive ? "nav-link active-link" : "nav-link"
+                !isActive ? "nav-link active-link" : "nav-link"
               }
             >
               Contact Us
