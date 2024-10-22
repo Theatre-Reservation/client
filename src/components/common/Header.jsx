@@ -50,9 +50,9 @@ const Header = () => {
       if (token) {
         setIsLoggedIn(true); // User is logged in
         if (!socketRef.current) {
-          socketRef.current = io("https://admin-service2-gshrdfcfftdccscx.canadacentral-01.azurewebsites.net/api/v1", {
-            reconnectionAttempts: 5, // Retry for 5 attempts
-            timeout: 10000, // Set a timeout (e.g., 10 seconds)
+          socketRef.current = io("https://admin-service2-gshrdfcfftdccscx.canadacentral-01.azurewebsites.net/", {
+            reconnectionAttempts: 100, // Retry for 5 attempts
+            timeout: 10000000, // Set a timeout (e.g., 10 seconds)
           });
           socketRef.current.on('newMovie', (movie) => {
             console.log('New movie received:', movie);
