@@ -192,7 +192,7 @@
 /* For tablets (max-width: 768px) */
 @media (max-width: 768px) {
     .seat-row {
-        grid-template-columns: repeat(4, 30px) 60px repeat(5, 30px);
+        grid-template-columns: repeat(4, 30px) 48px repeat(5, 30px);
         grid-gap: 8px;
     }
 
