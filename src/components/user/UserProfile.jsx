@@ -144,9 +144,9 @@ const Profile = () => {
             <p>
               <strong>Email:</strong> {user.Email}
             </p>
-            <p>
+            {/* <p>
               <strong>Admin:</strong> {user.isAdmin ? "Yes" : "No"}
-            </p>
+            </p> */}
             <button onClick={handleEditToggle}>Edit Profile</button>
           </div>
           <button onClick={handleLogout} className="logout-button">
