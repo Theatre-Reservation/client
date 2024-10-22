@@ -50,7 +50,7 @@ const Header = () => {
       if (token) {
         setIsLoggedIn(true); // User is logged in
         if (!socketRef.current) {
-          socketRef.current = io('http://localhost:8000');
+          socketRef.current = io('https://admin-service2-gshrdfcfftdccscx.canadacentral-01.azurewebsites.net/api/v1');
           socketRef.current.on('newMovie', (movie) => {
             console.log('New movie received:', movie);
             setNotifications((prev) => [{ ...movie, type: 'movie' }, ...prev]);
