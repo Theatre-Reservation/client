@@ -96,7 +96,7 @@
     padding: 15px;
     background-color: #e0f7fa;
     border-radius: 8px;
-    width: 100%;
+    width: 80%;
     text-align: center;
 }
 
@@ -197,8 +197,8 @@
     }
 
     .seat {
-        width: 30px;
-        height: 30px;
+        width: 33px;
+        height: 33px;
         line-height: 30px;
     }
 
@@ -220,7 +220,7 @@
 }
 
 /* For large mobile devices (max-width: 576px) */
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
     .seat-row {
         grid-template-columns: repeat(4, 28px) 50px repeat(5, 28px);
         grid-gap: 6px;
@@ -242,10 +242,10 @@
         font-size: 12px;
         padding: 5px 10px;
     }
-}
+} */
 
 /* For small mobile devices (max-width: 480px) */
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
     .seat-row {
         grid-template-columns: repeat(4, 25px) 45px repeat(5, 25px);
         grid-gap: 5px;
@@ -272,4 +272,4 @@
         font-size: 12px;
         padding: 5px 10px;
     }
-}
+} */

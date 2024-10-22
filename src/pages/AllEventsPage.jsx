@@ -10,7 +10,7 @@ const AllEventsPage = () => {
     fetch("https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/events")
       .then((res) => res.json())
       .then((data) => setEvents(data));
-  }, []);
+  }, [events]);
 
   const navigate=useNavigate(); 
   const onClickEvent=(id)=>{

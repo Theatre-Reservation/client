@@ -50,7 +50,7 @@ const HomePage = () => {
     fetch("https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/events/limited/5")
       .then((res) => res.json())
       .then((data) => setEvents(data));
-  }, []);
+  }, [movies,events]);
 
   return (
     <div className="home-page">

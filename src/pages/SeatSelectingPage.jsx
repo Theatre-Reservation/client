@@ -60,7 +60,7 @@ const SeatSelectingPage = () => {
 
         fetchShowData();
         fetchLoyaltyPoints();
-    }, [showId, user]);
+    }, [showId, user, reservedSeats]);
 
     useEffect(() => {
         // Calculate total amount whenever selectedSeats or seatPrice changes

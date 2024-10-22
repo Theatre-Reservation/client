@@ -10,7 +10,7 @@ const AllMoviesPage = () => {
     fetch("https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/movies")
       .then((res) => res.json())
       .then((data) => setMovies(data));
-  }, []);
+  }, [movies]);
 
 
   const navigate=useNavigate(); 
