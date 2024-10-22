@@ -9,6 +9,7 @@ import { useUser } from './UserContext'; // Import useUser
 const stripePromise = loadStripe('pk_test_51PsTIg2LvxXMvsXIlyFzKPofk4EVAXFxgxGgA1CltaVU9HooW9Yx20ZYNiCbqreuINbsmO0umy7AUePt0AaqBGRf00OYVEZqDJ');
 
 const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
+    const [isPageUnloading, setIsPageUnloading] = useState(false);
     const stripe = useStripe();
     const location = useLocation();
     const appliedPoints = location.state.appliedPoints; // Retrieve appliedPoints here
@@ -45,18 +46,38 @@ const PaymentForm = ({ totalAmount, onSucessful, showId, selectedSeats }) => {
         }
       }, [user]);
 
-    // **New useEffect to handle beforeunload event**
-    useEffect(() => {
+      useEffect(() => {
         const handleBeforeUnload = (event) => {
+            // Check if the page is being reloaded
+            if (performance.getEntriesByType('navigation')[0].type === 'reload') {
+                // Page is being refreshed; do not release seats
+                return;
+            }
+            // Page is being closed or navigated away from; release seats
+            releaseSeats();
+        };
+    
+        const releaseSeats = async () => {
             if (paymentStatus !== 'success') {
-                const data = JSON.stringify({
-                    showId,
-                    seatsToRelease: selectedSeats,
-                });
-                navigator.sendBeacon('https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/release-seats', data);
+                try {
+                    await axios.patch(`https://booking-service.../booking/release-seats/${showId}`, {
+                        seatsToRelease: selectedSeats,
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    // Clear the locked seats from sessionStorage
+                    sessionStorage.removeItem('lockedSeats');
+                    sessionStorage.removeItem('lockedShowId');
+                } catch (error) {
+                    console.error("Failed to release seats:", error);
+                }
             }
         };
+    
         window.addEventListener('beforeunload', handleBeforeUnload);
+    
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };

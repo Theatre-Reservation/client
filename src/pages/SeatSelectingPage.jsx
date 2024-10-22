@@ -69,6 +69,30 @@ const SeatSelectingPage = () => {
     }, [selectedSeats, seatPrice]);
 
     useEffect(() => {
+        const releaseSeats = async () => {
+            const lockedSeats = JSON.parse(sessionStorage.getItem('lockedSeats'));
+            const lockedShowId = sessionStorage.getItem('lockedShowId');
+            if (lockedSeats && lockedShowId) {
+                try {
+                    await axios.patch(`https://booking-service-hwe2cmdjaebvh0ee.canadacentral-01.azurewebsites.net/booking/release-seats/${lockedShowId}`, {
+                        seatsToRelease: lockedSeats,
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    // Clear the locked seats from sessionStorage
+                    sessionStorage.removeItem('lockedSeats');
+                    sessionStorage.removeItem('lockedShowId');
+                } catch (error) {
+                    console.error("Failed to release seats:", error);
+                }
+            }
+        };
+        releaseSeats();
+    }, []);
+    
+    useEffect(() => {
         if (user) {
             console.log('User ID:', user._id);
             console.log('User Email:', user.Email);
@@ -108,12 +132,16 @@ const SeatSelectingPage = () => {
                     'Content-Type': 'application/json',
                 },
             });
-
+    
+            // Store locked seats and showId in sessionStorage
+            sessionStorage.setItem('lockedSeats', JSON.stringify(selectedSeats));
+            sessionStorage.setItem('lockedShowId', showId);
+    
             // Reset the payment status stored in session storage
             sessionStorage.removeItem('paymentStatus');
             sessionStorage.removeItem('lastAmount');
             sessionStorage.removeItem('lastSeats');
-
+    
             // Navigate to the payment page with the current state
             navigate("/payment", {
                 state: { 
